@@ -1,4 +1,4 @@
-# Device Quotation and Recycling Web Application
+# eWaste
 
 This web application is a CRUD (Create, Read, Update, Delete) application built using the MVC (Model-View-Controller) architecture. It serves as a hub for customers to get a price quotation for their devices or have them recycled. Additionally, it provides facilities to retrieve data for devices and manage data deletion before recycling.
 

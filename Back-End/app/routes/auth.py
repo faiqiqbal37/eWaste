@@ -1,27 +1,85 @@
+from pymongo import MongoClient
 from . import auth_bp
 from flask import jsonify, request, session
-from .. import mongo
-from bson import ObjectId
-
-# 模拟用户数据库，实际项目中应替换为真实数据库
-users = [
-    {'username': 'user1', 'password': 'password1'},
-    {'username': 'user2', 'password': 'password2'}
-]
+from ..config import Config
 
 
-@auth_bp.route('/login', methods=['POST'])
+def check_user(user_id, password):
+    # Establish connection
+    client = MongoClient(Config.MONGO_URI)
+
+    # Select or create a database
+    db = client['mydatabase']
+
+    # Select or create a collection (table)
+    collection = db['user_collection']
+
+    # Query documents that simultaneously contain the username and password fields
+    result = collection.find({
+        '$and': [
+            {'user_id': user_id},
+            {'password': password}
+        ]
+    })
+
+    client.close()
+
+    return result
+
+
+@auth_bp.route('/login', methods=['POST','GET'])
 def login():
-    data = request.json  # 假设前端通过 JSON 提交用户名和密码
-    username = data.get('username')
+    data = request.json  # Assume the frontend submits the username and password in JSON format
+    user_id = data.get('user_id')
     password = data.get('password')
 
-    # 查找用户
-    user = next((user for user in users if user['username'] == username), None)
+    # Check for the user
+    if_successful = check_user(user_id, password)
 
-    if user and user['password'] == password:
-        # 登录成功，设置会话
-        session['user'] = username
-        return jsonify({'message': 'Login successful'}), 200
+    if if_successful:
+        # Login successful, set the session
+        session['user'] = user_id
+        return jsonify({'status': 'success', 'message': 'Login successful'}), 200
     else:
-        return jsonify({'message': 'Invalid credentials'}), 401
+        # Invalid credentials, return an error response
+        return jsonify({'status': 'error', 'message': 'Invalid credentials'}), 401
+
+
+@auth_bp.route('/register', methods=['POST'])
+def register():
+    data = request.json  # Assume the frontend submits the username and password in JSON format
+    user_id = data.get('user_id')
+    password = data.get('password')
+    role = data.get('role')
+    name = data.get('name')
+    email = data.get('email')
+
+    # Build the user data to be inserted
+    user_data = {
+        'user_id': user_id,
+        'password': password,
+        'role': role,
+        'name': name,
+        'email': email
+    }
+
+    # Establish connection
+    client = MongoClient(Config.MONGO_URI)
+
+    # Select or create a database
+    db = client['mydatabase']
+
+    # Select or create a collection (table)
+    collection = db['user_collection']
+
+    # Insert data into the user collection
+    insert_result = collection.insert_one(user_data)
+
+    # Check if the insertion was successful
+    if insert_result.inserted_id:
+        response = {'status': 'success', 'message': 'User registered successfully'}
+        return jsonify(response), 200
+    else:
+        response = {'status': 'error', 'message': 'Failed to register user'}
+        return jsonify(response), 500
+

@@ -8,6 +8,7 @@ import {ComponentPreviews, useInitial} from "./dev";
 import Login from "./screens/login/login";
 import Registration from "./screens/registration/registration";
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>

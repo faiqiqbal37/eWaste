@@ -29,7 +29,7 @@ def check_user(user_id, password):
 
 @auth_bp.route('/login', methods=['POST', 'GET'])
 def login():
-    data = request.json  # Assume the frontend submits the username and password in JSON format
+    data = request.json  # Assume the frontend submits the email and password in JSON format
     email = data.get('email')
     password = data.get('password')
 

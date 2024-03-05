@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from . import auth_bp
 from flask import jsonify, request, session
 from ..config import Config
+import uuid
 
 
 def check_user(user_id, password):
@@ -48,7 +49,7 @@ def login():
 @auth_bp.route('/register', methods=['POST'])
 def register():
     data = request.json  # Assume the frontend submits the username and password in JSON format
-    user_id = data.get('user_id')
+    user_id = str(uuid.uuid4())  # Generate a random userid
     password = data.get('password')
     role = data.get('role')
     name = data.get('name')
@@ -65,7 +66,7 @@ def register():
 
     if_exist = check_user(user_id, password)
     if if_exist:
-        return jsonify({'status': 'error', 'message':'User already exists'})
+        return jsonify({'status': 'error', 'message': 'User already exists'})
 
     # Establish connection
     client = MongoClient(Config.MONGO_URI)
@@ -84,4 +85,3 @@ def register():
         return jsonify({'status': 'success', 'message': 'User registered successfully'}), 200
     else:
         return jsonify({'status': 'error', 'message': 'Failed to register user'}), 500
-

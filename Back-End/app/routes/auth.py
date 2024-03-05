@@ -24,10 +24,10 @@ def check_user(user_id, password):
 
     client.close()
 
-    return result
+    return result.count() > 0
 
 
-@auth_bp.route('/login', methods=['POST','GET'])
+@auth_bp.route('/login', methods=['POST', 'GET'])
 def login():
     data = request.json  # Assume the frontend submits the username and password in JSON format
     user_id = data.get('user_id')
@@ -35,10 +35,10 @@ def login():
 
     # Check for the user
     if_successful = check_user(user_id, password)
-
+    print(if_successful)
     if if_successful:
         # Login successful, set the session
-        session['user'] = user_id
+        # session['user'] = user_id
         return jsonify({'status': 'success', 'message': 'Login successful'}), 200
     else:
         # Invalid credentials, return an error response
@@ -63,6 +63,10 @@ def register():
         'email': email
     }
 
+    if_exist = check_user(user_id, password)
+    if if_exist:
+        return jsonify({'status': 'error', 'message':'User already exists'})
+
     # Establish connection
     client = MongoClient(Config.MONGO_URI)
 
@@ -77,9 +81,7 @@ def register():
 
     # Check if the insertion was successful
     if insert_result.inserted_id:
-        response = {'status': 'success', 'message': 'User registered successfully'}
-        return jsonify(response), 200
+        return jsonify({'status': 'success', 'message': 'User registered successfully'}), 200
     else:
-        response = {'status': 'error', 'message': 'Failed to register user'}
-        return jsonify(response), 500
+        return jsonify({'status': 'error', 'message': 'Failed to register user'}), 500
 

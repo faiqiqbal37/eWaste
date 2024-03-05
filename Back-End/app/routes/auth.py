@@ -30,11 +30,11 @@ def check_user(user_id, password):
 @auth_bp.route('/login', methods=['POST', 'GET'])
 def login():
     data = request.json  # Assume the frontend submits the username and password in JSON format
-    user_id = data.get('user_id')
+    email = data.get('email')
     password = data.get('password')
 
     # Check for the user
-    if_successful = check_user(user_id, password)
+    if_successful = check_user(email, password)
     print(if_successful)
     if if_successful:
         # Login successful, set the session

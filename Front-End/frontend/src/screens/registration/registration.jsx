@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './registration.css';
+import {register} from "../../services/authenticationservice";
 
 const Registration = () => {
     const [username, setUsername] = useState('');
@@ -8,7 +9,7 @@ const Registration = () => {
 
     const handleRegister = () => {
         // Implement registration logic here
-        console.log('Registration logic goes here');
+        register(username, email, password)
     };
 
     return (

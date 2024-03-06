@@ -25,7 +25,10 @@ def check_user(user_id, password):
 
     client.close()
 
-    return result.count() > 0
+
+
+
+    return 200
 
 
 @auth_bp.route('/login', methods=['POST', 'GET'])
@@ -64,9 +67,9 @@ def register():
         'email': email
     }
 
-    if_exist = check_user(user_id, password)
-    if if_exist:
-        return jsonify({'status': 'error', 'message': 'User already exists'})
+    # if_exist = check_user(user_id, password)
+    # if if_exist:
+    #     return jsonify({'status': 'error', 'message': 'User already exists'})
 
     # Establish connection
     client = MongoClient(Config.MONGO_URI)

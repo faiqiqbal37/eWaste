@@ -14,7 +14,7 @@ def convert_document(document):
 @user_bp.route('/users', methods=['GET'])
 def users():
     try:
-        cursor = mongo.db.userCollection.find()
+        cursor = mongo.db.user_collection.find()
         data = [convert_document(document) for document in cursor]
         if data:
             return jsonify(data)

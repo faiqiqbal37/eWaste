@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const login = async (email, password) => {
+export const login = async (email, password) => {
     try {
-        const response = await axios.post('http://localhost:5000/login', {
+        const response = await axios.post('http://127.0.0.1:5000/auth/login', {
             email,
             password
         });
@@ -11,9 +11,9 @@ const login = async (email, password) => {
         throw error; // Throw the error for handling in the component
     }
 };
-const register = async (name, email, password) => {
+export const register = async (name, email, password) => {
     try {
-        const response = await axios.post('http://localhost:5000/register', {
+        const response = await axios.post('http://127.0.0.1:5000/auth/register', {
             password,
             name,
             role: "customer",
@@ -26,4 +26,3 @@ const register = async (name, email, password) => {
     }
 };
 
-export default login;

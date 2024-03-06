@@ -1,13 +1,14 @@
 from flask import Flask
 from flask_pymongo import PyMongo
 from .config import Config
+from flask_cors import CORS
 
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
 mongo = PyMongo(app)
-
+CORS(app)
 
 from app.routes import auth_bp, user_bp
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './registration.css';
 import {register} from "../../services/authenticationservice";
+import {Drawer} from "../../components/drawer";
 
 const Registration = () => {
     const [username, setUsername] = useState('');
@@ -13,6 +14,7 @@ const Registration = () => {
     };
 
     return (
+
         <div className="registration-container">
             <h2>Registration</h2>
             <form>

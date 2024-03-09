@@ -1,36 +1,27 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import {Drawer} from "./drawer";
 
 const Navbar = () => {
-    const navStyle = {
-        backgroundColor: '#333',
-        color: '#fff',
-        padding: '10px 20px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    };
-
-    const logoStyle = {
-        fontSize: '24px',
-    };
-
-    const linkStyle = {
-        textDecoration: 'none',
-        color: '#fff',
-        marginRight: '20px',
-    };
 
     return (
-        <nav style={navStyle}>
-            <div style={logoStyle}>eWaste</div>
-            <ul style={{listStyleType: 'none', margin: 0, padding: 0, display: 'flex'}}>
-                <li><a href="#about" style={linkStyle}>About</a></li>
-                <li><a href="#services" style={linkStyle}>Services</a></li>
-                <li><a href="#contact" style={linkStyle}>Contact</a></li>
-                <li><Link style={linkStyle} to="/login">Login</Link></li>
-            </ul>
-        </nav>
+        <div className="navbar bg-base-100">
+            <div className="flex-none">
+                <Drawer/>
+            </div>
+            <div className="flex-1">
+                <Link className="btn btn-ghost text-xl" to="/">eWaste</Link>
+            </div>
+            <div className="flex-none">
+                <button className="btn btn-square btn-ghost">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         className="inline-block w-5 h-5 stroke-current">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                              d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
     );
 };
 

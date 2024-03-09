@@ -4,6 +4,7 @@ import Login from "../screens/login/login";
 import App from "../App";
 import Registration from "../screens/registration/registration";
 import {Drawer} from "../components/drawer";
+import Navbar from "../components/navbar";
 
 const ComponentPreviews = () => {
     return (
@@ -19,6 +20,9 @@ const ComponentPreviews = () => {
             </ComponentPreview>
             <ComponentPreview path="/Drawer">
                 <Drawer/>
+            </ComponentPreview>
+            <ComponentPreview path="/Navbar">
+                <Navbar/>
             </ComponentPreview>
         </Previews>
     )

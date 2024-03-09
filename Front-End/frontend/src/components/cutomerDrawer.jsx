@@ -15,10 +15,9 @@ export const Drawer = () => {
                 <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                     {/* Sidebar content here */}
                     <li><a>Dashboard</a></li>
-                    <li><a>Customers</a></li>
-                    <li><a>Staff</a></li>
                     <li><a>Orders</a></li>
-                    <li><a>Finances</a></li>
+                    <li><a>Devices</a></li>
+                    <li><a>Settings</a></li>
 
                 </ul>
             </div>

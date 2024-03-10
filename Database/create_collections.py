@@ -64,7 +64,6 @@ The schemas for the collections
 '''
 
 # MongoDB schema for user collection
-# MongoDB schema for user collection
 user_schema = {
     'user_id': {'type': 'string', 'unique': True, 'required': True},
     'name': {'type': 'string', 'required': True},

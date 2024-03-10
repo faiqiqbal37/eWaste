@@ -1,5 +1,7 @@
 import Navbar from "../../../components/navbar";
 import CustomerNavbar from "../../../components/customerNavbar";
+import {Link} from "react-router-dom";
+
 
 export const CustomerDashboard = () => {
     var state = "pending"
@@ -13,32 +15,36 @@ export const CustomerDashboard = () => {
             </div>
             <div className="divider"></div>
             <div>
-                <div className ="flex flex-row">
-                    <div className= "basis-1/3">
+                <div className="flex flex-row">
+                    <div className="basis-1/3">
                         <select className="select select-bordered max-w-xs ">
-                        <option disabled selected>Sort By</option>
-                        <option>Date Added</option>
-                        <option>Price (Ascending)</option>
-                        <option>Price (Descending)</option>
+                            <option disabled selected>Sort By</option>
+                            <option>Date Added</option>
+                            <option>Price (Ascending)</option>
+                            <option>Price (Descending)</option>
                         </select>
                     </div>
                     <div className="basis-1/3">
                         <select className="select select-bordered max-w-xs basis-1/3">
-                        <option disabled selected>Device Type</option>
-                        <option>Tablet</option>
-                        <option>Laptop</option>
-                        <option>Smartphone</option>
-                        <option>Smartwatch</option>
-                    </select>
+                            <option disabled selected>Device Type</option>
+                            <option>Tablet</option>
+                            <option>Laptop</option>
+                            <option>Smartphone</option>
+                            <option>Smartwatch</option>
+                        </select>
                     </div>
                     <div className="basis-1/3">
                         <select className="select select-bordered max-w-xs basis-1/3">
-                        <option disabled selected>Category</option>
-                        <option>Current</option>
-                        <option>Rare</option>
-                        <option>Recyclable</option>
-                        <option>Unknown</option>
-                    </select>
+                            <option disabled selected>Category</option>
+                            <option>Current</option>
+                            <option>Rare</option>
+                            <option>Recyclable</option>
+                            <option>Unknown</option>
+                        </select>
+                    </div>
+                    <div className="basis-1/3">
+                        <Link className="btn btn-outline btn-primary" to="./placeorder">Place Order</Link>
+
                     </div>
                 </div>
             </div>

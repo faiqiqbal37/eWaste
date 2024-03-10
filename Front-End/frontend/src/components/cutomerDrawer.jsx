@@ -1,6 +1,9 @@
 import { TiThMenu } from "react-icons/ti";
+import {Link, useNavigate} from "react-router-dom";
 
 export const CustomerDrawer = () => {
+    const navigate = useNavigate();
+
     return (
 
 
@@ -14,10 +17,21 @@ export const CustomerDrawer = () => {
                 <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                     {/* Sidebar content here */}
-                    <li><a>Dashboard</a></li>
-                    <li><a>Orders</a></li>
-                    <li><a>Devices</a></li>
-                    <li><a>Settings</a></li>
+                    <li>
+                        <button
+                          onClick={() => {navigate("/customerdashboard")}}  className="btn btn-ghost">Dashboard
+                        </button>
+                    </li>
+                    <li>
+                        <button className="btn btn-ghost">Orders
+                        </button>
+                    </li>
+                    <li>
+                        <button className="btn btn-ghost">Devices</button>
+                    </li>
+                    <li>
+                        <button className="btn btn-ghost">Settings</button>
+                    </li>
 
                 </ul>
             </div>

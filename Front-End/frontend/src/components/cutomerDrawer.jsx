@@ -19,7 +19,7 @@ export const CustomerDrawer = () => {
                     {/* Sidebar content here */}
                     <li>
                         <button
-                          onClick={() => {navigate("/customerdashboard")}}  className="btn btn-ghost">Dashboard
+                          onClick={() => {navigate("/customer/customerdashboard")}}  className="btn btn-ghost">Dashboard
                         </button>
                     </li>
                     <li>
@@ -30,7 +30,7 @@ export const CustomerDrawer = () => {
                         <button className="btn btn-ghost">Devices</button>
                     </li>
                     <li>
-                        <button className="btn btn-ghost">Settings</button>
+                        <button className="btn btn-ghost" onClick={() => {navigate("/customer/profile")}}>Profile</button>
                     </li>
 
                 </ul>

@@ -1,11 +1,12 @@
 import Navbar from "../../../components/navbar";
 import CustomerNavbar from "../../../components/customerNavbar";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 
 export const CustomerDashboard = () => {
     var state = "pending"
     var stateTwo = "completed"
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -43,7 +44,7 @@ export const CustomerDashboard = () => {
                         </select>
                     </div>
                     <div className="basis-1/3">
-                        <Link className="btn btn-outline btn-primary" to="./placeorder">Place Order</Link>
+                        <button className="btn btn-outline btn-primary" onClick={() => {navigate("/customer/placeorder")}} >Place Order</button>
 
                     </div>
                 </div>

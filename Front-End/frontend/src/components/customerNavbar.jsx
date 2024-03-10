@@ -1,13 +1,14 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {Drawer} from "./drawer";
+import {CustomerDrawer} from "./cutomerDrawer";
 
-const Navbar = () => {
+const CustomerNavbar = () => {
 
     return (
         <div className="navbar bg-base-100">
             <div className="flex-none">
-                <Drawer/>
+                <CustomerDrawer/>
             </div>
             <div className="flex-1">
                 <Link className="btn btn-ghost text-xl" to="/">eWaste</Link>
@@ -25,4 +26,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default CustomerNavbar;

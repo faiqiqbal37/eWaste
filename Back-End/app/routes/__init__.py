@@ -5,4 +5,4 @@ user_bp = Blueprint('user', __name__)
 order_bp = Blueprint('order', __name__)
 staff_bp = Blueprint('staff', __name__)
 
-from . import auth, user, order
+from . import auth, user, order, staff

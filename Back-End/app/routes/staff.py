@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from ..config import Config
 
 
-@staff_bp.route('/test', methods=['POST', 'GET'])
+@staff_bp.route('/allInformation', methods=['POST', 'GET'])
 def all_information():
     # Get variables passed from the frontend
     data = request.json
@@ -25,7 +25,7 @@ def all_information():
     # Select or create a database
     db = client['mydatabase']
 
-    # Select or user and order collection (table)
+    # Select all collection (table)
     user_collection = db['user_collection']
     order_collection = db['order_collection']
     payment_collection = db['payment_collection']

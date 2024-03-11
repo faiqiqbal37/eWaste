@@ -7,12 +7,14 @@ import LandingPage from "./screens/landingpage/landingpage";
 import {CustomerDashboard} from "./screens/customer-portal/customerdashboard/customerDashboard";
 import PlaceOrder from "./screens/customer-portal/addorder/placeorder";
 import ProfilePage from "./screens/profile/profile";
+import Sdashboard from "./screens/staffdashboard/sdashboard";
 
 function App() {
     return (
         <BrowserRouter>
             <div>
                 <Routes>
+                    <Route path="/sdashboard" element={<Sdashboard />} />
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<LandingPage />} />

@@ -73,3 +73,39 @@ def all_information():
     }
 
     return jsonify(return_information)
+@staff_bp.route('/editvisibility', methods=['POST', 'GET'])
+def edit_device_visibility():
+    # Get variables passed from the frontend
+    data = request.json
+    order_id = data.get('order_id')
+
+    # Check if variables are present
+    if order_id is None:
+        # If variables is missing, return an error message
+        error_message = {'error': 'Missing one variable.'}
+        return jsonify(error_message), 400
+
+    # Establish connection
+    client = MongoClient(Config.MONGO_URI)
+
+    # Select or create a database
+    db = client['mydatabase']
+
+    # Select order collection (table)
+    order_collection = db['order_collection']
+
+    # Condition for updating
+    query = {'order_id': order_id}
+
+    # Data to be updated
+    update_data = {'$set': {'visibility': True}}
+
+    # Update a single document
+    result = order_collection.update(query, update_data)
+
+    # Check if the update was successful
+    if result:
+        return jsonify({'status': 'success', 'message': 'Update successful!'}), 200
+    else:
+        return jsonify({'status': 'error', 'message': 'No documents were modified; the update may not have been '
+                                                      'successful.'}), 401

@@ -1,7 +1,10 @@
 from . import user_bp
-from flask import jsonify
+from flask import jsonify, request, url_for
 from .. import mongo
+from flask_pymongo import ObjectId
 from bson import ObjectId
+from ..webscraper import itemToBeFound
+import requests
 
 def convert_document(document):
     """Convert ObjectId to string for JSON serialization."""
@@ -21,36 +24,108 @@ def users():
     except Exception as e:
         return f'Error fetching data: {e}'
 
+
 @user_bp.route('/users/new', methods=['POST'])
 def create_user():
-    pass
+    try:
+        data = request.json
+        user_dict = {}
+        for k, v in data.items():
+            user_dict[k] = v
+        res = mongo.db.user_collection.insert_one(user_dict)
+        res = mongo.db.user_collection.find_one(user_dict)
+        res = convert_document(res)
+        return jsonify(res), 200
+    except Exception as e:
+        return f'Error fetching data: {e}'
+    
 
-@user_bp.route('/users/<int:user_id>', methods=['GET'])
-def get_user_details():
-    pass
+@user_bp.route('/users/<user_id>', methods=['GET'])
+def get_user_details(user_id):
+    try:
+        userid_dict = {"user_id": user_id}
+        res=mongo.db.user_collection.find_one(userid_dict)
+        if res != None:
+            return jsonify(convert_document(res)), 200
+    except Exception as e:
+        return f'Error fetching data: {e}'
 
 
-@user_bp.route('/users/<int:user_id>/edit', methods=['PUT'])
+@user_bp.route('/users/<user_id>/edit', methods=['PUT'])
 def edit_user(user_id):
-    pass
+    try:
+        data = request.get_json()
+        user_dict = {}
+        for k, v in data.items():
+            user_dict[k] = v
 
-@user_bp.route('/users/<int:user_id>/delete', methods=['POST'])
+        search_criteria = {'user_id': data.get('user_id')}
+
+
+        res = mongo.db.user_collection.update_one(search_criteria, {'$set': data})
+        
+        if res.modified_count > 0:
+            return jsonify(user_dict), 200
+        else:
+            return jsonify({'error': 'Item not found or no changes made'}), 404
+
+    except Exception as e:
+        return f'Error: {e}'
+    
+
+@user_bp.route('/users/<user_id>/delete', methods=['GET'])
 def delete_user(user_id):
-    pass
+    try:
+        user_dict = {"user_id": user_id}
 
-@user_bp.route('/users/<int:user_id>/devices', methods=['GET'])
-def get_user_devices():
-    pass
 
-@user_bp.route('/users/<int:user_id>/devices/new', methods=['POST'])
-def create_user_device():
-    pass
+        item_to_delete = mongo.db.user_collection.find_one(user_dict)
 
-@user_bp.route('/users/<int:user_id>/devices/<int:device_id>/edit', methods=['PUT'])
-def edit_user_devices():
-    pass
 
-@user_bp.route('/users/<int:user_id>/devices/<int:device_id>/delete', methods=['POST'])
-def delete_device_user():
-    pass
 
+        if item_to_delete != None:
+
+            res = mongo.db.user_collection.delete_one(user_dict)
+            
+            if res.deleted_count > 0:
+                return jsonify(convert_document(item_to_delete)), 200
+        else:
+            return jsonify({'error': 'Item not found or no changes made'}), 404
+
+    except Exception as e:
+        return f'Error: {e}'
+    
+@user_bp.route('/users/<user_id>/devices', methods=['GET'])
+def get_user_devices(user_id):
+    try:
+        user_dict = {"user_id": user_id}
+        devices_to_find = mongo.db.order_collection.find_one(user_dict)
+        if devices_to_find  != None:
+            return jsonify(convert_document(devices_to_find)), 200
+
+    except Exception as e:
+        return f'Error: {e}', 404
+    
+
+@user_bp.route('/scraper/cex/<string:device_name>', methods=['GET'])
+def get_device_from_web(device_name):
+    try:
+        return jsonify(itemToBeFound(device_name))
+    except Exception as e:
+        return f'Error: {e}', 404
+
+@user_bp.route('/users/<user_id>/devices/<device_id>/flag', methods=["GET"])
+def flag_user_device(user_id, device_id):
+    try:
+        user_dict = {"device_id": device_id}
+        devices_to_find = mongo.db.device_collection.find_one(user_dict)
+        if devices_to_find != None:
+            device = convert_document(devices_to_find)
+            device['flag'] = not device['flag']
+            device.pop("_id")
+
+            url = url_for('device.edit_device', device_id=device_id)
+            return jsonify({"url": url})
+
+    except Exception as e:
+        return f'Error: {e}', 404

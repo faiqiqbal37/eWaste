@@ -8,6 +8,8 @@ import {CustomerDashboard} from "./screens/customer-portal/customerdashboard/cus
 import PlaceOrder from "./screens/customer-portal/addorder/placeorder";
 import ProfilePage from "./screens/profile/profile";
 import EditOrder from "./screens/customer-portal/editorder/editorder";
+import AdminStaffPage from "./screens/adminstaffpage/adminstaffpage";
+import AdminOrderPage from "./screens/adminorderpage/adminorderpage";
 
 function App() {
     return (
@@ -21,6 +23,9 @@ function App() {
                     <Route path="/customer/profile" element={<ProfilePage />} />
                     <Route path="/customer/placeorder" element={<PlaceOrder/>} />
                     <Route path="/customer/editorder" element={<EditOrder/>} />
+                    <Route path="/staffadmin" element={<AdminStaffPage/>} />
+                    <Route path="/orderadmin" element={<AdminOrderPage/>} />
+
                 </Routes>
             </div>
         </BrowserRouter>

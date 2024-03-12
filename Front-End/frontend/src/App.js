@@ -7,6 +7,7 @@ import LandingPage from "./screens/landingpage/landingpage";
 import {CustomerDashboard} from "./screens/customer-portal/customerdashboard/customerDashboard";
 import PlaceOrder from "./screens/customer-portal/addorder/placeorder";
 import ProfilePage from "./screens/profile/profile";
+import EditOrder from "./screens/customer-portal/editorder/editorder";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/customer/customerdashboard" element={<CustomerDashboard />} />
                     <Route path="/customer/profile" element={<ProfilePage />} />
                     <Route path="/customer/placeorder" element={<PlaceOrder/>} />
+                    <Route path="/customer/editorder" element={<EditOrder/>} />
                 </Routes>
             </div>
         </BrowserRouter>

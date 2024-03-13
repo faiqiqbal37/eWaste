@@ -60,7 +60,7 @@ def edit_order(order_id):
         search_criteria = {'order_id': data.get('order_id')}
         res = mongo.db.order_collection.update_one(search_criteria, {"$set": data})
 
-        if res.modified_count > 0:
+        if res.matched_count > 0:
             return jsonify(order_dict), 200
         else:
             return jsonify({'error': 'Order not found or no changes made'}), 404

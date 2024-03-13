@@ -88,7 +88,7 @@ const AdminDashboard = () => {
       <div className="divider"></div>
       <div className="flex w-full">
         <div className="grid flex-grow  bg-base-300 rounded-box place-items-center">
-          <AdminDashboardTable ordersList={orders}></AdminDashboardTable>
+          <AdminDashboardTable orders={orders}></AdminDashboardTable>
         </div>
         <div className="divider divider-horizontal"></div>
         <div className="grid h-20 flex-grow  bg-base-300 rounded-box place-items-center">

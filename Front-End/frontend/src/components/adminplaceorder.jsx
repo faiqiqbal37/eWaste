@@ -1,61 +1,71 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ImageUploader from "./imageupload";
 
 const AdminPlaceOrder = ({ orderList, index, orderState, handleState }) => {
-  const [brand, setBrand] = useState(orderList['device_name']);
-  const [deviceType, setDeviceType] = useState(orderList['device_type']);
-  const [category, setCategory] = useState(orderList['classification']);
-  const [price, setPrice] = useState(orderList['price']);
+  const [brand, setBrand] = useState("");
+  const [deviceType, setDeviceType] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState(0);
   const [images, setImages] = useState([]);
-  const [visibility, setVisibility] = useState(orderList['visibility']?"True":"False");
+  const [visibility, setVisibility] = useState("");
+  const [base64Strings, setBase64Strings] = useState([]);
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-  };
-
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const fileList = e.target.files;
     const imageArray = Array.from(fileList);
     setImages(imageArray);
+    console.log(images)
   };
 
-  useEffect(() => {
-    setBrand(orderList['device_name']);
-    setDeviceType(orderList['device_type']);
-    setCategory(orderList['classification'])
-    setPrice(orderList['price'])
-    setImages([]);
-    setVisibility(orderList['visibility']?"True":"False");
 
+  useEffect(() => {
+    setBrand(orderList["device_name"]);
+    setDeviceType(orderList["device_type"]);
+    setCategory(orderList["classification"]);
+    setPrice(orderList["price"]);
+    setImages(orderList["photos"]);
+    setVisibility(orderList["visibility"] ? "True" : "False");
+    setBase64Strings([]);
   }, []);
 
   const discardChange = () => {
-    setBrand(orderList['device_name']);
-    setDeviceType(orderList['device_type']);
-    setCategory(orderList['classification'])
-    setPrice(orderList['price'])
-    setImages([]);
-    setVisibility(orderList['visibility']?"True":"False");
-  }
+    setBrand(orderList["device_name"]);
+    setDeviceType(orderList["device_type"]);
+    setCategory(orderList["classification"]);
+    setPrice(orderList["price"]);
+    setImages(orderList['photos']);
+    setVisibility(orderList["visibility"] ? "True" : "False");
+  };
 
   const saveChange = async () => {
-    let url = `http://127.0.0.1:5000/api/devices/${orderList["device_id"]}/edit`
-    let deviceObj = {"device_id":orderList["device_id"], "device_name":brand, 
-    "device_type": deviceType, "classification":category, price, "photos":images,
-    "flag": orderList['flag']}
+    let url = `http://127.0.0.1:5000/api/devices/${orderList["device_id"]}/edit`;
+    let deviceObj = {
+      device_id: orderList["device_id"],
+      device_name: brand,
+      device_type: deviceType,
+      classification: category,
+      price,
+      photos: base64Strings.length > 0 ? base64Strings : images,
+      flag: orderList["flag"],
+    };
 
-    try{
-        const response = await axios.put(url, deviceObj)
-        const result = await response.data
-        let orderArr = [...orderState]
-        orderArr[index] = {...orderArr[index], ...deviceObj}
-        handleState(orderArr)
-      } catch (error){
-        throw error
-      }
-  }
+    try {
+      const response = await axios.put(url, deviceObj);
+      const result = await response.data;
+      let orderArr = [...orderState];
+      let vis = visibility === "True" ? true : false
+      let visibilityObj = {"visibility": vis, "order_id": orderArr[index]['order_id']}
+      url = `http://127.0.0.1:5000/api/orders/${visibilityObj['order_id']}/edit`
+      const visRes = await axios.put(url, visibilityObj)
+      let finalObject = {...orderArr[index], ...deviceObj, "visibility": vis}
+      orderArr[index] = finalObject
+      handleState(orderArr);
+      setBase64Strings([]);
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <div>
@@ -87,7 +97,9 @@ const AdminPlaceOrder = ({ orderList, index, orderState, handleState }) => {
               onChange={(e) => setDeviceType(e.target.value)}
               className="form-select w-full border border-gray-300 rounded-md"
             >
-              <option value="" disabled hidden>Select Device Type</option>
+              <option value="" disabled hidden>
+                Select Device Type
+              </option>
               <option value="Smartphone">Smartphone</option>
               <option value="Laptop">Laptop</option>
             </select>
@@ -102,7 +114,9 @@ const AdminPlaceOrder = ({ orderList, index, orderState, handleState }) => {
               onChange={(e) => setCategory(e.target.value)}
               className="form-select w-full border border-gray-300 rounded-md"
             >
-              <option value="" disabled hidden>Select Category</option>
+              <option value="" disabled hidden>
+                Select Category
+              </option>
               <option value="current">Current</option>
               <option value="rare">Rare</option>
               <option value="recyclable">Recyclable</option>
@@ -132,42 +146,31 @@ const AdminPlaceOrder = ({ orderList, index, orderState, handleState }) => {
               onChange={(e) => setVisibility(e.target.value)}
               className="form-select w-full border border-gray-300 rounded-md"
             >
-              <option value="" disabled hidden>Select Device Visibility</option>
+              <option value="" disabled hidden>
+                Select Device Visibility
+              </option>
               <option value="True">Show</option>
               <option value="False">Hide</option>
             </select>
-          </div>
+          </div>  
+              {/*Insert Image Code here*/}
+              <ImageUploader base64Strings={base64Strings} setBase64Strings={setBase64Strings}></ImageUploader>
 
-          <div className="mb-4">
-            <label htmlFor="images" className="block mb-1">
-              Upload Images:
-            </label>
-            <input
-              type="file"
-              id="images"
-              onChange={handleImageUpload}
-              multiple
-              className="form-input w-full border border-gray-300 rounded-md"
-            />
-          </div>
 
-          <div className="mb-4">
-            <label className="block mb-1">Uploaded Images:</label>
-            <div className="flex flex-wrap">
-              {images.map((image, index) => (
-                <img
-                  key={index}
-                  src={URL.createObjectURL(image)}
-                  alt={`Image ${index}`}
-                  className="w-20 h-20 object-cover m-1"
-                />
-              ))}
-            </div>
-          </div>
         </div>
-        <button className="m-3 w-20 btn btn-success text-white" onClick ={saveChange}>Save</button>
+        <button
+          className="m-3 w-20 btn btn-success text-white"
+          onClick={saveChange}
+        >
+          Save
+        </button>
         <button className="mr-3 w-20 btn btn-primary text-white">Store</button>
-        <button className="w-20 btn btn-error text-white" onClick={discardChange}>Discard</button>
+        <button
+          className="w-20 btn btn-error text-white"
+          onClick={discardChange}
+        >
+          Discard
+        </button>
       </form>
     </div>
   );

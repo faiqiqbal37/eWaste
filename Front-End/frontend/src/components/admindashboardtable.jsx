@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import AdminPlaceOrder from "./adminplaceorder";
 
 const AdminDashboardTable = ({ orders }) => {
   const [deviceOrderDetails, setDeviceOrderDetails] = useState({});
+  const [orderLists, setOrderLists] = useState([]);
 
-  const openModalWithData = () => {};
+  const adminDashboardTableRef = useRef();
+
+  const updateOrderLists = (newOrderLists) => {
+    setOrderLists(newOrderLists);
+  };
 
   useEffect(() => {
     const fetchDataUrl = async (url) => {
@@ -65,10 +70,10 @@ const AdminDashboardTable = ({ orders }) => {
     fetchOrderData();
   }, []);
 
-  const [orderLists, setOrderLists] = useState([]);
 
   return (
     <div className="overflow-x-auto w-full ">
+      {console.log(orderLists)}
       <table className="table">
         {/* head */}
         <thead>
@@ -90,7 +95,7 @@ const AdminDashboardTable = ({ orders }) => {
                 <td>
                   <div className="avatar">
                     <div className="w-24 rounded-full">
-                      <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                      <img src={order['photos'].length > 0 ? order['photos'][0] : "https://placehold.co/600x400"} alt=""></img>
                     </div>
                   </div>
                 </td>
@@ -118,7 +123,7 @@ const AdminDashboardTable = ({ orders }) => {
                           <div className="modal-action">
                             <AdminPlaceOrder
                               orderState = {orderLists}
-                              handleState = {setOrderLists}
+                              handleState = {updateOrderLists}
                               orderList={order}
                               index = {index}
                             ></AdminPlaceOrder>

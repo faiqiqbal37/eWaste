@@ -10,6 +10,7 @@ import ProfilePage from "./screens/profile/profile";
 import Sdashboard from "./screens/staffdashboard/sdashboard";
 import AdminStaffPage from './screens/adminstaffpage/adminstaffpage';
 import AdminOrderPage from './screens/adminorderpage/adminorderpage';
+import AdminDashboard from './screens/admindashboard/admindashboard';
 
 function App() {
     return (
@@ -25,6 +26,8 @@ function App() {
                     <Route path="/customer/placeorder" element={<PlaceOrder/>} />
                     <Route path="/staffadmin" element={<AdminStaffPage />} />
                     <Route path="/orderadmin" element={<AdminOrderPage />} />
+                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
                 </Routes>
             </div>
         </BrowserRouter>

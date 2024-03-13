@@ -45,6 +45,8 @@ def get_device_details(device_id):
         res=mongo.db.device_collection.find_one(deviceid_dict)
         if res != None:
             return jsonify(convert_document(res)), 200
+        else:
+            return jsonify({}), 404
     except Exception as e:
         return f'Error fetching data: {e}'
 
@@ -57,18 +59,20 @@ def edit_device(device_id):
         for k, v in data.items():
             device_dict[k] = v
 
+
+        
         search_criteria = {'device_id': data.get('device_id')}
 
 
         res = mongo.db.device_collection.update_one(search_criteria, {'$set': data})
         
-        if res.modified_count > 0:
+        if res.matched_count:
             return jsonify(device_dict), 200
         else:
-            return jsonify({'error': 'Item not found or no changes made'}), 404
+            return jsonify({'error': device_id}), 404
 
     except Exception as e:
-        return f'Error: {e}'
+        return f'Error: {e}', 404
     
 
 @device_bp.route('/devices/<device_id>/delete', methods=['GET'])

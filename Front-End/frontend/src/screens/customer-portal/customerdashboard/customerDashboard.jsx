@@ -11,12 +11,14 @@ export const CustomerDashboard = () => {
 
     return (
         <div className= "p-4">
-            <CustomerNavbar/>
+            <div>
+                < CustomerNavbar/>
+            </div>
             <div>
                 <div className="flex flex-col items-center justify-center">
-                    <h1 className="text-2xl font-bold mb-4">Customer Dashboard</h1>
+                    <h1 className="text-2xl font-bold mb-4">Welcome Username</h1>
 
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                         {/* Stat Box 1 */}
                         <div className="p-4 border rounded-md">
                             <h2 className="text-lg font-semibold mb-2">Total Orders</h2>
@@ -29,11 +31,6 @@ export const CustomerDashboard = () => {
                             <p className="text-gray-600">500</p>
                         </div>
 
-                        {/* Stat Box 3 */}
-                        <div className="p-4 border rounded-md">
-                            <h2 className="text-lg font-semibold mb-2">Revenue</h2>
-                            <p className="text-gray-600">$10,000</p>
-                        </div>
                     </div>
                 </div>
 
@@ -78,10 +75,13 @@ export const CustomerDashboard = () => {
             </div>
             <div className="divider"></div>
             <div>
+                <div>
+                <h1 className="items-center justify-center  text-2xl font-bold mb-4">Order Details</h1>
                 <OrderTable stateTwo={stateTwo} onClick={() => document.getElementById('my_modal_3').showModal()}
                             onClick1={() => {
                                 navigate("/customer/editorder")
                             }}/>
+                </div>
             </div>
         </div>
     )

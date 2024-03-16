@@ -41,7 +41,7 @@ def create_collections(collection_name, collection_schema, doc_to_insert):
     try:
         # Check if the collection exists
         if collection_name in mydb.list_collection_names():
-            return "The collection already exists. No document inserted."
+            return print("The collection already exists. No document inserted.")
         else:
             # Validate the document against the schema
             validate(instance=doc_to_insert, schema=collection_schema)
@@ -51,13 +51,13 @@ def create_collections(collection_name, collection_schema, doc_to_insert):
 
             # Insert the document into the collection
             collection.insert_one(doc_to_insert)
-            return "The collection did not exist. It has been created, and the document inserted successfully."
+            return print("The collection did not exist. It has been created, and the document inserted successfully.")
     except ValidationError as e:
         # Handle validation error
-        return f"Document validation failed: {e}"
+        return print(f"Document validation failed: {e}")
     except Exception as e:
         # Handle other potential errors (e.g., database connection issues)
-        return f"An error occurred: {e}"
+        return print(f"An error occurred: {e}")
 
 '''
 The schemas for the collections
@@ -68,6 +68,7 @@ user_schema = {
     'user_id': {'type': 'string', 'unique': True, 'required': True},
     'name': {'type': 'string', 'required': True},
     'email': {'type': 'string', 'required': True, 'unique': True},
+    'contact': {'type': 'string', 'required': True, 'unique': True},
     'password': {'type': 'string', 'required': True},
     'role': {'type': 'string', 'allowed': ['customer', 'staff', 'admin'], 'required': True}
 }
@@ -81,6 +82,7 @@ order_schema = {
     'payment_id': {'type': 'string', 'required': True, 'data_relation': {'collection': 'payments', 'field': 'payment_id'}},
     'qr_id': {'type': 'string', 'required': True, 'data_relation': {'collection': 'qr', 'field': 'qr_id'}},
     'visibility': {'type': 'boolean', 'required': True},
+    'status':{'type': 'string', 'required': True},
     'data_detail_id': {'type': 'string', 'required': True, 'data_relation': {'collection': 'data_detail', 'field': 'data_detail_id'}}
 }
 
@@ -130,6 +132,7 @@ user_document = {
     'user_id': 'userid123',
     'name': 'John Doe',
     'email': 'johndoe@example.com',
+    'contact': '1234567890',
     'password': 'hashed_password',
     'role': 'customer'
 }
@@ -143,6 +146,7 @@ order_document = {
     'payment_id': 'paymentid123',  # Reference to the payment document's payment_id
     'qr_id': 'qrid123',  # Reference to the QR document's qr_id
     'visibility': True,
+    'status': 'Pending',
     'data_detail_id': 'datadetailid123'  # Reference to the data detail document's data_detail_id
 }
 

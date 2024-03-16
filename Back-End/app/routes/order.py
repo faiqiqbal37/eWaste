@@ -80,6 +80,8 @@ def delete_order(order_id):
                 return jsonify(convert_document(order_to_delete)), 200
             else:
                 return jsonify({'error': 'Order not found or no changes made'}), 404
+        else:
+            return jsonify({'error': 'Order not found or no changes made'}), 404
     except Exception as e:
         return f'Error: {e}'
     

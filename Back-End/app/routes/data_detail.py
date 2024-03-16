@@ -12,6 +12,7 @@ def convert_document(document):
             document[key] = str(value)
     return document
 
+
 @data_detail_bp.route('/data_detail', methods=['GET'])
 def data_detail():
     try:
@@ -22,10 +23,12 @@ def data_detail():
     except Exception as e:
         return f'Error fetching data links: {e}'
 
+
 @data_detail_bp.route('/data_detail/new', methods=['POST'])
 def create_data_detail():
     # TODO
     pass
+
 
 @data_detail_bp.route('/data_detail/<data_id>', methods=['GET'])
 def get_data_detail(data_id):
@@ -35,8 +38,11 @@ def get_data_detail(data_id):
 
         if res != None:
             return jsonify(convert_document(res)), 200
+        else:
+            return jsonify({'error': 'Data link not found'}), 404
     except Exception as e:
         return f'Error fetching data link: {e}'
+
 
 @data_detail_bp.route('/data_detail/<data_id>/edit', methods=['PUT'])
 def edit_data_detail(data_id):
@@ -55,6 +61,7 @@ def edit_data_detail(data_id):
             return jsonify({'error': 'Data link not found or no changes made'}), 404
     except Exception as e:
         return f'Error: {e}'
+
 
 @data_detail_bp.route('/data_detail/<data_id>/delete', methods=['DELETE'])
 def delete_data_detail(data_id):

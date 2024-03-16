@@ -3,7 +3,6 @@ from flask import jsonify, request
 from .. import mongo
 from flask_pymongo import ObjectId
 from bson import ObjectId
-from datetime import datetime
 
 
 def convert_document(document):
@@ -12,6 +11,7 @@ def convert_document(document):
         if isinstance(value, ObjectId):
             document[key] = str(value)
     return document
+
 
 @order_bp.route('/orders', methods=['GET'])
 def orders():
@@ -22,7 +22,7 @@ def orders():
             return jsonify(data), 200
     except Exception as e:
         return f'Error fetching orders: {e}'
-    
+
 
 @order_bp.route('/orders/new', methods=['POST'])
 def create_order():
@@ -31,13 +31,14 @@ def create_order():
         order_dict = {}
         for k, v in data.items():
             order_dict[k] = v
+
         res = mongo.db.order_collection.insert_one(order_dict)
         res = mongo.db.order_collection.find_one(order_dict)
-        res = convert_document(res)
-        return jsonify(res), 200
+        return jsonify(convert_document(res)), 200
     except Exception as e:
         return f'Error creating order: {e}'
     
+
 @order_bp.route('/orders/<order_id>', methods=['GET'])
 def get_order_details(order_id):
     try:
@@ -46,9 +47,12 @@ def get_order_details(order_id):
 
         if res != None:
             return jsonify(convert_document(res)), 200
+        else:
+            return jsonify({'error': 'Order not found'}), 404
     except Exception as e:
         return f'Error fetching order details: {e}'
     
+
 @order_bp.route('/orders/<order_id>/edit', methods=['PUT'])
 def edit_order(order_id):
     try:
@@ -66,6 +70,7 @@ def edit_order(order_id):
             return jsonify({'error': 'Order not found or no changes made'}), 404
     except Exception as e:
         return f'Error: {e}'
+
 
 @order_bp.route('/orders/<order_id>/delete', methods=['DELETE'])
 def delete_order(order_id):
@@ -85,6 +90,7 @@ def delete_order(order_id):
     except Exception as e:
         return f'Error: {e}'
     
+
 @order_bp.route('/orders/search', methods=['GET'])
 def search_orders():
     try:

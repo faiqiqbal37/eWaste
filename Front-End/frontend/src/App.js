@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes, Link} from 'react-router-dom';
 import Login from "./screens/login/login";
@@ -10,12 +9,14 @@ import ProfilePage from "./screens/profile/profile";
 import EditOrder from "./screens/customer-portal/editorder/editorder";
 import AdminStaffPage from "./screens/adminstaffpage/adminstaffpage";
 import AdminOrderPage from "./screens/adminorderpage/adminorderpage";
+import Sdashboard from "./screens/staffdashboard/sdashboard";
 
 function App() {
     return (
         <BrowserRouter>
             <div>
                 <Routes>
+                    <Route path="/sdashboard" element={<Sdashboard />} />
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<LandingPage />} />
@@ -25,6 +26,8 @@ function App() {
                     <Route path="/customer/editorder" element={<EditOrder/>} />
                     <Route path="/staffadmin" element={<AdminStaffPage/>} />
                     <Route path="/orderadmin" element={<AdminOrderPage/>} />
+
+                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
                 </Routes>
             </div>

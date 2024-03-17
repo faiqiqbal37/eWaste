@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes, Link} from 'react-router-dom';
+import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import Login from "./screens/login/login";
 import Registration from "./screens/registration/registration";
 import LandingPage from "./screens/landingpage/landingpage";
@@ -10,6 +10,7 @@ import EditOrder from "./screens/customer-portal/editorder/editorder";
 import AdminStaffPage from "./screens/adminstaffpage/adminstaffpage";
 import AdminOrderPage from "./screens/adminorderpage/adminorderpage";
 import Sdashboard from "./screens/staffdashboard/sdashboard";
+import AdminDashboard from './screens/admindashboard/admindashboard';
 
 function App() {
     return (

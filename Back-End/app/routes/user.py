@@ -74,11 +74,9 @@ def create_user():
         for k, v in data.items():
             user_dict[k] = v
         res = mongo.db.user_collection.insert_one(user_dict)
-        res = mongo.db.user_collection.find_one(user_dict)
-        res = convert_document(res)
-        return jsonify(res), 200
+        return jsonify(user_dict), 200
     except Exception as e:
-        return f'Error fetching data: {e}'
+        return {}, 200
     
 
 @user_bp.route('/users/<user_id>', methods=['GET'])
@@ -88,6 +86,8 @@ def get_user_details(user_id):
         res=mongo.db.user_collection.find_one(userid_dict)
         if res != None:
             return jsonify(convert_document(res)), 200
+        else:
+            return jsonify({}), 200
     except Exception as e:
         return f'Error fetching data: {e}'
     
@@ -99,6 +99,8 @@ def get_user_details_from_email(email):
         res=mongo.db.user_collection.find_one(userid_dict)
         if res != None:
             return jsonify(convert_document(res)), 200
+        else:
+            return jsonify({}), 200
     except Exception as e:
         return f'Error fetching data: {e}'
     
@@ -199,3 +201,19 @@ def flag_user_device(user_id, device_id):
 
     except Exception as e:
         return f'Error: {e}', 404
+    
+
+@user_bp.route('/users/find', methods=['POST'])
+def find_user_from_unique_attribute():
+    try:
+        data = request.json
+        matched = False
+        for k, v in data.items():
+            user_dict = {}
+            user_dict[k] = v
+            match_item = mongo.db.user_collection.find_one(user_dict)
+            if match_item:
+                return jsonify(user_dict), 200
+        return jsonify({}), 200
+    except Exception as e:
+        return e, 404

@@ -3,7 +3,7 @@ from flask import jsonify, request, url_for, session
 from .. import mongo
 from flask_pymongo import ObjectId
 from bson import ObjectId
-from ..webscraper import itemToBeFound
+from ..webscraper_CeX import itemToBeFound
 import requests
 
 def convert_document(document):

@@ -7,5 +7,7 @@ staff_bp = Blueprint('staff', __name__)
 device_bp = Blueprint('device', __name__)
 data_detail_bp = Blueprint('data_detail', __name__)
 payment_bp = Blueprint('payment', __name__)
+backend_session_bp = Blueprint('backend_session', __name__)
 
-from . import auth, user, order, staff, device, data_detail, payment
+
+from . import auth, user, order, staff, device, data_detail, payment, backend_session

@@ -7,6 +7,7 @@ import LandingPage from "./screens/landingpage/landingpage";
 import {CustomerDashboard} from "./screens/customer-portal/customerdashboard/customerDashboard";
 import PlaceOrder from "./screens/customer-portal/addorder/placeorder";
 import ProfilePage from "./screens/profile/profile";
+import FAQ from "./screens/faq/FAQ";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<LandingPage />} />
+                    <Route path="/faq" element={<FAQ />} />
                     <Route path="/customer/customerdashboard" element={<CustomerDashboard />} />
                     <Route path="/customer/profile" element={<ProfilePage />} />
                     <Route path="/customer/placeorder" element={<PlaceOrder/>} />

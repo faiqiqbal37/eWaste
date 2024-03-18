@@ -6,3 +6,6 @@ export const useStoreLogin = create(persist((set)=>({
     updateLoggedUser: (newUser) => set({loggedUser: newUser})
 }),{
     name: "user storage"}))
+export const resetPersistenceStorage = () => {
+    sessionStorage.removeItem("user storage"); // Clear the session storage
+};

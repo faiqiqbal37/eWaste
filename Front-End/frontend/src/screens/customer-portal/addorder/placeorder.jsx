@@ -36,6 +36,7 @@ const PlaceOrder = () => {
     }
 
     const handleSubmit = async (e) => {
+        e.preventDefault()
         let orderId = generateRandomId()
         let deviceId = generateRandomId()
         let paymentId = generateRandomId()

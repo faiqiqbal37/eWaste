@@ -57,7 +57,7 @@ const PlaceOrder = () => {
             };
 
 
-            const requests = [
+            const requestOne =
                 await axios.post(`${baseUrl}/orders/new`, {
                     order_id: orderId,
                     user_id: loggedUser.user_id,
@@ -69,7 +69,9 @@ const PlaceOrder = () => {
                     status: "pending",
                     data_detail_id: datadetailId
 
-                }).then(axios.post(`${baseUrl}/devices/new`, {
+                })
+
+            const requestTwo = await axios.post(`${baseUrl}/devices/new`, {
                     device_id: deviceId,
                     device_name: brand,
                     device_type: deviceType,
@@ -78,24 +80,19 @@ const PlaceOrder = () => {
                     classification: category,
                     flag: false
 
-                })).then(axios.post(`${baseUrl}/payments/new`, {
+                })
+            const requestThree =    await axios.post(`${baseUrl}/payments/new`, {
                     payment_id: paymentId,
                     amount: price,
                     date: date
 
-                })).then(axios.post(`${baseUrl}/data_detail/new`, {
+                })
+            const requestFour = await axios.post(`${baseUrl}/data_detail/new`, {
                     data_detail_id: datadetailId,
                     data_link: "link"
 
-                }))
-                               // Add more requests as needed
-            ];
-
-            const responses = await Promise.all(requests);
-
-            responses.forEach((response, index) => {
-                console.log(`Response ${index + 1}:`, response.data);
-            });
+                })
+                // Add more requests as needed
 
             // Optionally, clear form data after successful submission
             setBrand('');
@@ -107,6 +104,8 @@ const PlaceOrder = () => {
             setTypeOfService('');
             setDataRetrieval('');
             setDataWiping('');
+
+
         } catch (error) {
             console.error('Error sending data to the backend:', error);
         }

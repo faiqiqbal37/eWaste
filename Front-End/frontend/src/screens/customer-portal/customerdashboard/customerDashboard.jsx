@@ -6,13 +6,13 @@ import React, { useState, useEffect } from "react";
 import * as PropTypes from "prop-types";
 import {OrderTable} from "../ordertable/ordertable";
 import { useStoreLogin } from "../../../stores/store-login"
+import axios from "axios";
 
 
 export const CustomerDashboard = () => {
     var state = "pending"
     var stateTwo = "completed"
     const navigate = useNavigate();
-    const { loggedUser, updateLoggedUser } = useStoreLogin();
 
     let baseUrl = "http://127.0.0.1:5000/api";
 
@@ -21,17 +21,18 @@ export const CustomerDashboard = () => {
     const {loggedUser, updateLoggedUser} = useStoreLogin();
 
     useEffect(() => {
-        // const fetchOrders = async () => {
-        //     try {
-        //         const response = await axios.get(`${baseUrl}/orders/user/${loggedUser.data}`);
-        //         setOrders(response.data);
-        //     } catch (error) {
-        //         console.error('Error fetching orders:', error);
-        //     }
+        const fetchOrders = async () => {
+            try {
+                const response = await axios.get(`${baseUrl}/orders/user/${loggedUser.user_id}`);
+                setOrders(response.data);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+        }
 
-    console.log(loggedUser.user_id)
-    })
-
+        console.log(loggedUser.user_id)
+        fetchOrders().then(() => console.log(orders))
+    }, []);
 
 
 
@@ -104,7 +105,7 @@ export const CustomerDashboard = () => {
             <div>
                 <div>
                 <h1 className="items-center justify-center  text-2xl font-bold mb-4">Order Details</h1>
-                <OrderTable stateTwo={stateTwo} onClick={() => document.getElementById('my_modal_3').showModal()}
+                <OrderTable stateTwo={stateTwo} tableData = {orders} onClick={() => document.getElementById('my_modal_3').showModal()}
                             onClick1={() => {
                                 navigate("/customer/editorder")
                             }}/>

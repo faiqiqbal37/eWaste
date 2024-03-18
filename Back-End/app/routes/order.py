@@ -39,7 +39,7 @@ def create_order():
         return f'Error creating order: {e}'
     
 
-@order_bp.route('/orders/<user_id>', methods=['GET'])
+@order_bp.route('/orders/user/<user_id>', methods=['GET'])
 def orders_from_user_id(user_id):
     try:
         userid_dict = {"user_id": user_id}

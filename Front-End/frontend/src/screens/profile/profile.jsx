@@ -1,24 +1,48 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Navbar from "../../components/navbar";
 import CustomerNavbar from "../../components/customerNavbar";
 import { useState } from 'react';
+import axios from "axios";
+import {useStoreLogin} from "../../stores/store-login";
 
 const ProfilePage = () => {
 
-    const user = {
+    const [user, setUser] =useState( {
         name: "John",
         email: "john@gmail.com",
         contact: "03221545554"
-    };
+    })
+
+    const {loggedUser, updateLoggedUser} = useStoreLogin();
+
+    let userId = loggedUser.user_id
+
+
+
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
+    const [contact, setContact] = useState(user.contact);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle form submission logic here
     };
 
-    const [name, setName] = useState(user.name);
-    const [email, setEmail] = useState(user.email);
-    const [contact, setContact] = useState(user.contact);
+    useEffect(() => {
+        // Function to fetch user data based on ID
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:5000/api/users/${userId}`);
+                setUser(response.data); // Store user data in state
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+
+        // Check if userId is provided and user data is not already fetched
+            fetchUser(); // Fetch user data
+
+    }, []);
 
     return (
 

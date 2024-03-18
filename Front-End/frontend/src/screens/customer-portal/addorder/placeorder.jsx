@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CustomerNavbar from "../../../components/customerNavbar";
+import axios from "axios";
 
 const PlaceOrder = () => {
     const [brand, setBrand] = useState('');
@@ -12,10 +13,152 @@ const PlaceOrder = () => {
     const [dataRetrieval, setDataRetrieval] = useState('');
     const [dataWiping, setDataWiping] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission logic here
+    const [deviceFormData, setDeviceFormData] = useState({});
+    const [paymentData, setPaymentData] = useState({});
+    const [orderData, setOrder] = useState({});
+
+    let deviceForm = {
+        device_id: generateRandomId(),
+        device_name: "",
+        device_type: "",
+        photos: [''],
+        price: "",
+        classification: "",
+        flag: false
+
+    }
+
+    let paymentForm = {
+        payment_id: generateRandomId(),
+        amount: "",
+        date: "",
+    }
+
+    let qrData = {
+        qr_id: "",
+        qr_link: "dummy",
+    }
+
+    let dataDetail = {
+        data_detail_id: "",
+        data_link: "link",
+    }
+
+    let orderDetail = {
+        order_id: "",
+        user_id: "",
+        device_id: "",
+        date: "",
+        payment_id: "",
+        qr_id: "",
+        visibility: true,
+        status: "pending",
+        data_detail_id: "",
+    }
+
+
+    let baseUrl = "http://127.0.0.1:5000/api";
+
+    function getCurrentDateAsString() {
+        const currentDate = new Date(); // Get the current date and time
+        const year = currentDate.getFullYear(); // Get the year
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Get the month (adding 1 because months are zero-indexed)
+        const day = currentDate.getDate().toString().padStart(2, '0'); // Get the day of the month
+        const dateString = `${year}-${month}-${day}`; // Combine year, month, and day with dashes
+
+        return dateString;
+    }
+
+
+    function generateRandomId() {
+        const randomNumber = Math.floor(Math.random() * 1000); // Generates a random number between 0 and 999
+        return randomNumber.toString(); // Converts the random number to a string
+    }
+
+    const handleSubmit = async (e) => {
+        let orderId = generateRandomId()
+        let deviceId = generateRandomId()
+        let paymentId = generateRandomId()
+        let datadetailId = generateRandomId()
+        let qrId = generateRandomId()
+        let date = getCurrentDateAsString()
+
+        try {
+            const formData = {
+                brand: brand,
+                deviceType: deviceType,
+                category: category,
+                price: price,
+                images: images,
+                selectService: selectService,
+                typeOfService: typeOfService,
+                dataRetrieval: dataRetrieval,
+                dataWiping: dataWiping
+            };
+
+
+            const requests = [
+                await axios.post(`${baseUrl}/orders/new`, {
+                    order_id: orderId,
+                    user_id: "111",
+                    device_id: deviceId,
+                    date: date,
+                    paymentId: paymentId,
+                    qrId: qrId,
+                    visibility: true,
+                    status: "pending",
+                    data_detail_id: datadetailId
+
+                }),
+                await axios.post(`${baseUrl}/devices/new`, {
+                    device_id: deviceId,
+                    device_name: brand,
+                    device_type: deviceType,
+                    photos: ['photo1.jpg', 'photo2.jpg'],
+                    price: price,
+                    classification: category,
+                    flag: false
+
+                }),
+                await axios.post(`${baseUrl}/payments/new`, {
+                    payment_id: paymentId,
+                    amount: price,
+                    date: date
+
+                }),
+                await axios.post(`${baseUrl}/data_detail/new`, {
+                    data_detail_id: datadetailId,
+                    data_link: "link"
+
+                })
+                // Add more requests as needed
+            ];
+
+            const responses = await Promise.all(requests);
+
+            responses.forEach((response, index) => {
+                console.log(`Response ${index + 1}:`, response.data);
+            });
+
+            // Optionally, clear form data after successful submission
+            setBrand('');
+            setDeviceType('');
+            setCategory('');
+            setPrice('');
+            setImages([]);
+            setSelectService('');
+            setTypeOfService('');
+            setDataRetrieval('');
+            setDataWiping('');
+        } catch (error) {
+            console.error('Error sending data to the backend:', error);
+        }
     };
+
+
+
+
+
 
     const handleImageUpload = (e) => {
         const fileList = e.target.files;
@@ -31,7 +174,10 @@ const PlaceOrder = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="brand" className="block mb-1">Name:</label>
-                        <input type="text" id="brand" value={brand} onChange={(e) => setBrand(e.target.value)}
+                        <input type="text" id="brand" value={brand} onChange={(e) => {
+                            setBrand(e.target.value)
+                        }
+                        }
                                className="form-input w-full border border-gray-300 rounded-md"/>
                     </div>
                     <div className="mb-4">

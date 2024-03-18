@@ -1,10 +1,5 @@
-// landingpage.jsx
 import React from 'react';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
-import { Routes} from 'react-router-dom';
-import './landingpage.css';
-import FAQ from "../faq/FAQ";
-
+import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
     return (
@@ -15,18 +10,14 @@ const LandingPage = () => {
                     <span className="w-8 h-8 bg-white rounded-full mr-2"></span>
                     <span className="font-semibold text-lg">eWaste</span>
                 </a>
-                <div className="navbar__toggle" id="mobile-menu">
-                    <span className="bar"></span> <span className="bar"></span>
-                    <span className="bar"></span>
-                </div>
-                <ul className="navbar__menu">
-                    <li className="navbar__item">
-                        <a href="/" className="navbar__links">Home</a>
+                <ul className="flex justify-between items-center">
+                    <li className="mx-4">
+                        <Link to="/" className="text-white">Home</Link>
                     </li>
-                    <li className="navbar__item">
-                        <a href="/faq" className="navbar__links">FAQ</a>
+                    <li className="mx-4">
+                        <Link to="/faq" className="text-white">FAQ</Link>
                     </li>
-                    <li className="navbar__btn">
+                    <li className="mx-4">
                         <a href="/" className="button bg-white text-green-500 font-semibold px-4 py-2 rounded-full hover:bg-green-100 transition duration-300">Sign Up</a>
                     </li>
                 </ul>
@@ -40,7 +31,7 @@ const LandingPage = () => {
                         <p className="mt-4 text-lg">Unlock the potential in your eWaste! Recycle or sell your old devices with eWaste Hub – maximizing value, ensuring security, and promoting sustainable tech practices.</p>
                     </div>
                     <div className="hidden md:block">
-                        <img id="main__img" src="images/ewaste2.jpg" alt="eWaste Hub" className="h-72" />
+                        <img id="main__img" src="../landingpage1/images/ewaste2.jpg" alt="eWaste Hub" className="h-72" />
                     </div>
                 </div>
             </div>

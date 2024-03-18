@@ -12,6 +12,7 @@ export const CustomerDashboard = () => {
     var state = "pending"
     var stateTwo = "completed"
     const navigate = useNavigate();
+    const { loggedUser, updateLoggedUser } = useStoreLogin();
 
     let baseUrl = "http://127.0.0.1:5000/api";
 
@@ -36,6 +37,7 @@ export const CustomerDashboard = () => {
 
     return (
         <div className= "p-4">
+            {console.log(loggedUser)}
             <div>
                 < CustomerNavbar/>
             </div>

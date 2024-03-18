@@ -1,13 +1,38 @@
 import Navbar from "../../../components/navbar";
 import CustomerNavbar from "../../../components/customerNavbar";
 import {Link, useNavigate} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
 import * as PropTypes from "prop-types";
 import {OrderTable} from "../ordertable/ordertable";
+import { useStoreLogin } from "../../../stores/store-login"
+
 
 export const CustomerDashboard = () => {
     var state = "pending"
     var stateTwo = "completed"
     const navigate = useNavigate();
+
+    let baseUrl = "http://127.0.0.1:5000/api";
+
+
+    const [orders, setOrders] = useState([]);
+    const {loggedUser, updateLoggedUser} = useStoreLogin();
+
+    useEffect(() => {
+        // const fetchOrders = async () => {
+        //     try {
+        //         const response = await axios.get(`${baseUrl}/orders/user/${loggedUser.data}`);
+        //         setOrders(response.data);
+        //     } catch (error) {
+        //         console.error('Error fetching orders:', error);
+        //     }
+
+    console.log(loggedUser.user_id)
+    })
+
+
+
 
     return (
         <div className= "p-4">
@@ -16,7 +41,7 @@ export const CustomerDashboard = () => {
             </div>
             <div>
                 <div className="flex flex-col items-center justify-center">
-                    <h1 className="text-2xl font-bold mb-4">Welcome Username</h1>
+                    <h1 className="text-2xl font-bold mb-4">Welcome {loggedUser.name}</h1>
 
                     <div className="grid grid-cols-2 gap-4">
                         {/* Stat Box 1 */}

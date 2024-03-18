@@ -144,7 +144,7 @@ order_document = {
     'device_id': 'deviceid123',
     'date': '2024-03-03T00:00:00Z',
     'payment_id': 'paymentid123',
-    'qr_id': 'qrid123',
+    'qr_id': 'qrid123',  # Reference to the QR document's qr_id
     'visibility': True,
     'status': 'Pending',
     'data_detail_id': 'datadetailid123'  # Reference to the data detail document's data_detail_id

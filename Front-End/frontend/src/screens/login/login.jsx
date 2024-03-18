@@ -10,7 +10,7 @@ const Login = () => {
 
   const { loggedUser, updateLoggedUser } = useStoreLogin();
 
-  const [loginRole, setLoginRole] = useState("");
+  const [loginRole, setLoginRole] = useState(loggedUser.role);
 
   const handleLogin = async (e) => {
     e.preventDefault();

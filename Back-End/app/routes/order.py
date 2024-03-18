@@ -51,7 +51,7 @@ def get_order_details(order_id):
             return jsonify({'error': 'Order not found'}), 404
     except Exception as e:
         return f'Error fetching order details: {e}'
-    
+
 
 @order_bp.route('/orders/<order_id>/edit', methods=['PUT'])
 def edit_order(order_id):

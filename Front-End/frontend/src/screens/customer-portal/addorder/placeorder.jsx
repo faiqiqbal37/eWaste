@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CustomerNavbar from "../../../components/customerNavbar";
 import axios from "axios";
+import { useStoreLogin } from "../../../stores/store-login"
 
 const PlaceOrder = () => {
     const [brand, setBrand] = useState('');
@@ -13,48 +14,7 @@ const PlaceOrder = () => {
     const [dataRetrieval, setDataRetrieval] = useState('');
     const [dataWiping, setDataWiping] = useState('');
 
-    const [deviceFormData, setDeviceFormData] = useState({});
-    const [paymentData, setPaymentData] = useState({});
-    const [orderData, setOrder] = useState({});
-
-    let deviceForm = {
-        device_id: generateRandomId(),
-        device_name: "",
-        device_type: "",
-        photos: [''],
-        price: "",
-        classification: "",
-        flag: false
-
-    }
-
-    let paymentForm = {
-        payment_id: generateRandomId(),
-        amount: "",
-        date: "",
-    }
-
-    let qrData = {
-        qr_id: "",
-        qr_link: "dummy",
-    }
-
-    let dataDetail = {
-        data_detail_id: "",
-        data_link: "link",
-    }
-
-    let orderDetail = {
-        order_id: "",
-        user_id: "",
-        device_id: "",
-        date: "",
-        payment_id: "",
-        qr_id: "",
-        visibility: true,
-        status: "pending",
-        data_detail_id: "",
-    }
+    const {loggedUser, updateLoggedUser} = useStoreLogin();
 
 
     let baseUrl = "http://127.0.0.1:5000/api";
@@ -100,7 +60,7 @@ const PlaceOrder = () => {
             const requests = [
                 await axios.post(`${baseUrl}/orders/new`, {
                     order_id: orderId,
-                    user_id: "111",
+                    user_id: loggedUser.user_id,
                     device_id: deviceId,
                     date: date,
                     paymentId: paymentId,
@@ -109,8 +69,7 @@ const PlaceOrder = () => {
                     status: "pending",
                     data_detail_id: datadetailId
 
-                }),
-                await axios.post(`${baseUrl}/devices/new`, {
+                }).then(axios.post(`${baseUrl}/devices/new`, {
                     device_id: deviceId,
                     device_name: brand,
                     device_type: deviceType,
@@ -119,19 +78,17 @@ const PlaceOrder = () => {
                     classification: category,
                     flag: false
 
-                }),
-                await axios.post(`${baseUrl}/payments/new`, {
+                })).then(axios.post(`${baseUrl}/payments/new`, {
                     payment_id: paymentId,
                     amount: price,
                     date: date
 
-                }),
-                await axios.post(`${baseUrl}/data_detail/new`, {
+                })).then(axios.post(`${baseUrl}/data_detail/new`, {
                     data_detail_id: datadetailId,
                     data_link: "link"
 
-                })
-                // Add more requests as needed
+                }))
+                               // Add more requests as needed
             ];
 
             const responses = await Promise.all(requests);

@@ -3,14 +3,14 @@ import { Link, Navigate } from "react-router-dom"; // Import Link from react-rou
 import "./login.css";
 import Navbar from "../../components/navbar"; // Import CSS file for component styling
 import axios from "axios";
-import { useStoreLogin } from "../../stores/store-login";
+import { useStoreLogin } from "../../stores/store-login"
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
 
   const { loggedUser, updateLoggedUser } = useStoreLogin();
 
-  const [loginRole, setLoginRole] = useState("");
+  const [loginRole, setLoginRole] = useState(loggedUser.role);
 
   const handleLogin = async (e) => {
     e.preventDefault();

@@ -39,6 +39,22 @@ def create_order():
         return f'Error creating order: {e}'
     
 
+@order_bp.route('/orders/<user_id>', methods=['GET'])
+def orders_from_user_id(user_id):
+    try:
+        userid_dict = {"user_id": user_id}
+        res = mongo.db.order_collection.find(userid_dict)
+        data = [convert_document(document) for document in res]
+
+        if data:
+            return jsonify(data), 200
+        else:
+            return jsonify({}), 404
+
+    except Exception as e:
+        return f'Error fetching orders: {e}'
+    
+
 @order_bp.route('/orders/<order_id>', methods=['GET'])
 def get_order_details(order_id):
     try:

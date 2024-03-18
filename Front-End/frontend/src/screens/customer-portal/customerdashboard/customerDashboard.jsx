@@ -1,17 +1,42 @@
 import Navbar from "../../../components/navbar";
 import CustomerNavbar from "../../../components/customerNavbar";
 import {Link, useNavigate} from "react-router-dom";
+import * as PropTypes from "prop-types";
+import {OrderTable} from "../ordertable/ordertable";
+import { useStoreLogin } from "../../../stores/store-login"
 
 
 export const CustomerDashboard = () => {
     var state = "pending"
     var stateTwo = "completed"
     const navigate = useNavigate();
+    const { loggedUser, updateLoggedUser } = useStoreLogin();
 
     return (
-        <div>
-            <CustomerNavbar/>
+        <div className= "p-4">
+            {console.log(loggedUser)}
             <div>
+                < CustomerNavbar/>
+            </div>
+            <div>
+                <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-2xl font-bold mb-4">Welcome {loggedUser.name}</h1>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        {/* Stat Box 1 */}
+                        <div className="p-4 border rounded-md">
+                            <h2 className="text-lg font-semibold mb-2">Total Orders</h2>
+                            <p className="text-gray-600">1000</p>
+                        </div>
+
+                        {/* Stat Box 2 */}
+                        <div className="p-4 border rounded-md">
+                            <h2 className="text-lg font-semibold mb-2">Pending Orders</h2>
+                            <p className="text-gray-600">500</p>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
             <div className="divider"></div>
@@ -44,88 +69,22 @@ export const CustomerDashboard = () => {
                         </select>
                     </div>
                     <div className="basis-1/3">
-                        <button className="btn btn-outline btn-primary" onClick={() => {navigate("/customer/placeorder")}} >Place Order</button>
+                        <button className="btn btn-outline btn-primary" onClick={() => {
+                            navigate("/customer/placeorder")
+                        }}>Place Order
+                        </button>
 
                     </div>
                 </div>
             </div>
             <div className="divider"></div>
             <div>
-                <div className="overflow-x-auto">
-                    <table className="table">
-                        {/* head */}
-                        <thead>
-                        <tr>
-                            <th>Device Details</th>
-                            <th>Order Details</th>
-                            <th>Current Status</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {/* row 1 */}
-                        <tr>
-                            <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle w-12 h-12">
-                                            <img src="/tailwind-css-component-profile-2@56w.png"
-                                                 alt="Avatar Tailwind CSS Component"/>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold">Samsung Galaxy s22</div>
-                                        <div className="text-sm opacity-50">Device Type: Smartphone</div>
-                                        <div className="badge badge-ghost badge-sm">Category: Current</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                Order ID: 03214589
-                                <br/>
-                                <span className="badge badge-ghost badge-sm">Date: 3/03/2024</span>
-                            </td>
-                            {/*<td>Pending</td>*/}
-                            {stateTwo === "pending"
-                                ? <td className="badge badge-warning badge-outline">{stateTwo}</td>
-                                : <td className="badge badge-success badge-outline">{stateTwo}</td>}
-                            <th>
-                                {/* You can open the modal using document.getElementById('ID').showModal() method */}
-                                <button className="btn btn-ghost" onClick={()=>document.getElementById('my_modal_3').showModal()}>Details</button>
-                                <dialog id="my_modal_3" className="modal">
-                                    <div className="modal-box">
-                                        <form method="dialog">
-                                            {/* if there is a button in form, it will close the modal */}
-                                            <button
-                                                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕
-                                            </button>
-                                        </form>
-                                        <div className="bg-base-100 shadow-xl">
-                                            <figure><img
-                                                src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-                                                alt="Shoes"/></figure>
-                                            <div className="card-body">
-                                                <h2 className="card-title">
-                                                    Samsung Galaxy S22
-                                                    <div className="badge badge-warning">pending</div>
-                                                </h2>
-                                                <p>Device Type: Android</p>
-                                                <p>Category: Current</p>
-                                                <p>Date of Order: 4/3/2024</p>
-                                                <p>Price: £1000</p>
-                                                <div className="card-actions justify-end">
-                                                    <div className="badge badge-outline">Edit Device Details</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </dialog>
-                            </th>
-                        </tr>
-                        </tbody>
-
-
-                    </table>
+                <div>
+                <h1 className="items-center justify-center  text-2xl font-bold mb-4">Order Details</h1>
+                <OrderTable stateTwo={stateTwo} onClick={() => document.getElementById('my_modal_3').showModal()}
+                            onClick1={() => {
+                                navigate("/customer/editorder")
+                            }}/>
                 </div>
             </div>
         </div>

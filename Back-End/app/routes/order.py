@@ -4,12 +4,14 @@ from .. import mongo
 from flask_pymongo import ObjectId
 from bson import ObjectId
 
+
 def convert_document(document):
     """Convert ObjectId to string for JSON serialization."""
     for key, value in document.items():
         if isinstance(value, ObjectId):
             document[key] = str(value)
     return document
+
 
 @order_bp.route('/orders', methods=['GET'])
 def orders():
@@ -20,7 +22,7 @@ def orders():
             return jsonify(data), 200
     except Exception as e:
         return f'Error fetching orders: {e}'
-    
+
 
 @order_bp.route('/orders/new', methods=['POST'])
 def create_order():
@@ -29,13 +31,30 @@ def create_order():
         order_dict = {}
         for k, v in data.items():
             order_dict[k] = v
+
         res = mongo.db.order_collection.insert_one(order_dict)
         res = mongo.db.order_collection.find_one(order_dict)
-        res = convert_document(res)
-        return jsonify(res), 200
+        return jsonify(convert_document(res)), 200
     except Exception as e:
         return f'Error creating order: {e}'
     
+
+@order_bp.route('/orders/<user_id>', methods=['GET'])
+def orders_from_user_id(user_id):
+    try:
+        userid_dict = {"user_id": user_id}
+        res = mongo.db.order_collection.find(userid_dict)
+        data = [convert_document(document) for document in res]
+
+        if data:
+            return jsonify(data), 200
+        else:
+            return jsonify({}), 404
+
+    except Exception as e:
+        return f'Error fetching orders: {e}'
+    
+
 @order_bp.route('/orders/<order_id>', methods=['GET'])
 def get_order_details(order_id):
     try:
@@ -44,9 +63,12 @@ def get_order_details(order_id):
 
         if res != None:
             return jsonify(convert_document(res)), 200
+        else:
+            return jsonify({'error': 'Order not found'}), 404
     except Exception as e:
         return f'Error fetching order details: {e}'
     
+
 @order_bp.route('/orders/<order_id>/edit', methods=['PUT'])
 def edit_order(order_id):
     try:
@@ -58,12 +80,13 @@ def edit_order(order_id):
         search_criteria = {'order_id': data.get('order_id')}
         res = mongo.db.order_collection.update_one(search_criteria, {"$set": data})
 
-        if res.modified_count > 0:
+        if res.matched_count > 0:
             return jsonify(order_dict), 200
         else:
             return jsonify({'error': 'Order not found or no changes made'}), 404
     except Exception as e:
         return f'Error: {e}'
+
 
 @order_bp.route('/orders/<order_id>/delete', methods=['DELETE'])
 def delete_order(order_id):
@@ -78,9 +101,12 @@ def delete_order(order_id):
                 return jsonify(convert_document(order_to_delete)), 200
             else:
                 return jsonify({'error': 'Order not found or no changes made'}), 404
+        else:
+            return jsonify({'error': 'Order not found or no changes made'}), 404
     except Exception as e:
         return f'Error: {e}'
     
+
 @order_bp.route('/orders/search', methods=['GET'])
 def search_orders():
     try:

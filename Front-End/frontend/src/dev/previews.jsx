@@ -6,6 +6,8 @@ import Registration from "../screens/registration/registration";
 import {Drawer} from "../components/drawer";
 import Navbar from "../components/navbar";
 import UserProfile from "../screens/profile/profile";
+import LandingPage from "../screens/landingpage/landingpage";
+import FAQ from "../screens/faq/FAQ";
 
 const ComponentPreviews = () => {
     return (
@@ -27,6 +29,12 @@ const ComponentPreviews = () => {
             </ComponentPreview>
             <ComponentPreview path="/UserProfile">
                 <UserProfile/>
+            </ComponentPreview>
+            <ComponentPreview path="/LandingPage">
+                <LandingPage/>
+            </ComponentPreview>
+            <ComponentPreview path="/FAQ">
+                <FAQ/>
             </ComponentPreview>
         </Previews>
     )

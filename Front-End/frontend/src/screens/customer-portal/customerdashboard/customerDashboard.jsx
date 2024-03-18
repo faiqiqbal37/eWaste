@@ -3,20 +3,24 @@ import CustomerNavbar from "../../../components/customerNavbar";
 import {Link, useNavigate} from "react-router-dom";
 import * as PropTypes from "prop-types";
 import {OrderTable} from "../ordertable/ordertable";
+import { useStoreLogin } from "../../../stores/store-login"
+
 
 export const CustomerDashboard = () => {
     var state = "pending"
     var stateTwo = "completed"
     const navigate = useNavigate();
+    const { loggedUser, updateLoggedUser } = useStoreLogin();
 
     return (
         <div className= "p-4">
+            {console.log(loggedUser)}
             <div>
                 < CustomerNavbar/>
             </div>
             <div>
                 <div className="flex flex-col items-center justify-center">
-                    <h1 className="text-2xl font-bold mb-4">Welcome Username</h1>
+                    <h1 className="text-2xl font-bold mb-4">Welcome {loggedUser.name}</h1>
 
                     <div className="grid grid-cols-2 gap-4">
                         {/* Stat Box 1 */}

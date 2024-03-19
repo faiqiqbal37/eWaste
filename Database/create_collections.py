@@ -140,10 +140,10 @@ user_document = {
 # Example document for the order collection
 order_document = {
     'order_id': 'orderid123',
-    'user_id': 'userid123',  # Reference to the user document's user_id
-    'device_id': 'deviceid123',  # Reference to the device document's device_id
-    'date': '2024-03-03T00:00:00Z',  # Example date in ISO format
-    'payment_id': 'paymentid123',  # Reference to the payment document's payment_id
+    'user_id': 'userid123',
+    'device_id': 'deviceid123',
+    'date': '2024-03-03T00:00:00Z',
+    'payment_id': 'paymentid123',
     'qr_id': 'qrid123',  # Reference to the QR document's qr_id
     'visibility': True,
     'status': 'Pending',

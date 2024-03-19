@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
+    const navigate = useNavigate();
+
     return (
         <>
             {/* Navbar Section */}
@@ -18,7 +20,11 @@ const LandingPage = () => {
                         <Link to="/faq" className="text-white">FAQ</Link>
                     </li>
                     <li className="mx-4">
-                        <a href="/" className="button bg-white text-green-500 font-semibold px-4 py-2 rounded-full hover:bg-green-100 transition duration-300">Sign Up</a>
+                        <button
+                            onClick={() => {
+                                navigate("/login")
+                            }} className="btn btn-ghost">Sign In
+                        </button>
                     </li>
                 </ul>
             </nav>
@@ -26,12 +32,12 @@ const LandingPage = () => {
             {/* Hero Section */}
             <div className="bg-green-500 p-8">
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
-                    <div className="text-white">
+                <div className="text-white">
                         <h1 className="text-4xl font-bold">eWaste Hub : Recycle Smart</h1>
                         <p className="mt-4 text-lg">Unlock the potential in your eWaste! Recycle or sell your old devices with eWaste Hub – maximizing value, ensuring security, and promoting sustainable tech practices.</p>
                     </div>
                     <div className="hidden md:block">
-                        <img id="main__img" src="../landingpage1/images/ewaste2.jpg" alt="eWaste Hub" className="h-72" />
+                        <img id="main__img" src="../landingpage/ewaste2.jpg" alt="eWaste Hub" className="h-72" />
                     </div>
                 </div>
             </div>

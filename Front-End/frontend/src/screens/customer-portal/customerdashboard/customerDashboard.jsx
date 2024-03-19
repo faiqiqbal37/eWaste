@@ -1,16 +1,94 @@
 import Navbar from "../../../components/navbar";
 import CustomerNavbar from "../../../components/customerNavbar";
 import {Link, useNavigate} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
 import * as PropTypes from "prop-types";
 import {OrderTable} from "../ordertable/ordertable";
 import { useStoreLogin } from "../../../stores/store-login"
+import axios from "axios";
 
 
 export const CustomerDashboard = () => {
     var state = "pending"
     var stateTwo = "completed"
     const navigate = useNavigate();
-    const { loggedUser, updateLoggedUser } = useStoreLogin();
+
+    let baseUrl = "http://127.0.0.1:5000/api";
+
+
+
+
+
+    const [orders, setOrders] = useState([]);
+
+
+    const {loggedUser, updateLoggedUser} = useStoreLogin();
+
+    let userID = loggedUser.user_id
+
+    function countPendingOrders(){
+        let pendingCount = 0;
+
+// Iterate over the array of orders
+        orders.forEach(order => {
+            // Check if the status of the current order is "pending"
+            if (order.status === 'Pending') {
+                // If yes, increment the pendingCount
+                pendingCount++;
+            }
+        });
+        return pendingCount
+    }
+
+    useEffect(() => {
+        // This code will be executed once when the component mounts
+
+        async function fetchFilteredOrders(userID) {
+            try {
+                // Fetch orders data based on user_id from the backend API
+                const ordersResponse = await fetch(`${baseUrl}/orders/user/${userID}`);
+                if (!ordersResponse.ok) {
+                    throw new Error('Failed to fetch orders');
+                }
+                const orders = await ordersResponse.json();
+
+                // Fetch all devices from the backend API
+                const devicesResponse = await fetch(`${baseUrl}/devices`);
+                if (!devicesResponse.ok) {
+                    throw new Error('Failed to fetch devices');
+                }
+                const devices = await devicesResponse.json();
+
+                // Map all devices to their orders based on the device_id
+                const filteredOrders = orders.map(order => {
+                    const device = devices.find(device => device.device_id === order.device_id);
+                    return {
+                        device_name: device.device_name,
+                        device_type: device.device_type,
+                        classification: device.classification,
+                        order_id: order.order_id,
+                        date: order.date,
+                        status: order.status,
+                        price: device.price
+                    };
+                });
+                console.log(orders)
+                setOrders(filteredOrders)
+                return filteredOrders;
+            } catch (error) {
+                console.error('Error fetching filtered orders:', error);
+                return []; // Return an empty array or handle error as needed
+            }
+        }
+
+        fetchFilteredOrders(userID).then(r => () => {console.log("done")})
+        // Place your one-time initialization logic or any other code here
+        console.log('Component mounted');
+
+    }, []);
+
+
 
     return (
         <div className= "p-4">
@@ -26,13 +104,13 @@ export const CustomerDashboard = () => {
                         {/* Stat Box 1 */}
                         <div className="p-4 border rounded-md">
                             <h2 className="text-lg font-semibold mb-2">Total Orders</h2>
-                            <p className="text-gray-600">1000</p>
+                            <p className="text-gray-600">{orders.length}</p>
                         </div>
 
                         {/* Stat Box 2 */}
                         <div className="p-4 border rounded-md">
                             <h2 className="text-lg font-semibold mb-2">Pending Orders</h2>
-                            <p className="text-gray-600">500</p>
+                            <p className="text-gray-600">{countPendingOrders()}</p>
                         </div>
 
                     </div>
@@ -81,7 +159,7 @@ export const CustomerDashboard = () => {
             <div>
                 <div>
                 <h1 className="items-center justify-center  text-2xl font-bold mb-4">Order Details</h1>
-                <OrderTable stateTwo={stateTwo} onClick={() => document.getElementById('my_modal_3').showModal()}
+                <OrderTable stateTwo={stateTwo} tableData = {orders} onClick={() => document.getElementById('my_modal_3').showModal()}
                             onClick1={() => {
                                 navigate("/customer/editorder")
                             }}/>

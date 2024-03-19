@@ -39,7 +39,7 @@ def create_order():
         return f'Error creating order: {e}'
     
 
-@order_bp.route('/orders/<user_id>', methods=['GET'])
+@order_bp.route('/orders/user/<user_id>', methods=['GET'])
 def orders_from_user_id(user_id):
     try:
         userid_dict = {"user_id": user_id}
@@ -67,7 +67,7 @@ def get_order_details(order_id):
             return jsonify({'error': 'Order not found'}), 404
     except Exception as e:
         return f'Error fetching order details: {e}'
-    
+
 
 @order_bp.route('/orders/<order_id>/edit', methods=['PUT'])
 def edit_order(order_id):

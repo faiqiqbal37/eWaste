@@ -1,9 +1,15 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Drawer} from "./drawer";
+import {resetPersistenceStorage, useStoreLogin} from "../stores/store-login";
 
 const Navbar = () => {
+    const navigate = useNavigate();
 
+
+
+
+    const {loggedUser, updateLoggedUser} = useStoreLogin();
     return (
         <div className="navbar bg-base-100">
             <div className="flex-none">
@@ -12,15 +18,17 @@ const Navbar = () => {
             <div className="flex-1">
                 <Link className="btn btn-ghost text-xl" to="/">eWaste</Link>
             </div>
-            <div className="flex-none">
-                <button className="btn btn-square btn-ghost">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                         className="inline-block w-5 h-5 stroke-current">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                              d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
-                    </svg>
-                </button>
-            </div>
+            {loggedUser.user_id
+                ? <div className="flex-none">
+                    <button onClick={() => {
+                        resetPersistenceStorage()
+                        updateLoggedUser({})
+                        navigate("/")
+                    }} className="btn btn-square btn-ghost">
+                        Logout
+                    </button>
+                </div>
+                : null}
         </div>
     );
 };

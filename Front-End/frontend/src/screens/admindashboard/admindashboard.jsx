@@ -77,25 +77,27 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <div>
-      <Navbar></Navbar>
-      <div className="divider"></div>
-      <AdminDashboardStats
-        numberOfStaff={numberOfStaff}
-        numberOfUsers={numUsers}
-        numberOfProcessedOrders={numberOfProcessedOrders}
-      ></AdminDashboardStats>
-      <div className="divider"></div>
-      <div className="flex w-full">
-        <div className="grid flex-grow  bg-base-300 rounded-box place-items-center">
-          <AdminDashboardTable orders={orders}></AdminDashboardTable>
-        </div>
-        <div className="divider divider-horizontal"></div>
-        <div className="grid h-20 flex-grow  bg-base-300 rounded-box place-items-center">
-          content
+      <div>
+        <Navbar></Navbar>
+        <div className= "flex flex-col items-center justify-center"><h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1></div>
+
+        <div className="divider"></div>
+        <AdminDashboardStats
+            numberOfStaff={numberOfStaff}
+            numberOfUsers={numUsers}
+            numberOfProcessedOrders={numberOfProcessedOrders}
+        ></AdminDashboardStats>
+        <div className="divider"></div>
+        <div className="flex w-full">
+          <div className="grid flex-grow  bg-base-300 rounded-box place-items-center">
+            <AdminDashboardTable orders={orders}></AdminDashboardTable>
+          </div>
+          <div className="divider divider-horizontal"></div>
+          <div className="grid h-20 flex-grow  bg-base-300 rounded-box place-items-center">
+            content
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 

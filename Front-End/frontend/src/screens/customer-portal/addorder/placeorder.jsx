@@ -67,7 +67,7 @@ const PlaceOrder = () => {
                     paymentId: paymentId,
                     qrId: qrId,
                     visibility: true,
-                    status: "pending",
+                    status: "Pending",
                     data_detail_id: datadetailId
 
                 })

@@ -29,10 +29,6 @@ const AdminTableUsers = () => {
     setUserDetails(filteredList);
   }, [searchVal, constUserDetails]);
 
-  const updateUsersList = (newAdminLists) => {
-    setUserDetails(newAdminLists);
-  };
-
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
@@ -44,6 +40,13 @@ const AdminTableUsers = () => {
     } catch (error) {
       return Promise.resolve([]);
     }
+  };
+
+  const updateUsersList = (newAdminLists) => {
+    setUserDetails(newAdminLists);
+    fetchUserData().then((res)=>{
+        setConstUserDetails(res)
+    })
   };
 
   useEffect(() => {
@@ -120,7 +123,6 @@ const AdminTableUsers = () => {
                         <AdminEditUser
                           currentUser={user}
                           updateList={updateUsersListByIndex(index)}
-
                         />
                         <div className="modal-action">
                           <form method="dialog"></form>

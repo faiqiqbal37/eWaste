@@ -111,12 +111,12 @@ const AdminDashboardTable = ({ orders }) => {
                       <button
                         className="btn"
                         onClick={() =>
-                          document.getElementById("my_modal_1").showModal()
+                          document.getElementById("my_modal_"+index).showModal()
                         }
                       >
                         Edit
                       </button>
-                      <dialog id="my_modal_1" className="modal">
+                      <dialog id={"my_modal_"+index} className="modal">
                         <div className="modal-box">
                           <h3 className="font-bold text-lg">Details</h3>
                           <p className="py-4"></p>

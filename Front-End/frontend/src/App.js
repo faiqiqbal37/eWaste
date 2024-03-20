@@ -11,6 +11,7 @@ import AdminStaffPage from "./screens/adminstaffpage/adminstaffpage";
 import AdminOrderPage from "./screens/adminorderpage/adminorderpage";
 import Sdashboard from "./screens/staffdashboard/sdashboard";
 import AdminDashboard from './screens/admindashboard/admindashboard';
+import AdminUsers from './screens/adminuserspage/adminusers';
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/orderadmin" element={<AdminOrderPage/>} />
 
                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                    <Route path="/admin/users" element={<AdminUsers />} />
 
                 </Routes>
             </div>

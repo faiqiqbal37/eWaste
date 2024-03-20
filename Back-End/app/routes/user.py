@@ -28,13 +28,13 @@ def users():
 @user_bp.route('/users/customers', methods=['GET'])
 def get_customers():
     try:
-        cursor = mongo.db.user_collection.find()
+        roleDict = {"role": "customer"}
+        cursor = mongo.db.user_collection.find(roleDict)
         data = [convert_document(document) for document in cursor]
-        data = [x for x in data if x['role']=="customer"]
         if data:
-            return jsonify(data)
+            return jsonify(data), 200
         else:
-            return jsonify([])
+            return jsonify([]), 200
     except Exception as e:
         return f'Error fetching data: {e}'
 
@@ -42,9 +42,9 @@ def get_customers():
 @user_bp.route('/users/staff', methods=['GET'])
 def get_staff():
     try:
-        cursor = mongo.db.user_collection.find()
+        roleDict = {"role": "staff"}
+        cursor = mongo.db.user_collection.find(roleDict)
         data = [convert_document(document) for document in cursor]
-        data = [x for x in data if x['role']=="staff"]
         if data:
             return jsonify(data)
         else:
@@ -55,9 +55,9 @@ def get_staff():
 @user_bp.route('/users/admins', methods=['GET'])
 def get_admin():
     try:
-        cursor = mongo.db.user_collection.find()
+        roleDict = {"role": "admin"}
+        cursor = mongo.db.user_collection.find(roleDict)
         data = [convert_document(document) for document in cursor]
-        data = [x for x in data if x['role']=="admin"]
         if data:
             return jsonify(data)
         else:
@@ -119,7 +119,7 @@ def edit_user(user_id):
 
         res = mongo.db.user_collection.update_one(search_criteria, {'$set': data})
         
-        if res.modified_count > 0:
+        if res.matched_count > 0:
             return jsonify(user_dict), 200
         else:
             return jsonify({'error': 'Item not found or no changes made'}), 404

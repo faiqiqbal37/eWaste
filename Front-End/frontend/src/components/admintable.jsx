@@ -17,7 +17,7 @@ const AdminTable = ({ itemList, orderList }) => {
             return (
               <tr>
                 {Object.entries(order).map(([key, value]) => {
-                  return <td>{value}</td>;
+                  return <td>{typeof value === "string" ? value : value.toString()}</td>;
                 })}
               </tr>
             );

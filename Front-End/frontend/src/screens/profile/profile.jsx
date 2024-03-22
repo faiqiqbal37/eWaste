@@ -71,13 +71,13 @@ const ProfilePage = () => {
                                 <form>
                                     <div className="mb-4">
                                         <label htmlFor="brand" className="block mb-1">Name:</label>
-                                        <input type="text" id="brand" value={name}
+                                        <input type="text" id="brand" value={user.name}
                                                onChange={(e) => setName(e.target.value)}
                                                className="form-input w-full border border-gray-300 rounded-md"/>
                                     </div>
                                     <div className="mb-4">
                                         <label htmlFor="brand" className="block mb-1">Contact:</label>
-                                        <input type="text" id="brand" value={contact}
+                                        <input type="text" id="brand" value={user.contact}
                                                onChange={(e) => setContact(e.target.value)}
                                                className="form-input w-full border border-gray-300 rounded-md"/>
                                     </div>

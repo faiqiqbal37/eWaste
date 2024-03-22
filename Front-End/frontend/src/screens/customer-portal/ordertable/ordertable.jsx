@@ -2,8 +2,13 @@ import * as PropTypes from "prop-types";
 import Navbar from "../../../components/navbar";
 import CustomerNavbar from "../../../components/customerNavbar";
 import {Link, useNavigate} from "react-router-dom";
+import { useHistory } from 'react-router-dom';
+
 
 function OrderModal(props) {
+    const navigate = useNavigate()
+
+
     return <th>
         {/* You can open the modal using document.getElementById('ID').showModal() method */}
         <button className="btn btn-ghost" onClick={props.onClick}>Details</button>
@@ -16,9 +21,13 @@ function OrderModal(props) {
                     </button>
                 </form>
                 <div className="bg-base-100 shadow-xl">
-                    <figure><img
-                        src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-                        alt="Shoes"/></figure>
+                    <figure>
+                        <div>
+                            <img
+                                src={props.orderItem['photos'].length > 0 ? props.orderItem['photos'][0] : "https://placehold.co/600x400"}
+                                alt=""></img>
+                        </div>
+                    </figure>
                     <div className="card-body">
                         <h2 className="card-title">
                             {props.orderItem.device_name}
@@ -29,7 +38,8 @@ function OrderModal(props) {
                         <p>Date of Order: {props.orderItem.date}</p>
                         <p>Price: {props.orderItem.price}</p>
                         <div className="card-actions justify-end">
-                            <button onClick={props.onClick1} className="btn btn-outline">Edit Device
+                            <button onClick={()=>{    navigate('/customer/editorder', {state: props.orderItem });
+                            }} className="btn btn-outline">Edit Device
                                 Details
                             </button>
                         </div>
@@ -50,9 +60,9 @@ function TableItem(props) {
         <td>
             <div className="flex items-center gap-3">
                 <div className="avatar">
-                    <div className="mask mask-squircle w-12 h-12">
-                        <img src="/tailwind-css-component-profile-2@56w.png"
-                             alt="Avatar Tailwind CSS Component"/>
+                    <div className="w-24 rounded-full">
+                        <img src={props.order['photos'].length > 0 ? props.order['photos'][0] : "https://placehold.co/600x400"}
+                             alt=""></img>
                     </div>
                 </div>
                 <div>

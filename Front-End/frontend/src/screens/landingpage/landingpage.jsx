@@ -9,7 +9,6 @@ const LandingPage = () => {
             {/* Navbar Section */}
             <nav className="bg-green-500 p-4 flex justify-between items-center">
                 <a href="/" className="text-white text-xl font-bold flex items-center">
-                    <span className="w-8 h-8 bg-white rounded-full mr-2"></span>
                     <span className="font-semibold text-lg">eWaste</span>
                 </a>
                 <ul className="flex justify-between items-center">
@@ -37,7 +36,7 @@ const LandingPage = () => {
                         <p className="mt-4 text-lg">Unlock the potential in your eWaste! Recycle or sell your old devices with eWaste Hub – maximizing value, ensuring security, and promoting sustainable tech practices.</p>
                     </div>
                     <div className="hidden md:block">
-                        <img id="main__img" src="../landingpage/ewaste2.jpg" alt="eWaste Hub" className="h-72" />
+                        <img id="main__img" src="./ewaste3.jpg" alt="eWaste Hub" className="h-72" />
                     </div>
                 </div>
             </div>

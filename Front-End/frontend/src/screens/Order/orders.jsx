@@ -1,23 +1,16 @@
-import Navbar from "../../../components/navbar";
-import CustomerNavbar from "../../../components/customerNavbar";
-import {Link, useNavigate} from "react-router-dom";
-import React, { useState, useEffect } from "react";
-
-import * as PropTypes from "prop-types";
-import {OrderTable} from "../ordertable/ordertable";
-import { useStoreLogin } from "../../../stores/store-login"
-import axios from "axios";
+import CustomerNavbar from "../../components/customerNavbar";
+import React, {useEffect, useState} from "react";
+import {useStoreLogin} from "../../stores/store-login";
+import {OrderTable} from "../customer-portal/ordertable/ordertable";
+import {useNavigate} from "react-router-dom";
 
 
-export const CustomerDashboard = () => {
-    var state = "pending"
-    var stateTwo = "completed"
-    const navigate = useNavigate();
+
+export const Orders = () => {
+
+    let navigate = useNavigate();
 
     let baseUrl = "http://127.0.0.1:5000/api";
-
-
-
 
 
     const [orders, setOrders] = useState([]);
@@ -91,34 +84,16 @@ export const CustomerDashboard = () => {
 
 
 
+
+
+
+
+
     return (
-        <div className= "p-4">
-            {console.log(loggedUser)}
+        <div className="p-4" >
             <div>
-                < CustomerNavbar/>
+                <CustomerNavbar/>
             </div>
-            <div>
-                <div className="flex flex-col items-center justify-center">
-                    <h1 className="text-2xl font-bold mb-4">Welcome {loggedUser.name}</h1>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        {/* Stat Box 1 */}
-                        <div className="p-4 border rounded-md">
-                            <h2 className="text-lg font-semibold mb-2">Total Orders</h2>
-                            <p className="text-gray-600">{orders.length}</p>
-                        </div>
-
-                        {/* Stat Box 2 */}
-                        <div className="p-4 border rounded-md">
-                            <h2 className="text-lg font-semibold mb-2">Pending Orders</h2>
-                            <p className="text-gray-600">{countPendingOrders()}</p>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-            <div className="divider"></div>
             <div>
                 <div className="flex flex-row">
                     <div className="basis-1/3">
@@ -159,13 +134,14 @@ export const CustomerDashboard = () => {
             <div className="divider"></div>
             <div>
                 <div>
-                <h1 className="items-center justify-center  text-2xl font-bold mb-4">Order Details</h1>
-                <OrderTable stateTwo={stateTwo} tableData = {orders} onClick={() => document.getElementById('my_modal_3').showModal()}
-                            onClick1={() => {
-                                navigate("/customer/editorder")
-                            }}/>
+                    <h1 className="items-center justify-center  text-2xl font-bold mb-4">Order Details</h1>
+                    <OrderTable tableData={orders}
+                                onClick={() => document.getElementById('my_modal_3').showModal()}
+                                onClick1={() => {
+                                    navigate("/customer/editorder")
+                                }}/>
                 </div>
             </div>
         </div>
-    )
+)
 }

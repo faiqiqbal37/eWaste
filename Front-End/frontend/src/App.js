@@ -12,6 +12,7 @@ import AdminOrderPage from "./screens/adminorderpage/adminorderpage";
 import Sdashboard from "./screens/staffdashboard/sdashboard";
 import AdminDashboard from './screens/admindashboard/admindashboard';
 import AdminUsers from './screens/adminuserspage/adminusers';
+import {Orders} from "./screens/Order/orders";
 
 function App() {
     return (
@@ -31,6 +32,7 @@ function App() {
 
                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<AdminUsers />} />
+                    <Route path="customer/orders" element={<Orders/>}/>
 
                 </Routes>
             </div>

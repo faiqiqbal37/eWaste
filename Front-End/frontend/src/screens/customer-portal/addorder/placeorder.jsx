@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import CustomerNavbar from "../../../components/customerNavbar";
 import axios from "axios";
-import { useStoreLogin } from "../../../stores/store-login"
+import { useStoreLogin } from "../../../stores/store-login";
+import { ToastContainer, toast } from 'react-toastify';
 
 const PlaceOrder = () => {
     const [brand, setBrand] = useState('');
@@ -76,7 +77,7 @@ const PlaceOrder = () => {
                     device_id: deviceId,
                     device_name: brand,
                     device_type: deviceType,
-                    photos: ['photo1.jpg', 'photo2.jpg'],
+                    photos: images,
                     price: price,
                     classification: category,
                     flag: false
@@ -106,6 +107,8 @@ const PlaceOrder = () => {
             setDataRetrieval('');
             setDataWiping('');
 
+            toast.success("Order placed successfully!");
+
 
         } catch (error) {
             console.error('Error sending data to the backend:', error);
@@ -117,11 +120,46 @@ const PlaceOrder = () => {
 
 
 
+    // const handleImageUpload = (e) => {
+    //     const fileList = e.target.files;
+    //     const imageArray = Array.from(fileList);
+    //     setImages(imageArray);
+    // };
+
     const handleImageUpload = (e) => {
         const fileList = e.target.files;
+
+        // Convert fileList to array
         const imageArray = Array.from(fileList);
-        setImages(imageArray);
+
+        // Initialize an array to store base64 encoded images
+        const base64Images = [];
+
+        // Loop through each image file
+        imageArray.forEach((file) => {
+            // Read the file as a Data URL
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                // Convert the file to base64
+                const base64String = reader.result.split(",")[1]; // Remove the data URL prefix
+                const formattedBase64 = `data:image/webp;base64,${base64String}`;
+
+                // Push the formatted base64 string to the array
+                base64Images.push(formattedBase64);
+
+                // Check if all images have been processed
+                if (base64Images.length === imageArray.length) {
+                    // Set the state with the array of base64 images
+                    setImages(base64Images);
+                }
+            };
+
+            // Read the file as Data URL
+            reader.readAsDataURL(file);
+        });
     };
+
 
     return (
         <div>
@@ -215,9 +253,14 @@ const PlaceOrder = () => {
                         <label className="block mb-1">Uploaded Images:</label>
                         <div className="flex flex-wrap">
                             {images.map((image, index) => (
-                                <img key={index} src={URL.createObjectURL(image)} alt={`Image ${index}`}
-                                     className="w-20 h-20 object-cover m-1"/>
+                                <img
+                                    key={index}
+                                    src={image} // Set src to the Base64 string
+                                    alt={`Image ${index}`}
+                                    className="w-20 h-20 object-cover m-1"
+                                />
                             ))}
+
                         </div>
                     </div>
                     <button type="submit"

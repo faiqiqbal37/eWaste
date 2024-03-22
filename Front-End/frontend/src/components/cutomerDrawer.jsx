@@ -23,7 +23,7 @@ export const CustomerDrawer = () => {
                         </button>
                     </li>
                     <li>
-                        <button className="btn btn-ghost">Orders
+                        <button className="btn btn-ghost" onClick={() => {navigate("/customer/orders")}}>Orders
                         </button>
                     </li>
                     <li>

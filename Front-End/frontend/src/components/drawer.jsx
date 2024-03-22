@@ -27,7 +27,7 @@ export const Drawer = () => {
                     </li>
                     <li>
                         <button
-                            onClick={() => {
+                            onClick={() => {navigate("/admin/users")
 
                             }} className="btn btn-ghost">Customers
                         </button>

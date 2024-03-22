@@ -14,6 +14,8 @@ import AdminDashboard from './screens/admindashboard/admindashboard';
 import AdminUsers from './screens/adminuserspage/adminusers';
 import StaffInfo from "./screens/staffdashboard/staffinfo";
 import UserInfo from "./screens/staffdashboard/userinfo";
+import {Orders} from "./screens/Order/orders";
+import FAQComponent from "./screens/landingpage/faq";
 
 function App() {
     return (
@@ -32,8 +34,11 @@ function App() {
                     <Route path="/customer/editorder" element={<EditOrder/>} />
                     <Route path="/staffadmin" element={<AdminStaffPage/>} />
                     <Route path="/orderadmin" element={<AdminOrderPage/>} />
-                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<AdminUsers />} />
+                    <Route path="customer/orders" element={<Orders/>}/>
+                    <Route path="/faq" element={<FAQComponent/>}/>
 
                 </Routes>
             </div>

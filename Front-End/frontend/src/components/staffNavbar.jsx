@@ -11,7 +11,7 @@ const StaffNavbar = () => {
                 <StaffDrawer/>
             </div>
             <div className="flex-1">
-                {/*<Link className="btn btn-ghost text-xl" to="/">eWaste</Link>*/}
+                {<Link className="btn btn-ghost text-xl" to="/">eWaste</Link>}
             </div>
         </div>
     );

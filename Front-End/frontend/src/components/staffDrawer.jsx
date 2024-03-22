@@ -16,7 +16,7 @@ export const StaffDrawer = () => {
                 <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                     {/* Sidebar content here */}
-                    <li><a>Staff Members</a></li>
+                    <li><a href=''>Staff Members</a></li>
                     <li><a>User Information</a></li>
                     <li><a>Device Category</a></li>
                     <li><a>Payment Management</a></li>

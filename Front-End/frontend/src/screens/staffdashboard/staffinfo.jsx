@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import StaffNavbar from "../../components/staffNavbar";
-import AdminStaffTable from "../../components/adminstafftable";
+import StaffTable from "../../components/staffpage";
 import axios from "axios";
 
 const StaffInfo = () => {
@@ -35,7 +35,7 @@ const StaffInfo = () => {
     return (
         <div className="overflow-x-auto">
             <StaffNavbar/>
-            <AdminStaffTable staffList={staffData}/>
+            <StaffTable staffList={staffData}/>
         </div>
     );
 };

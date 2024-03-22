@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {StaffDrawer} from "./staffDrawer";
 import {Drawer} from "./drawer";
 import {resetPersistenceStorage, useStoreLogin} from "../stores/store-login";
@@ -7,6 +7,7 @@ import {resetPersistenceStorage, useStoreLogin} from "../stores/store-login";
 
 const StaffNavbar = () => {
     const {loggedUser, updateLoggedUser} = useStoreLogin();
+    let navigate = useNavigate()
 
     return (
         <div className="navbar bg-base-100">

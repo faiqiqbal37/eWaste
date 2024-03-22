@@ -12,6 +12,8 @@ import AdminOrderPage from "./screens/adminorderpage/adminorderpage";
 import Sdashboard from "./screens/staffdashboard/sdashboard";
 import AdminDashboard from './screens/admindashboard/admindashboard';
 import AdminUsers from './screens/adminuserspage/adminusers';
+import StaffInfo from "./screens/staffdashboard/staffinfo";
+import UserInfo from "./screens/staffdashboard/userinfo";
 import {Orders} from "./screens/Order/orders";
 import FAQComponent from "./screens/landingpage/faq";
 
@@ -20,7 +22,9 @@ function App() {
         <BrowserRouter>
             <div>
                 <Routes>
-                    <Route path="/sdashboard" element={<Sdashboard />} />
+                    <Route path="/sdashboard" element={<Sdashboard/>} />
+                    <Route path="/sdashboard/staffinfo" element={<StaffInfo />} />
+                    <Route path="/sdashboard/userinfo" element={<UserInfo/>} />
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<LandingPage />} />

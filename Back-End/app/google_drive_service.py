@@ -36,9 +36,14 @@ def get_shared_link(device_data):
         # Build the Google Drive servcice object
         service = build('drive', 'v3', credentials=scoped_credentials)    
 
+        if "device_name" in device_data:
+            name = device_data["device_name"]
+        else:
+            name = "device_data"
+
         # Upload json file
         file_metadata = {
-            'name': f'{device_data["device_name"]}.json',
+            'name': f'{name}.json',
             'parents': [parent_folder_id]
         }
         media = MediaFileUpload('temp.json',
@@ -61,7 +66,6 @@ def get_shared_link(device_data):
         service.permissions().create(fileId=file_id, body=permissions).execute()
 
         result = service.files().get(fileId=file_id, fields="id, name, webViewLink").execute()
-
         if not result:
             print('Uploaded file could not be found')
             return None
@@ -76,7 +80,7 @@ def get_shared_link(device_data):
 
 if __name__ == "__main__": 
     device_data = {
-        "device_name": "iphone 55",
+        "device_name": "iphone 12",
         "device_type": "Mobile",
         "price": 19251
     }

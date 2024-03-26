@@ -4,6 +4,7 @@ from .. import mongo
 from flask_pymongo import ObjectId
 from bson import ObjectId
 from datetime import datetime
+from ..google_drive_service import get_shared_link
 
 def convert_document(document):
     """Convert ObjectId to string for JSON serialization."""
@@ -20,15 +21,32 @@ def data_detail():
         data = [convert_document(document) for document in cursor]
         if data:
             return jsonify(data), 200
+        else:
+            return {}, 200
     except Exception as e:
         return f'Error fetching data links: {e}'
 
 
 @data_detail_bp.route('/data_detail/new', methods=['POST'])
 def create_data_detail():
-    # TODO
-    pass
+    try:
+        data = request.json
+        request_dict = {}
+        for k, v in data.items():
+            request_dict[k] = v
+        
+        data_detail_dict = {
+            'data_detail_id': request_dict['data_detail_id']
+        }
 
+        # Upload device data and get shared link
+        data_detail_dict['data_link'] = get_shared_link(request_dict)
+
+        res = mongo.db.data_detail_collection.insert_one(data_detail_dict)
+
+        return jsonify(convert_document(data_detail_dict)), 200
+    except Exception as e:
+        return f'Error uploading device data to cloud: {e}'
 
 @data_detail_bp.route('/data_detail/<data_id>', methods=['GET'])
 def get_data_detail(data_id):

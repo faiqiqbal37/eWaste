@@ -5,6 +5,7 @@ from flask_pymongo import ObjectId
 from bson import ObjectId
 from datetime import datetime
 from ..google_drive_service import get_shared_link
+import os
 
 def convert_document(document):
     """Convert ObjectId to string for JSON serialization."""
@@ -41,6 +42,10 @@ def create_data_detail():
 
         # Upload device data and get shared link
         data_detail_dict['data_link'] = get_shared_link(request_dict)
+
+        # File uploaded, delete local copy
+        if os.path.exists("temp.json"):
+            os.remove("temp.json")
 
         res = mongo.db.data_detail_collection.insert_one(data_detail_dict)
 

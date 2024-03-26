@@ -54,10 +54,6 @@ def get_shared_link(device_data):
         file_id = file.get('id')
         print('File ID: %s' % file_id)
 
-        # File uploaded, delete local copy
-        if os.path.exists("temp.json"):
-            os.remove("temp.json")
-
         # Make file available to anyone
         permissions = {
             'type': 'anyone',
@@ -66,6 +62,7 @@ def get_shared_link(device_data):
         service.permissions().create(fileId=file_id, body=permissions).execute()
 
         result = service.files().get(fileId=file_id, fields="id, name, webViewLink").execute()
+
         if not result:
             print('Uploaded file could not be found')
             return None
@@ -76,6 +73,7 @@ def get_shared_link(device_data):
         print(f'An HTTP error occurred while uploading file: {error}')
     except Exception as e:
         print(f'An exception occured while uploading file: {e}')
+    
     
 
 if __name__ == "__main__": 

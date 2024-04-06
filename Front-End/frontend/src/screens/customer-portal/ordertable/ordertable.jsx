@@ -11,8 +11,8 @@ function OrderModal(props) {
 
     return <th>
         {/* You can open the modal using document.getElementById('ID').showModal() method */}
-        <button className="btn btn-ghost" onClick={props.onClick}>Details</button>
-        <dialog id="my_modal_3" className="modal">
+        <button className="btn btn-ghost" onClick={() => document.getElementById(`${props.orderItem.order_id}`).showModal()}>Details</button>
+        <dialog id= {props.orderItem.order_id} className="modal">
             <div className="modal-box">
                 <form method="dialog">
                     {/* if there is a button in form, it will close the modal */}

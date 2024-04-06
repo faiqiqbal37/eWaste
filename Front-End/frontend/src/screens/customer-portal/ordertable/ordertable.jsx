@@ -8,6 +8,18 @@ import { useHistory } from 'react-router-dom';
 function OrderModal(props) {
     const navigate = useNavigate()
 
+    function redirectToWebuy(searchString) {
+        // Encode the search string to make it URL-safe
+        const encodedSearchString = encodeURIComponent(searchString);
+
+        // Construct the final URL with the encoded search string as a query parameter
+        const finalURL = `https://uk.webuy.com/search?stext=${encodedSearchString}`;
+
+        // Redirect the user to the final URL
+        window.open(finalURL, '_blank');
+    }
+
+
 
     return <th>
         {/* You can open the modal using document.getElementById('ID').showModal() method */}
@@ -38,10 +50,15 @@ function OrderModal(props) {
                         <p>Date of Order: {props.orderItem.date}</p>
                         <p>Price: {props.orderItem.price}</p>
                         <div className="card-actions justify-end">
-                            <button onClick={()=>{    navigate('/customer/editorder', {state: props.orderItem });
+                            <button onClick={() => {
+                                navigate('/customer/editorder', {state: props.orderItem});
                             }} className="btn btn-outline">Edit Device
                                 Details
                             </button>
+                        </div>
+                        <div className="card-actions justify-end">
+                            <button onClick={() => {redirectToWebuy(props.orderItem.device_name)
+                            }} className="btn btn-outline">3rd Party Listing</button>
                         </div>
                     </div>
                 </div>

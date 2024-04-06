@@ -5,6 +5,7 @@ from flask_pymongo import ObjectId
 from bson import ObjectId
 from ..webscraper_CeX import itemToBeFound
 import requests
+import smtplib, ssl
 
 def convert_document(document):
     """Convert ObjectId to string for JSON serialization."""
@@ -217,3 +218,46 @@ def find_user_from_unique_attribute():
         return jsonify({}), 200
     except Exception as e:
         return e, 404
+
+
+@user_bp.route('/users/<user_id>/mail', methods=['POST'])
+def send_mail_to_user(user_id):
+    try:
+        data = request.json
+        data_dict = {}
+        for k, v in data.items():
+            data_dict[k] = v
+
+        user_dict = {"user_id": user_id}
+        users_found = mongo.db.user_collection.find_one(user_dict)
+        if users_found != None:
+            user = convert_document(users_found)
+            user_email = user['email']
+
+            print(f'Sending email to : {user_email}')
+
+            # For SSL
+            port = 465 
+
+            # Create secure SSL context
+            context = ssl.create_default_context()
+
+            sender_email = "com6103team11@gmail.com"
+            receiver_email = user_email
+            message="""Subject: Device Data Link
+            
+"""
+            for k in data_dict:
+                message += data_dict[k]
+                message += '\n'
+
+
+            with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+                server.login("com6103team11@gmail.com", "dcwj ccoj pqck ctgz")
+                server.sendmail(sender_email, receiver_email, message)
+
+            return jsonify(data_dict), 200
+        else:
+            return jsonify({'error': 'Unable to find user with the specified id'}), 404
+    except Exception as e:
+       return f'Error: {e}', 404

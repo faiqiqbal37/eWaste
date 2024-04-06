@@ -49,6 +49,8 @@ function OrderModal(props) {
                         <p>Category: {props.orderItem.classification}</p>
                         <p>Date of Order: {props.orderItem.date}</p>
                         <p>Price: {props.orderItem.price}</p>
+                        <p>Additional Service: {props.orderItem.service_name}</p>
+
                         <div className="card-actions justify-end">
                             <button onClick={() => {
                                 navigate('/customer/editorder', {state: props.orderItem});
@@ -57,8 +59,10 @@ function OrderModal(props) {
                             </button>
                         </div>
                         <div className="card-actions justify-end">
-                            <button onClick={() => {redirectToWebuy(props.orderItem.device_name)
-                            }} className="btn btn-outline">3rd Party Listing</button>
+                            <button onClick={() => {
+                                redirectToWebuy(props.orderItem.device_name)
+                            }} className="btn btn-outline">3rd Party Listing
+                            </button>
                         </div>
                     </div>
                 </div>

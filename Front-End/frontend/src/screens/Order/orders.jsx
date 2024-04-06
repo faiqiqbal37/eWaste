@@ -44,7 +44,16 @@ export const Orders = () => {
                 if (!ordersResponse.ok) {
                     throw new Error('Failed to fetch orders');
                 }
+
+
                 const orders = await ordersResponse.json();
+
+
+                const serviceResponse = await fetch(`${baseUrl}/service`);
+                if (!serviceResponse.ok) {
+                    throw new Error('Failed to fetch orders');
+                }
+                const services = await serviceResponse.json()
 
                 // Fetch all devices from the backend API
                 const devicesResponse = await fetch(`${baseUrl}/devices`);
@@ -56,6 +65,7 @@ export const Orders = () => {
                 // Map all devices to their orders based on the device_id
                 const filteredOrders = orders.map(order => {
                     const device = devices.find(device => device.device_id === order.device_id);
+                    const service = services.find(service => service.service_id === order.service_id)
                     return {
                         device_name: device.device_name,
                         device_type: device.device_type,
@@ -65,6 +75,7 @@ export const Orders = () => {
                         status: order.status,
                         price: device.price,
                         photos: device.photos,
+                        service_name: service.service_name
                     };
                 });
                 console.log(orders)

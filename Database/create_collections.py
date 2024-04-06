@@ -83,7 +83,8 @@ order_schema = {
     'qr_id': {'type': 'string', 'required': True, 'data_relation': {'collection': 'qr', 'field': 'qr_id'}},
     'visibility': {'type': 'boolean', 'required': True},
     'status':{'type': 'string', 'required': True},
-    'data_detail_id': {'type': 'string', 'required': True, 'data_relation': {'collection': 'data_detail', 'field': 'data_detail_id'}}
+    'data_detail_id': {'type': 'string', 'required': True, 'data_relation': {'collection': 'data_detail', 'field': 'data_detail_id'}},
+    'service_id': {'type': 'string', 'required': True, 'data_relation': {'collection': 'service', 'field': 'service_id'}}
 }
 
 # MongoDB schema for device collection

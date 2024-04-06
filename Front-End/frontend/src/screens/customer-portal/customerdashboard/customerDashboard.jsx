@@ -142,12 +142,12 @@ export const CustomerDashboard = () => {
 
 
     return (
-        <div className="p-4">
+        <div>
             {console.log(loggedUser)}
             <div>
                 <CustomerNavbar/>
             </div>
-            <div>
+            <div className="p-4">
                 <div className="flex flex-col items-center justify-center">
                     <h1 className="text-2xl font-bold mb-4">Welcome {loggedUser.name}</h1>
 
@@ -170,16 +170,23 @@ export const CustomerDashboard = () => {
             <div className="divider"></div>
 
             <div>
-                <div className="flex flex-row">
-                    <div className="basis-1/3">
-                        <select className="select select-bordered max-w-xs ">
+                <h1 className="text-2xl font-bold mb-4" style={{textAlign: "center"}}>Items Listed on eWaste</h1>
+            </div>
+            <div className="divider"></div>
+
+
+            <div className="flex items-center justify-center h-full">
+                {/* Container to center align the div */}
+                <div className="p-4 flex flex-row items-center justify-between">
+                    <div id="sort" className="mr-2 pr-10 justify-start">
+                        <select className="select select-bordered max-w-xs">
                             <option disabled selected>Sort By</option>
                             <option>Date Added</option>
                             <option>Price (Ascending)</option>
                             <option>Price (Descending)</option>
                         </select>
                     </div>
-                    <div className="basis-1/3">
+                    <div id="type" className="mr-2 pr-10 ">
                         <select className="select select-bordered max-w-xs basis-1/3">
                             <option disabled selected>Device Type</option>
                             <option>Tablet</option>
@@ -188,7 +195,7 @@ export const CustomerDashboard = () => {
                             <option>Smartwatch</option>
                         </select>
                     </div>
-                    <div className="basis-1/3">
+                    <div id="category" className="mr-60 pr-100">
                         <select className="select select-bordered max-w-xs basis-1/3">
                             <option disabled selected>Category</option>
                             <option>Current</option>
@@ -197,19 +204,18 @@ export const CustomerDashboard = () => {
                             <option>Unknown</option>
                         </select>
                     </div>
-                    <div className="basis-1/3">
-                        <button className="btn btn-outline btn-primary" onClick={() => {
-                            navigate("/customer/placeorder")
-                        }}>Place Order
+                    <div id="button">
+                        <button className="btn btn-outline btn-primary"
+                                onClick={() => navigate("/customer/placeorder")}>Place Order
                         </button>
-
                     </div>
                 </div>
             </div>
 
+
             <div className="divider"></div>
 
-            <div className="flex items-center justify-center h-full">
+            <div className="flex items-center justify-center h-full p-4">
                 {/* Container to center align the cards */}
                 <div className="products flex flex-wrap justify-center gap-4 overflow-y-auto">
                     {/* Vertically scrollable cards with 4 cards in a row */}

@@ -11,12 +11,12 @@ const CustomerNavbar = () => {
 
 
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-green-500 text-primary-content">
             <div className="flex-none">
                 <CustomerDrawer/>
             </div>
             <div className="flex-1">
-                <Link className="btn btn-ghost text-xl" to="/">eWaste</Link>
+                <Link className="btn btn-link text-xl" to="/">eWaste</Link>
             </div>
             {loggedUser.user_id
                 ? <div className="flex-none">
@@ -25,7 +25,7 @@ const CustomerNavbar = () => {
                         updateLoggedUser({})
                         navigate("/")
                     }
-                    } className="btn btn-square btn-ghost">
+                    } className="btn btn-square btn-outline p-4">
                         Logout
                     </button>
                 </div>

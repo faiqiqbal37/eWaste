@@ -44,6 +44,7 @@ const PlaceOrder = () => {
         let datadetailId = generateRandomId()
         let qrId = generateRandomId()
         let date = getCurrentDateAsString()
+        let typeOfServiceId = generateRandomId()
 
         try {
             const formData = {
@@ -69,7 +70,8 @@ const PlaceOrder = () => {
                     qrId: qrId,
                     visibility: true,
                     status: "Pending",
-                    data_detail_id: datadetailId
+                    data_detail_id: datadetailId,
+                    service_id: typeOfServiceId
 
                 })
 
@@ -94,6 +96,11 @@ const PlaceOrder = () => {
                     data_link: "link"
 
                 })
+            const requestFive = await axios.post(`${baseUrl}/service/new`, {
+                service_id: typeOfServiceId,
+                service_name: typeOfService
+
+            })
                 // Add more requests as needed
 
             // Optionally, clear form data after successful submission
@@ -205,50 +212,53 @@ const PlaceOrder = () => {
                         <input type="file" id="images" onChange={handleImageUpload} multiple
                                className="form-input w-full border border-gray-300 rounded-md"/>
                     </div>
-                    <div className="mb-4">
-                        <label htmlFor="selectService" className="block mb-1">Select Service:</label>
-                        <select id="selectService" value={selectService} onChange={(e) => setSelectService(e.target.value)}
-                                className="form-select w-full border border-gray-300 rounded-md">
-                            <option value="">Select</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                    {selectService === 'yes' && (
+
+                    {category === 'recyclable' ? (
+
                         <div className="mb-4">
                             <label htmlFor="typeOfService" className="block mb-1">Type of Service:</label>
                             <select id="typeOfService" value={typeOfService}
                                     onChange={(e) => setTypeOfService(e.target.value)}
                                     className="form-select w-full border border-gray-300 rounded-md">
-                                <option value="">Select</option>
-                                <option value="dataRetrieval">Data Retrieval</option>
-                                <option value="dataWiping">Data Wiping</option>
-                                <option value="both">Both</option>
+                            <option value="Data Wiping">Data Wiping</option>
+                                <option value="Data Retrieval">Data Retrieval</option>
+                                <option value="Data Wiping & Data Retrieval">Both</option>
                             </select>
                         </div>
-                    )}
-                    {(typeOfService === 'dataRetrieval' || typeOfService === 'both') &&   (
+                    ) : (
                         <div className="mb-4">
-                            <label htmlFor="dataRetrieval" className="block mb-1">Data Retrieval:</label>
-                            <select id="dataRetrieval" value={dataRetrieval} onChange={(e) => setDataRetrieval(e.target.value)}
-                                    className="form-select w-full border border-gray-300 rounded-md">
+                            <label htmlFor="typeOfService" className="block mb-1">Type of Service:</label>
+                            <select id="typeOfService" value={typeOfService} onChange={(e) => setTypeOfService(e.target.value)} className="form-select w-full border border-gray-300 rounded-md">
                                 <option value="">Select</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
+                                <option value="Data Retrieval">Data Retrieval</option>
+                                <option value="DataWiping">Data Wiping</option>
+                                <option value="Data Wiping & Data Retrieval">Both</option>
                             </select>
                         </div>
                     )}
-                    {(typeOfService === 'dataWiping' || typeOfService === 'both') && (
-                        <div className="mb-4">
-                            <label htmlFor="dataWiping" className="block mb-1">Data Wiping:</label>
-                            <select id="dataWiping" value={dataWiping} onChange={(e) => setDataWiping(e.target.value)}
-                                    className="form-select w-full border border-gray-300 rounded-md">
-                                <option value="">Select</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </div>
-                    )}
+
+                    {/*{(typeOfService === 'dataRetrieval' || typeOfService === 'both') &&   (*/}
+                    {/*    <div className="mb-4">*/}
+                    {/*        <label htmlFor="dataRetrieval" className="block mb-1">Data Retrieval:</label>*/}
+                    {/*        <select id="dataRetrieval" value={dataRetrieval} onChange={(e) => setDataRetrieval(e.target.value)}*/}
+                    {/*                className="form-select w-full border border-gray-300 rounded-md">*/}
+                    {/*            <option value="">Select</option>*/}
+                    {/*            <option value="yes">Yes</option>*/}
+                    {/*            <option value="no">No</option>*/}
+                    {/*        </select>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
+                    {/*{(typeOfService === 'dataWiping' || typeOfService === 'both') && (*/}
+                    {/*    <div className="mb-4">*/}
+                    {/*        <label htmlFor="dataWiping" className="block mb-1">Data Wiping:</label>*/}
+                    {/*        <select id="dataWiping" value={dataWiping} onChange={(e) => setDataWiping(e.target.value)}*/}
+                    {/*                className="form-select w-full border border-gray-300 rounded-md">*/}
+                    {/*            <option value="">Select</option>*/}
+                    {/*            <option value="yes">Yes</option>*/}
+                    {/*            <option value="no">No</option>*/}
+                    {/*        </select>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
                     <div className="mb-4">
                         <label className="block mb-1">Uploaded Images:</label>
                         <div className="flex flex-wrap">

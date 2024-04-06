@@ -79,7 +79,7 @@ const AdminDashboard = () => {
   return (
       <div>
         <Navbar></Navbar>
-        <div className= "flex flex-col items-center justify-center"><h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1></div>
+        <div className= "flex flex-col items-center justify-center p-4"><h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1></div>
 
         <div className="divider"></div>
         <AdminDashboardStats

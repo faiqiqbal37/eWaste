@@ -1,6 +1,11 @@
+import base64
+from io import BytesIO
+
 from bson import ObjectId
 from . import qr_code_bp
 from .. import mongo
+import qrcode
+from PIL import Image
 from flask import jsonify, request
 
 
@@ -12,12 +17,30 @@ def convert_document(document):
     return document
 
 
+def generate_qr_code(data):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    return img
+
+
 @qr_code_bp.route('/qr_code', methods=['GET'])
 def qr_code():
     try:
         cursor = mongo.db.qr_collection.find()
         data = [convert_document(document) for document in cursor]
         if data:
+            # images = []
+            # for i in range(len(data)):
+            #     images.append(data[i]['qr_link'])
+
             return jsonify(data), 200
     except Exception as e:
         return f'Error fetching qr_code: {e}'
@@ -27,10 +50,23 @@ def qr_code():
 def create_qr_code():
     try:
         data = request.json
-        qr_code_dict = {}
-        for k, v in data.items():
-            qr_code_dict[k] = v
+        data_dict = {}
 
+        for k, v in data.items():
+            data_dict[k] = v
+
+        qr_info = ""
+        for k, v in data_dict.items():
+            if k == "qr_id":
+                continue
+            qr_info += k + ": " + v + "\n"
+        print(qr_info)
+        img = generate_qr_code(qr_info)
+        buffered = BytesIO()
+        img.save(buffered)
+        img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+        qr_code_dict = {'qr_id': data_dict['qr_id'], 'qr_link': img_str}
         res = mongo.db.qr_collection.insert_one(qr_code_dict)
         res = mongo.db.qr_collection.find_one(qr_code_dict)
         res = convert_document(res)

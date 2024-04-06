@@ -8,6 +8,7 @@ import Navbar from "../components/navbar";
 import UserProfile from "../screens/profile/profile";
 import LandingPage from "../screens/landingpage/landingpage";
 import FAQ from "../screens/faq/FAQ";
+import CustomerNavbar from "../components/customerNavbar";
 
 const ComponentPreviews = () => {
     return (
@@ -35,6 +36,9 @@ const ComponentPreviews = () => {
             </ComponentPreview>
             <ComponentPreview path="/FAQ">
                 <FAQ/>
+            </ComponentPreview>
+            <ComponentPreview path="/CustomerNavbar">
+                <CustomerNavbar/>
             </ComponentPreview>
         </Previews>
     )

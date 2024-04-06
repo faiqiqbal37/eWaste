@@ -214,12 +214,46 @@ const PlaceOrder = () => {
                             <option value="no">No</option>
                         </select>
                     </div>
-                    {selectService === 'yes' && (
+
+                    {category === 'recyclable' ? (
+                        <div className="mb-4">
+                            <label htmlFor="selectService" className="block mb-1">Select Service:</label>
+                            <select id="selectService" value={selectService}
+                                    onChange={(e) => setSelectService(e.target.value)}
+                                    className="form-select w-full border border-gray-300 rounded-md">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    ) : (
+                        <div className="mb-4">
+                            <label htmlFor="selectService" className="block mb-1">Select Service:</label>
+                            <select id="selectService" value={selectService}
+                                    onChange={(e) => setSelectService(e.target.value)}
+                                    className="form-select w-full border border-gray-300 rounded-md">
+                                <option value="">Select</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    )}
+
+
+                    {category === 'recyclable' ? (
                         <div className="mb-4">
                             <label htmlFor="typeOfService" className="block mb-1">Type of Service:</label>
                             <select id="typeOfService" value={typeOfService}
                                     onChange={(e) => setTypeOfService(e.target.value)}
                                     className="form-select w-full border border-gray-300 rounded-md">
+                            <option value="dataWiping">Data Wiping</option>
+                                <option value="dataRetrieval">Data Retrieval</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                    ) : (
+                        <div className="mb-4">
+                            <label htmlFor="typeOfService" className="block mb-1">Type of Service:</label>
+                            <select id="typeOfService" value={typeOfService} onChange={(e) => setTypeOfService(e.target.value)} className="form-select w-full border border-gray-300 rounded-md">
                                 <option value="">Select</option>
                                 <option value="dataRetrieval">Data Retrieval</option>
                                 <option value="dataWiping">Data Wiping</option>
@@ -227,28 +261,29 @@ const PlaceOrder = () => {
                             </select>
                         </div>
                     )}
-                    {(typeOfService === 'dataRetrieval' || typeOfService === 'both') &&   (
-                        <div className="mb-4">
-                            <label htmlFor="dataRetrieval" className="block mb-1">Data Retrieval:</label>
-                            <select id="dataRetrieval" value={dataRetrieval} onChange={(e) => setDataRetrieval(e.target.value)}
-                                    className="form-select w-full border border-gray-300 rounded-md">
-                                <option value="">Select</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </div>
-                    )}
-                    {(typeOfService === 'dataWiping' || typeOfService === 'both') && (
-                        <div className="mb-4">
-                            <label htmlFor="dataWiping" className="block mb-1">Data Wiping:</label>
-                            <select id="dataWiping" value={dataWiping} onChange={(e) => setDataWiping(e.target.value)}
-                                    className="form-select w-full border border-gray-300 rounded-md">
-                                <option value="">Select</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </div>
-                    )}
+
+                    {/*{(typeOfService === 'dataRetrieval' || typeOfService === 'both') &&   (*/}
+                    {/*    <div className="mb-4">*/}
+                    {/*        <label htmlFor="dataRetrieval" className="block mb-1">Data Retrieval:</label>*/}
+                    {/*        <select id="dataRetrieval" value={dataRetrieval} onChange={(e) => setDataRetrieval(e.target.value)}*/}
+                    {/*                className="form-select w-full border border-gray-300 rounded-md">*/}
+                    {/*            <option value="">Select</option>*/}
+                    {/*            <option value="yes">Yes</option>*/}
+                    {/*            <option value="no">No</option>*/}
+                    {/*        </select>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
+                    {/*{(typeOfService === 'dataWiping' || typeOfService === 'both') && (*/}
+                    {/*    <div className="mb-4">*/}
+                    {/*        <label htmlFor="dataWiping" className="block mb-1">Data Wiping:</label>*/}
+                    {/*        <select id="dataWiping" value={dataWiping} onChange={(e) => setDataWiping(e.target.value)}*/}
+                    {/*                className="form-select w-full border border-gray-300 rounded-md">*/}
+                    {/*            <option value="">Select</option>*/}
+                    {/*            <option value="yes">Yes</option>*/}
+                    {/*            <option value="no">No</option>*/}
+                    {/*        </select>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
                     <div className="mb-4">
                         <label className="block mb-1">Uploaded Images:</label>
                         <div className="flex flex-wrap">

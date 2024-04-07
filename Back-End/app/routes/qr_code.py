@@ -60,7 +60,7 @@ def create_qr_code():
             if k == "qr_id":
                 continue
             qr_info += k + ": " + v + "\n"
-        print(qr_info)
+
         img = generate_qr_code(qr_info)
         buffered = BytesIO()
         img.save(buffered)
@@ -93,15 +93,27 @@ def get_qr_code_details(qr_id):
 def edit_qr_code(qr_id):
     try:
         data = request.json
-        qr_code_dict = {}
+        data_dict = {}
 
         for k, v in data.items():
-            qr_code_dict[k] = v
+            data_dict[k] = v
 
+        qr_info = ""
+        for k, v in data_dict.items():
+            if k == "qr_id":
+                continue
+            qr_info += k + ": " + v + "\n"
+
+        img = generate_qr_code(qr_info)
+        buffered = BytesIO()
+        img.save(buffered)
+        img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
         search_criteria = {'qr_id': data.get('qr_id')}
-        res = mongo.db.qr_collection.update_one(search_criteria, {"$set": data})
+
+        res = mongo.db.qr_collection.update_one(search_criteria, {"$set": {"qr_link": img_str}})
+
         if res.matched_count > 0:
-            return jsonify(qr_code_dict), 200
+            return jsonify("Update successful"), 200
         else:
             return jsonify({'error': 'Qr code not found or no changes made'}), 404
     except Exception as e:

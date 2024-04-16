@@ -1,65 +1,92 @@
-import Navbar from "../../components/navbar";
 import axios from "axios";
+import Navbar from "../../components/navbar";
 import React, { useState, useEffect } from "react";
-import AdminTable from "../../components/admintable";
+import AdminDashboardTable from "../../components/admindashboardtable";
+import AdminOrderTable from "../../components/adminordertable";
 
 const AdminOrderPage = () => {
-  const [orderData, setOrderData] = useState([]);
+  const [numberOfStaff, setNumberOfStaff] = useState(0);
+  const [numberOfProcessedOrders, setNumberOfProcessedOrders] = useState(0);
+  const [orders, setOrders] = useState([]);
+  const [numUsers, setNumUsers] = useState([]);
 
   useEffect(() => {
     const fetchDataUrl = async (url) => {
       try {
         const res = await axios.get(url);
-        const result = await res.data;
+        const result = res.data;
         return result;
       } catch (error) {
-        throw error;
+        return []
       }
     };
 
-    const fetchOrderData = async () => {
+    const fetchData = async () => {
+      let endpoints = [
+        "/users/staff",
+        "/users/admins",
+        "/orders",
+        "/users/customers",
+      ];
+      let baseUrl = "http://127.0.0.1:5000/api";
+
       try {
-        const response = await axios.get("http://127.0.0.1:5000/api/orders");
-        const result = await response.data; // Return the response data
-        const mappedResult = await result.map((item) => {
-          const { _id, ...rest } = item;
-          return rest;
-        });
+        let data = await Promise.all(
+          endpoints.map(async (url) => {
+            let currData = await fetchDataUrl(baseUrl + url);
+            return currData;
+          })
+        );
 
-        const finalRes = mappedResult.map(async (item) => {
-          let url = `http://127.0.0.1:5000/api/users/${item.user_id}`;
-          let user_data = await fetchDataUrl(url);
-          url = `http://127.0.0.1:5000/api/devices/${item.device_id}`;
-          let device_data = await fetchDataUrl(url);
-          const { user_id, device_id, ...rest } = await item;
-
-          let user_name = await user_data["name"];
-          let device_name = await device_data["device_name"];
-
-          let finalThing = { "Name": user_name, "Device": device_name, ...rest };
-          return finalThing;
-        });
-
-        const finRes = await Promise.all(finalRes);
-
-        setOrderData(finRes);
+        return data;
       } catch (error) {
-        throw error; // Throw the error for handling in the component
+        console.error("Error fetching data:", error);
       }
     };
 
-    fetchOrderData();
+    const getNumberOfProcessedOrders = (data) => {
+      let pendingItems = data.map((item) => {
+        let statusOfItem = item["status"] === "Processed" ? 1 : 0;
+        return statusOfItem;
+      });
+      const initialValue = 0;
+      const sumWithInitial = pendingItems.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        initialValue
+      );
+      return sumWithInitial;
+    };
+
+    fetchData().then((res) => {
+      setNumberOfStaff(res[0].length + res[1].length);
+      setNumberOfProcessedOrders(getNumberOfProcessedOrders(res[2]));
+      setOrders(res[2]);
+      setNumUsers(res[3].length);
+    });
+
+     /*const fetchDataInterval = setInterval(() => {
+      fetchData().then((res) => {
+        setNumberOfStaff(res[0].length + res[1].length);
+        setNumberOfProcessedOrders(getNumberOfProcessedOrders(res[2]));
+        setOrders(res[2]);
+        setNumUsers(res[3].length);
+      });
+    }, 1000);
+
+    return () => clearInterval(fetchDataInterval);*/
   }, []);
 
   return (
-    <div>
-      <Navbar />
-      {orderData.length > 0 ? (
-        <AdminTable itemList={Object.keys(orderData[0])} orderList={orderData} />
-      ) : (
-        <p>No items to display.</p>
-      )}
-    </div>
+      <div>
+        <Navbar className></Navbar>
+        <div className= "flex flex-col items-center justify-center m-6"><h1 className="text-2xl font-bold mb-4">Orders</h1></div>
+        <div className="divider"></div>
+        <div className="flex w-full">
+          <div className="grid flex-grow  bg-base-300 rounded-box place-items-center">
+            <AdminOrderTable orders={orders}></AdminOrderTable>
+          </div>
+        </div>
+      </div>
   );
 };
 

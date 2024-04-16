@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import AdminPlaceOrder from "./adminplaceorder";
 
-const AdminDashboardTable = ({ orders }) => {
+const AdminOrderTable = ({ orders }) => {
   const [deviceOrderDetails, setDeviceOrderDetails] = useState({});
   const [orderLists, setOrderLists] = useState([]);
 
@@ -66,9 +66,8 @@ const AdminDashboardTable = ({ orders }) => {
 
         const finalResult = await Promise.all(finalRes);
 
-        let lastFive = finalResult.slice(finalResult.length-5, finalResult.length)
 
-        setOrderLists(lastFive);
+        setOrderLists(finalResult);
 
 
         /*const fetchDataInterval = setInterval(() => {
@@ -165,4 +164,4 @@ const AdminDashboardTable = ({ orders }) => {
   );
 };
 
-export default AdminDashboardTable;
+export default AdminOrderTable;

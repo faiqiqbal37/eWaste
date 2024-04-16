@@ -2,14 +2,16 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import AdminPlaceOrder from "./adminplaceorder";
 
-const AdminDashboardTable = ({ orders }) => {
+
+const AdminDashboardTable = ({ orders, changed }) => {
   const [deviceOrderDetails, setDeviceOrderDetails] = useState({});
   const [orderLists, setOrderLists] = useState([]);
 
-  const adminDashboardTableRef = useRef();
+
 
   const updateOrderLists = (newOrderLists) => {
     setOrderLists(newOrderLists);
+    changed(prev => !prev)
   };
 
 
@@ -22,6 +24,8 @@ const AdminDashboardTable = ({ orders }) => {
       delete temp._id
       axios.put(`http://127.0.0.1:5000/api/orders/${currList[index]['order_id']}/edit`, temp)
       setOrderLists(currList)
+      changed(prev => !prev)
+
         
     }
 

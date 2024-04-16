@@ -2,8 +2,9 @@ import axios from "axios";
 import Navbar from "../../components/navbar";
 import React, { useState, useEffect } from "react";
 import AdminDashboardTable from "../../components/admindashboardtable";
+import AdminOrderTable from "../../components/adminordertable";
 
-const AdminOrders = () => {
+const AdminOrderPage = () => {
   const [numberOfStaff, setNumberOfStaff] = useState(0);
   const [numberOfProcessedOrders, setNumberOfProcessedOrders] = useState(0);
   const [orders, setOrders] = useState([]);
@@ -77,16 +78,16 @@ const AdminOrders = () => {
 
   return (
       <div>
-        <Navbar></Navbar>
-        <div className= "flex flex-col items-center justify-center"><h1 className="text-2xl font-bold mb-4">Orders</h1></div>
+        <Navbar className></Navbar>
+        <div className= "flex flex-col items-center justify-center m-6"><h1 className="text-2xl font-bold mb-4">Orders</h1></div>
         <div className="divider"></div>
         <div className="flex w-full">
           <div className="grid flex-grow  bg-base-300 rounded-box place-items-center">
-            <AdminDashboardTable orders={orders}></AdminDashboardTable>
+            <AdminOrderTable orders={orders}></AdminOrderTable>
           </div>
         </div>
       </div>
   );
 };
 
-export default AdminOrders;
+export default AdminOrderPage;

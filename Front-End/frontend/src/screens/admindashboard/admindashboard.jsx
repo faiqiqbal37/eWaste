@@ -89,8 +89,7 @@ const AdminDashboard = () => {
   } else {
     return (
       <div>
-        <Navbar></Navbar>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center mt-10">
           <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
         </div>
         <AdminDashboardUsersCount />
@@ -108,16 +107,17 @@ const AdminDashboard = () => {
             <AdminDashboardTable
               orders={orders}
               changed={setChanged}
+              changevar={changed}
             ></AdminDashboardTable>
           </div>
           <div className="divider divider-horizontal"></div>
 
           <div className="">
             <div className="m-6">
-              <AdminDashBoardDeviceType className="m-20" />
+              <AdminDashBoardDeviceType changed={changed} className="m-20" />
             </div>
             <div className="m-6">
-              <AdminDashboardStatusCount className="m-20" />
+              <AdminDashboardStatusCount changed={changed} className="m-20" />
             </div>
           </div>
         </div>

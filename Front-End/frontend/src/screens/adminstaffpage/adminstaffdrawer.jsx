@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { TiThMenu } from "react-icons/ti";
 import { Link, useNavigate } from "react-router-dom";
-import AdminDashboard from "../screens/admindashboard/admindashboard";
-import Navbar from "./navbar";
+import AdminStaffPage from "./adminstaffpage";
+import Navbar from "../../components/navbar";
 
-export const Drawer = () => {
+export const AdminStaffDrawer = () => {
   const navigate = useNavigate();
   const [toggled, setToggle] = useState(false);
 
@@ -23,7 +23,7 @@ export const Drawer = () => {
         <div className="drawer-content">
           {/* Page content here */}
           <Navbar updateToggle={updateToggle}></Navbar>
-          <AdminDashboard />
+          <AdminStaffPage className='m-6'/>
         </div>
         <div className="drawer-side">
           <label
@@ -45,7 +45,7 @@ export const Drawer = () => {
               </button>
             </li>
             <li>
-              <button onClick={() => {}} className="btn btn-ghost">
+            <button onClick={() => { navigate("/admin/users")}} className="btn btn-ghost">
                 Customers
               </button>
             </li>
@@ -85,3 +85,5 @@ export const Drawer = () => {
     );
   
 };
+
+export default AdminStaffDrawer;

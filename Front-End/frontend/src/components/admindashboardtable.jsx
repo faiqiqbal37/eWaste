@@ -15,23 +15,29 @@ const AdminDashboardTable = ({ orders, changed }) => {
   };
 
 
-  const curriedApproveOrder = (index) =>{
-    
-    const approveOrder = ()=>{
-      let currList = [...orderLists]
-      currList[index]['status'] = "Approved"
-      let temp = currList[index]
-      delete temp._id
-      axios.put(`http://127.0.0.1:5000/api/orders/${currList[index]['order_id']}/edit`, temp)
-      setOrderLists(currList)
-      changed(prev => !prev)
 
+  const curriedApproveOrder = (index) => {
+    const approveOrder = async () => {
+      const updatedList = [...orderLists];
+      
+      updatedList[index].status = "Approved";
+      
+      const temp = { ...updatedList[index] };
+      delete temp._id;
+      
+      try {
+        await axios.put(`http://127.0.0.1:5000/api/orders/${updatedList[index].order_id}/edit`, temp);
         
-    }
+        setOrderLists(updatedList);
+        
+        changed(prev => !prev);
+      } catch (error) {
+        console.error("Error approving order:", error);
+      }
+    };
 
-    return approveOrder
-  }
-
+    return approveOrder;
+  };
 
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import Navbar from "../../components/navbar";
 import React, { useState, useEffect } from "react";
 import AdminDashboardTable from "../../components/admindashboardtable";
 
-const TempAdminOrders = () => {
+const AdminOrders = () => {
   const [numberOfStaff, setNumberOfStaff] = useState(0);
   const [numberOfProcessedOrders, setNumberOfProcessedOrders] = useState(0);
   const [orders, setOrders] = useState([]);
@@ -89,4 +89,4 @@ const TempAdminOrders = () => {
   );
 };
 
-export default TempAdminOrders;
+export default AdminOrders;

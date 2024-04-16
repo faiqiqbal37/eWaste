@@ -98,3 +98,43 @@ def register():
 
     except Exception as e:
         return f"Error: {e}"
+
+
+@backend_session_bp.route('/session/register/admin', methods=['POST'])
+def register_admin():
+    try:
+        data = request.json
+        user_dict = {}
+
+        for k, v in data.items():
+            user_dict[k] = v
+        user_dict['user_id'] = str(uuid.uuid4())
+        user_dict['role'] = "admin"
+        user_dict['password'] = generate_password_hash(user_dict['password'])
+
+        baseUrl = "http://127.0.0.1:5000"
+        url = url_for("user.find_user_from_unique_attribute")
+
+
+        validation_dict = {'email': user_dict['email'],
+                           'contact': user_dict['contact']}
+
+        response = requests.post(baseUrl+url, json=validation_dict)
+
+        res = response.json()
+
+        if res:
+            return jsonify({}), 200
+
+        url = url_for("user.create_user")
+
+        response = requests.post(baseUrl + url, json=user_dict)
+        res = response.json()
+
+        for k, v in res.items():
+            user_dict[k] = v
+
+        return jsonify(user_dict), 200
+
+    except Exception as e:
+        return f"Error: {e}"

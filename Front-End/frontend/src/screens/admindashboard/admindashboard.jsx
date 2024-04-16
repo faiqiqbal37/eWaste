@@ -7,12 +7,16 @@ import AdminDashboardUsersCount from "../../components/admindashboardusercount";
 import AdminDashboardOrdersGraph from "../../components/admindashboardordersgraph";
 import AdminDashBoardDeviceType from "../../components/admindashboarddevicetype";
 import AdminDashboardStatusCount from "../../components/admindashboardstatuscount";
+import { useStoreLogin } from "../../stores/store-login";
+import { Navigate } from "react-router-dom";
 
 const AdminDashboard = () => {
   const [numberOfStaff, setNumberOfStaff] = useState(0);
   const [numberOfProcessedOrders, setNumberOfProcessedOrders] = useState(0);
   const [orders, setOrders] = useState([]);
   const [numUsers, setNumUsers] = useState([]);
+  const [changed, setChanged] = useState(false);
+  const { loggedUser, updateLoggedUser } = useStoreLogin();
 
   useEffect(() => {
     const fetchDataUrl = async (url) => {
@@ -21,7 +25,7 @@ const AdminDashboard = () => {
         const result = res.data;
         return result;
       } catch (error) {
-        return []
+        return [];
       }
     };
 
@@ -80,39 +84,46 @@ const AdminDashboard = () => {
     return () => clearInterval(fetchDataInterval);*/
   }, []);
 
-  return (
-    <div>
-      <Navbar></Navbar>
-      <div className="flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-      </div>
-      <AdminDashboardUsersCount />
-      <div className="divider"></div>
-      <AdminDashboardStats
-        numberOfStaff={numberOfStaff}
-        numberOfUsers={numUsers}
-        numberOfProcessedOrders={numberOfProcessedOrders}
-      ></AdminDashboardStats>
-      <AdminDashboardOrdersGraph />
-      <div className="divider"></div>
-      <div className="flex w-full">
-        <div className="grid flex-grow  bg-base-300 rounded-box place-items-center">
-          <h1>Last Five Orders</h1>
-          <AdminDashboardTable orders={orders}></AdminDashboardTable>
+  if (Object.keys(loggedUser).length === 0) {
+    return(<div></div>)
+  } else {
+    return (
+      <div>
+        <Navbar></Navbar>
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
         </div>
-        <div className="divider divider-horizontal"></div>
+        <AdminDashboardUsersCount />
+        <div className="divider"></div>
+        <AdminDashboardStats
+          numberOfStaff={numberOfStaff}
+          numberOfUsers={numUsers}
+          numberOfProcessedOrders={numberOfProcessedOrders}
+        ></AdminDashboardStats>
+        <AdminDashboardOrdersGraph />
+        <div className="divider"></div>
+        <div className="flex w-full">
+          <div className="grid flex-grow  bg-base-300 rounded-box place-items-center">
+            <h1>Last Five Orders</h1>
+            <AdminDashboardTable
+              orders={orders}
+              changed={setChanged}
+            ></AdminDashboardTable>
+          </div>
+          <div className="divider divider-horizontal"></div>
 
-        <div className="">
-          <div className="m-6">
-            <AdminDashBoardDeviceType className="m-20" />
-          </div>
-          <div className="m-6">
-            <AdminDashboardStatusCount className="m-20" />
+          <div className="">
+            <div className="m-6">
+              <AdminDashBoardDeviceType className="m-20" />
+            </div>
+            <div className="m-6">
+              <AdminDashboardStatusCount className="m-20" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default AdminDashboard;

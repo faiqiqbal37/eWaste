@@ -15,6 +15,10 @@ import AdminUsers from './screens/adminuserspage/adminusers';
 import StaffInfo from "./screens/staffdashboard/staffinfo";
 import UserInfo from "./screens/staffdashboard/userinfo";
 import {Orders} from "./screens/Order/orders";
+import AdminDashboardDrawer from './screens/admindashboard/admindashboarddrawer';
+import AdminStaffDrawer from './screens/adminstaffpage/adminstaffdrawer';
+import AdminOrderDrawer from './screens/adminorderpage/adminorderdrawer';
+import AdminUsersDrawer from './screens/adminuserspage/adminusersdrawer';
 import FAQComponent from "./screens/landingpage/faq";
 
 function App() {
@@ -32,11 +36,11 @@ function App() {
                     <Route path="/customer/profile" element={<ProfilePage />} />
                     <Route path="/customer/placeorder" element={<PlaceOrder/>} />
                     <Route path="/customer/editorder" element={<EditOrder/>} />
-                    <Route path="/admin/staff" element={<AdminStaffPage/>} />
-                    <Route path="/admin/orders" element={<AdminOrderPage/>} />
+                    <Route path="/admin/staff" element={<AdminStaffDrawer/>} />
+                    <Route path="/admin/orders" element={<AdminOrderDrawer/>} />
 
-                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                    <Route path="/admin/users" element={<AdminUsers />} />
+                   <Route path="/admin/dashboard" element={<AdminDashboardDrawer />} />
+                    <Route path="/admin/users" element={<AdminUsersDrawer />} />
                     <Route path="customer/orders" element={<Orders/>}/>
                     <Route path="/faq" element={<FAQComponent/>}/>
 

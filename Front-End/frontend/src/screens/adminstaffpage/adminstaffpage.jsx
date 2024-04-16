@@ -36,7 +36,6 @@ const AdminStaffPage = () => {
 
     return (
         <div>
-            <Navbar />
             <AdminStaffTable staffList={staffData}/>
         </div>
     );

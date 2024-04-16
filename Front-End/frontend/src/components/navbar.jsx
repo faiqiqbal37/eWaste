@@ -2,8 +2,10 @@ import React from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {Drawer} from "./drawer";
 import {resetPersistenceStorage, useStoreLogin} from "../stores/store-login";
+import { TiThMenu } from "react-icons/ti";
 
-const Navbar = () => {
+
+const Navbar = ({updateToggle}) => {
     const navigate = useNavigate();
 
 
@@ -13,7 +15,7 @@ const Navbar = () => {
     return (
         <div className="navbar bg-green-500 text-primary-content">
             <div className="flex-none">
-                <Drawer/>
+                <TiThMenu onClick={updateToggle}></TiThMenu>
             </div>
             <div className="flex-1">
                 <Link className="btn btn-link text-xl" to="/">eWaste</Link>

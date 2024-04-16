@@ -78,7 +78,6 @@ const AdminOrderPage = () => {
 
   return (
       <div>
-        <Navbar className></Navbar>
         <div className= "flex flex-col items-center justify-center m-6"><h1 className="text-2xl font-bold mb-4">Orders</h1></div>
         <div className="divider"></div>
         <div className="flex w-full">

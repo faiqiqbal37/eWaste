@@ -12,7 +12,6 @@ const AdminUsers = ()=>{
 
     return(
         <div>
-            <Navbar />
             <AdminTableUsers></AdminTableUsers>
         </div>
     )

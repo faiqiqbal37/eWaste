@@ -20,6 +20,8 @@ def orders():
         data = [convert_document(document) for document in cursor]
         if data:
             return jsonify(data), 200
+        else:
+            return jsonify([]), 200
     except Exception as e:
         return f'Error fetching orders: {e}'
 
@@ -49,10 +51,10 @@ def orders_from_user_id(user_id):
         if data:
             return jsonify(data), 200
         else:
-            return jsonify({}), 404
+            return jsonify([]), 404
 
     except Exception as e:
-        return f'Error fetching orders: {e}'
+        return jsonify([]), 404
     
 
 @order_bp.route('/orders/<order_id>', methods=['GET'])

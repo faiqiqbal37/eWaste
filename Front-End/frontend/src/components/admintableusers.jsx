@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import AdminEditUser from "./adminedituser";
+import AdminUserStatistics from "./adminuserstats";
 import Searchbar from "./searchbar";
 
 const AdminTableUsers = () => {
@@ -123,6 +124,32 @@ const AdminTableUsers = () => {
                         <AdminEditUser
                           currentUser={user}
                           updateList={updateUsersListByIndex(index)}
+                        />
+                        <div className="modal-action">
+                          <form method="dialog"></form>
+                        </div>
+                      </div>
+                    </dialog>
+                  </td>
+                  <td>
+                    <button
+                      className="btn hover:bg-sky-700"
+                      onClick={() =>
+                        document
+                          .getElementById("my_modal_" + JSON.stringify(user)+"_statistics")
+                          .showModal()
+                      }
+                    >
+                      Statistics
+                    </button>
+                    
+                    <dialog
+                      id={"my_modal_" + JSON.stringify(user)+"_statistics"}
+                      className="modal"
+                    >
+                      <div className="modal-box">
+                        <AdminUserStatistics
+                          currentUser={user}
                         />
                         <div className="modal-action">
                           <form method="dialog"></form>

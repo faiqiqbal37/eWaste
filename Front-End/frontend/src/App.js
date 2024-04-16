@@ -32,8 +32,8 @@ function App() {
                     <Route path="/customer/profile" element={<ProfilePage />} />
                     <Route path="/customer/placeorder" element={<PlaceOrder/>} />
                     <Route path="/customer/editorder" element={<EditOrder/>} />
-                    <Route path="/staffadmin" element={<AdminStaffPage/>} />
-                    <Route path="/orderadmin" element={<AdminOrderPage/>} />
+                    <Route path="/admin/staff" element={<AdminStaffPage/>} />
+                    <Route path="/admin/orders" element={<AdminOrderPage/>} />
 
                    <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<AdminUsers />} />

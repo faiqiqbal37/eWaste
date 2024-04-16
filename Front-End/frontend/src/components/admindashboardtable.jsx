@@ -12,6 +12,24 @@ const AdminDashboardTable = ({ orders }) => {
     setOrderLists(newOrderLists);
   };
 
+
+  const curriedApproveOrder = (index) =>{
+    
+    const approveOrder = ()=>{
+      let currList = [...orderLists]
+      currList[index]['status'] = "Approved"
+      let temp = currList[index]
+      delete temp._id
+      axios.put(`http://127.0.0.1:5000/api/orders/${currList[index]['order_id']}/edit`, temp)
+      setOrderLists(currList)
+        
+    }
+
+    return approveOrder
+  }
+
+
+
   useEffect(() => {
     const fetchDataUrl = async (url) => {
       try {
@@ -19,7 +37,7 @@ const AdminDashboardTable = ({ orders }) => {
         const result = await res.data;
         return result;
       } catch (error) {
-        throw error;
+        return [];
       }
     };
 
@@ -48,7 +66,9 @@ const AdminDashboardTable = ({ orders }) => {
 
         const finalResult = await Promise.all(finalRes);
 
-        setOrderLists(finalResult);
+        let lastFive = finalResult.slice(finalResult.length-5, finalResult.length)
+
+        setOrderLists(lastFive);
 
 
         /*const fetchDataInterval = setInterval(() => {
@@ -63,7 +83,7 @@ const AdminDashboardTable = ({ orders }) => {
 
 
       } catch (error) {
-        throw error; // Throw the error for handling in the component
+        return []; // Throw the error for handling in the component
       }
     };
 
@@ -73,7 +93,6 @@ const AdminDashboardTable = ({ orders }) => {
 
   return (
     <div className="overflow-x-auto w-full ">
-      {console.log(orderLists)}
       <table className="table">
         {/* head */}
         <thead>
@@ -91,7 +110,7 @@ const AdminDashboardTable = ({ orders }) => {
         <tbody>
           {orderLists.map((order, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <td>
                   <div className="avatar">
                     <div className="w-24 rounded-full">
@@ -116,6 +135,9 @@ const AdminDashboardTable = ({ orders }) => {
                       >
                         Edit
                       </button>
+                      <button className="m-5" onClick={curriedApproveOrder(index)}>
+                        Approve
+                      </button>     
                       <dialog id={"my_modal_"+index} className="modal">
                         <div className="modal-box">
                           <h3 className="font-bold text-lg">Details</h3>
@@ -130,7 +152,9 @@ const AdminDashboardTable = ({ orders }) => {
                           </div>
                         </div>
                       </dialog>
+
                     </div>
+                    
                   )}
                 </td>
               </tr>

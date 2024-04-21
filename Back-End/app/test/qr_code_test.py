@@ -29,7 +29,20 @@ def test_get_qr_code_details(client):
     qr_id = 'qrid1'
     expected_response = {'_id': "6611cd06dc818ca307f298fd",
                          'qr_id': qr_id,
-                         'qr_link': 'iVBORw0KGgoAAAANSUhEUgAAAUoAAAFKAQAAAABTUiuoAAAB8ElEQVR4nO2bQYrjMBBFX40CWcowB8hR7JuFuZl1lD5Ag70MyPxZyEqcnk0ScFpDlxYhVt7ig6nvXyXHxIMr/XqUBEcdddRRRx3dE7V1HSCZGakDG+a6PewuwNFn0F6SNAG9MnaeAAiSJN2j+whw9Bl0riWU7IDG+YBGoNTbOwQ4+gJq5wnMuqX637sFOPocGkQ/hX/7sBa1/jC0+lwUMINSFyCdMmKG7T37dq2Oss0R17JaP+p2L0njt2t1tNTWrYSUTheDeLG13vYW4OgLtRUljVCSYLm8/SCvrbbQ2Qyiria4GKlbDFi8O24GvXZTIVv/YUDMkLpPDI6C2futdtA7J9zUVpA0hbLnTtgKijardlnlWz+Bxpg9EzaG2jAfsCFmpAlsYFkfY9QZVDNafzK6OuHG+ghlvquRoPIY89pqDI0ZG2IuFzZQPXH0lNEQWu/F/DuTLGSIn6Z0yhgsBoRsewpw9NWUUdJhZg2GxSIr4k7YCro5OwbKVLe2WkE27C7A0WfQ29lxGe1+mK198im/RYCjD62aCaEGw9pl3SPuhK2idr72yWPM2PBuAY4+jAbpjx0ogyjmo79F0wz69ezYiBdTr8VYh7zTvgIcfR5NZmbWwXpiPB9Lll+HTvsLcPSRZf6vBUcdddRRR/8j9C+hyzvxrmH8ywAAAABJRU5ErkJggg=='}  # Change this accordingly
+                         'qr_link': 'iVBORw0KGgoAAAANSUhEUgAAAUoAAAFKAQAAAABTUiuoAAAB8ElEQVR4nO2bQYrjMBBFX40CWcowB8hR7JuFuZl1lD5Ag70MyP'
+                                    'xZyEqcnk0ScFpDlxYhVt7ig6nvXyXHxIMr/XqUBEcdddRRRx3dE7V1HSCZGakDG'
+                                    '+a6PewuwNFn0F6SNAG9MnaeAAiSJN2j+whw9B'
+                                    'l0riWU7IDG+YBGoNTbOwQ4+gJq5wnMuqX637sFOPocGkQ/hX/7sBa1/jC0'
+                                    '+lwUMINSFyCdMmKG7T37dq2Oss0R17JaP+p2L0njt2t'
+                                    '1tNTWrYSUTheDeLG13vYW4OgLtRUljVCSYLm8/SCvrbbQ2Qyiria4GKlbDFi8O24GvXZTIVv'
+                                    '/YUDMkLpPDI6C2futdtA7J9zUVpA0h'
+                                    'bLnTtgKijardlnlWz+Bxpg9EzaG2jAfsCFmpAlsYFkfY9QZVDNafzK6OuHG'
+                                    '+ghlvquRoPIY89pqDI0ZG2IuFzZQPXH0lNEQWu/F/Du'
+                                    'TLGSIn6Z0yhgsBoRsewpw9NWUUdJhZg2GxSIr4k7YCro5OwbKVLe2WkE27C7A0WfQ29lxGe1+mK198im'
+                                    '/RYCjD62aCaEGw9pl3SPuh'
+                                    'K2idr72yWPM2PBuAY4+jAbpjx0ogyjmo79F0wz69ezYiBdTr8VYh7zTvgIcfR5NZmbWwXpiPB9Lll'
+                                    '+HTvsLcPSRZf6vBUcdddRRR/8j9C+hyzvxrmH8ywAAAABJRU5ErkJggg=='}  # Change this
+    # accordingly
 
     # Make a GET request to retrieve the QR code details
     response = client.get(f'/api/qr_code/{qr_id}')
@@ -59,7 +72,7 @@ def test_create_qr_code(client):
 
 def test_edit_qr_code(client):
     """Test the PUT /qr_code/<qr_id>/edit endpoint."""
-    # Assume there is a QR code with qr_id '456' in the database
+    # Assume there is a QR code with qr_id 'pytest' in the database
     qr_id = 'pytest'
 
     # Prepare data for editing the QR code
@@ -77,7 +90,7 @@ def test_edit_qr_code(client):
 
 def test_delete_qr_code(client):
     """Test the DELETE /qr_code/<qr_id>/delete endpoint."""
-    # Assume there is a QR code with qr_id '789' in the database
+    # Assume there is a QR code with qr_id 'pytest' in the database
     qr_id = 'pytest'
 
     # Make a DELETE request to delete the QR code

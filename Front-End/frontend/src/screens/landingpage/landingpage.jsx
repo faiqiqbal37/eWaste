@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import eWasteImage from './ewaste2.jpg';
+import deviceLifespanImage from './ewaste3.jpg';
+import environmentalPreservationImage from './ewaste5.jpg';
 
+import dataSecurityImage from './ewaste6.jpg';
 const LandingPage = () => {
     const navigate = useNavigate();
 
@@ -35,8 +39,9 @@ const LandingPage = () => {
                         <h1 className="text-4xl font-bold">eWaste Hub : Recycle Smart</h1>
                         <p className="mt-4 text-lg">Unlock the potential in your eWaste! Recycle or sell your old devices with eWaste Hub – maximizing value, ensuring security, and promoting sustainable tech practices.</p>
                     </div>
-                    <div className="hidden md:block">
-                        <img id="main__img" src="./ewaste3.jpg" alt="eWaste Hub" className="h-72" />
+                    <div className="md:block">
+                        <img id="main__img" src={eWasteImage} alt="eWaste Hub" className="w-[850px]"/>
+
                     </div>
                 </div>
             </div>
@@ -54,27 +59,41 @@ const LandingPage = () => {
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Environmental Preservation */}
                     <div className="bg-white rounded-lg p-6 shadow-md">
+                        <img src={environmentalPreservationImage} alt="Environmental Preservation"
+                             className="mb-4 w-full h-48 object-cover rounded-t-lg"/>
+
                         <h2 className="text-2xl font-semibold mb-4">Environmental Preservation</h2>
-                        <p>Recycle or sell your electronic devices with us to help preserve the environment. By doing so, you contribute to reducing eWaste, minimizing pollution, and conserving valuable resources.</p>
+                        <p>Recycle or sell your electronic devices with us to help preserve the environment. By doing
+                            so, you contribute to reducing eWaste, minimizing pollution, and conserving valuable
+                            resources.</p>
                     </div>
 
                     {/* Maximize Device Lifespan */}
                     <div className="bg-white rounded-lg p-6 shadow-md">
+                        <img src={deviceLifespanImage} alt="deviceLifespan"
+                             className="mb-4 w-full h-48 object-cover rounded-t-lg"/>
+
                         <h2 className="text-2xl font-semibold mb-4">Maximize Device Lifespan</h2>
-                        <p>Make your devices count! Recycling or selling through our platform ensures extended use, minimizing electronic waste and promoting resource conservation.</p>
+                        <p>Make your devices count! Recycling or selling through our platform ensures extended use,
+                            minimizing electronic waste and promoting resource conservation.</p>
                     </div>
 
                     {/* Data Security Assurance */}
                     <div className="bg-white rounded-lg p-6 shadow-md">
+                    <img src={dataSecurityImage} alt="data security"
+                             className="mb-4 w-full h-48 object-cover rounded-t-lg"/>
+
                         <h2 className="text-2xl font-semibold mb-4">Data Security Assurance</h2>
-                        <p>Protect your sensitive information. Our platform guarantees secure data erasure and disposal, ensuring your privacy and peace of mind.</p>
+
+                        <p>Protect your sensitive information. Our platform guarantees secure data erasure and disposal,
+                            ensuring your privacy and peace of mind.</p>
                     </div>
                 </div>
             </div>
 
             {/* Footer Section */}
             <div className="bg-gray-800 text-white py-8">
-                <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto">
                     <p className="text-center">Contact Us: <a href="mailto:ewaste@gmail.com">ewaste@gmail.com</a> | Sheffield, UK | 01099898989</p>
                 </div>
             </div>

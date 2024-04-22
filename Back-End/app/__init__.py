@@ -6,6 +6,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.secret_key = "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"
 mongo = PyMongo(app)
 CORS(app)
 

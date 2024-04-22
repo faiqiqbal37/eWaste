@@ -32,5 +32,5 @@ google-auth-httplib2==0.2.0
 google-auth-oauthlib==1.2.0
 qrcode==7.4.2
 pillow==10.3.0
-pytest==7.4.0
+pytest==8.1.1
 cachecontrol==0.14.0

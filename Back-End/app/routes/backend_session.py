@@ -17,7 +17,6 @@ from google_auth_oauthlib.flow import Flow
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-
 current_file_path = os.path.abspath(__file__)
 current_directory_path = os.path.dirname(current_file_path)
 parent_directory_path = os.path.dirname(current_directory_path)
@@ -174,12 +173,12 @@ def convert_document(document):
     return document
 
 
-@backend_session_bp.route('/session/thirdlogin', methods=['POST'])
+@backend_session_bp.route('/session/thirdlogin', methods=['GET'])
 def third_login():
     authorization_url, state = flow.authorization_url()
     session["state"] = state
     print(authorization_url)
-    return redirect(authorization_url)
+    return jsonify({"url": authorization_url}), 200
 
 
 @backend_session_bp.route('/session/login/callback')

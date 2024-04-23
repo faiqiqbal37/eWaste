@@ -11,7 +11,9 @@ backend_session_bp = Blueprint('backend_session', __name__)
 qr_code_bp = Blueprint('qr_code', __name__)
 service_bp = Blueprint('service',__name__)
 statistics_bp = Blueprint('statistics', __name__)
+stripe_bp = Blueprint('stripe', __name__)
 
 
 
-from . import auth, user, order, staff, device, data_detail, payment, backend_session, qr_code, service, statistics
+from . import auth, user, order, staff, device, data_detail, payment, backend_session,\
+qr_code, service, statistics, stripe

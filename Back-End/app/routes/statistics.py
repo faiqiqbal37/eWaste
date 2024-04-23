@@ -29,7 +29,7 @@ def get_total_device_type():
                     if device_type in device_type_count_dict:
                         device_type_count_dict[device_type] = device_type_count_dict[device_type] + 1
                     else:
-                        device_type_count_dict[device_type] = 0
+                        device_type_count_dict[device_type] = 1
         return jsonify(device_type_count_dict)
 
     except Exception as e:
@@ -171,40 +171,24 @@ def get_user_device_visibility(data):
 
 
 def get_order_dates_for_customer(data):
-    numOrdersDateList = []
-
-    for order in data:
-        datetimeStr = order['date'].split('T')[0]
-        datetimeObj = datetime.datetime.strptime(datetimeStr, "%Y-%m-%d")
-        numOrdersDateList.append(datetimeObj)
-
-
-            
-
-    numOrdersDateList.sort()
-
-
-    uniqueEl = []
-    currEl = numOrdersDateList[0]
-    count = 0
-
-    for orderDate in numOrdersDateList:
-        if currEl == orderDate:
-            count = count + 1
+     numOrdersDateDict = {}
+     
+     for order in data:
+        datetimeStr = order['date']
+        datetimeObj = datetime.datetime.strptime(datetimeStr, "%Y-%m-%d").date()
+        if datetimeObj in numOrdersDateDict:
+            numOrdersDateDict[datetimeObj] += 1
         else:
-            uniqueEl.append({"day": orderDate.day,
-                            "month": orderDate.month,
-                            "year": orderDate.year,
-                            "count": count})
-            currEl = orderDate
-            count = 1
+            numOrdersDateDict[datetimeObj] = 1
 
-    uniqueEl.append({"day": numOrdersDateList[-1].day,
-                         "month": numOrdersDateList[-1].month,
-                         "year": numOrdersDateList[-1].year,
-                         "count": count})
-    
-    return uniqueEl
+        uniqueEl = [{"day": date.day,
+                 "month": date.month,
+                 "year": date.year,
+                 "count": count} for date, count in numOrdersDateDict.items()]
+        
+        uniqueEl.sort(key=lambda x: (x['year'], x['month'], x['day']))
+        
+        return uniqueEl
 
 @statistics_bp.route('/statistics/total_orders_count', methods=['GET'])
 def get_total_orders_count():
@@ -235,7 +219,6 @@ def get_total_orders_by_date():
             numOrdersDateList.append(datetimeObj)
 
         numOrdersDateList.sort()
-
 
         uniqueEl = []
         currEl = numOrdersDateList[0]
@@ -369,7 +352,7 @@ def get_total_status_count():
                     if order_status in order_status_count_dict:
                         order_status_count_dict[order_status] = order_status_count_dict[order_status] + 1
                     else:
-                        order_status_count_dict[order_status] = 0
+                        order_status_count_dict[order_status] = 1
         return jsonify(order_status_count_dict)
 
     except Exception as e:

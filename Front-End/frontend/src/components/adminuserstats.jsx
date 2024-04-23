@@ -44,7 +44,7 @@ const AdminUserStatistics = ({ currentUser }) => {
         setUserStats(mappedData);
       }
     });
-  }, []);
+  }, [currentUser]);
 
   return (
     <form method="dialog">

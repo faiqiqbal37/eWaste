@@ -7,6 +7,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config.from_object(Config)
 app.secret_key = "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"
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+app.config['MAIL_USERNAME'] = 't44172049@gmail.com'
+app.config['MAIL_PASSWORD'] = 'span rbdw aygg brcs'
+
 mongo = PyMongo(app)
 CORS(app)
 
@@ -14,7 +23,7 @@ from app.routes import auth_bp, user_bp, order_bp, staff_bp, device_bp, \
     data_detail_bp, payment_bp, backend_session_bp, qr_code_bp, service_bp, \
     statistics_bp, stripe_bp
 
-app.register_blueprint(auth_bp, url_prefix='/auth')
+app.register_blueprint(auth_bp, url_prefix='/api')
 app.register_blueprint(staff_bp, url_prefix='/api')
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(order_bp, url_prefix='/api')

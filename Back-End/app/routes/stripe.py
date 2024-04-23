@@ -92,6 +92,7 @@ def create_checkout_session(service_name, order_id):
                     'price_data': {"currency": "gbp",
                                    "product_data": {
                                        "name": service_name,
+                                       
                                    },
                                    "unit_amount": calculate_order_amount()
                                    },

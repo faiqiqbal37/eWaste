@@ -75,7 +75,8 @@ export const Orders = () => {
                         status: order.status,
                         price: device.price,
                         photos: device.photos,
-                        service_name: service.service_name
+                        service_name: service.service_name,
+                        data_detail_id: order.data_detail_id
                     };
                 });
                 console.log(orders)

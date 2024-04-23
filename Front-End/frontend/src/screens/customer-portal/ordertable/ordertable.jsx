@@ -3,11 +3,50 @@ import Navbar from "../../../components/navbar";
 import CustomerNavbar from "../../../components/customerNavbar";
 import {Link, useNavigate} from "react-router-dom";
 import { useHistory } from 'react-router-dom';
+import { useStoreLogin } from "../../../stores/store-login"
 
 
 function OrderModal(props) {
     const navigate = useNavigate()
+    const {loggedUser, updateLoggedUser} = useStoreLogin();
 
+    let userID = loggedUser.user_id
+
+    async function fetchDataAndSendMail(dataId, userId) {
+        const dataEndpoint = `http://127.0.0.1:5000/api/data_detail/${dataId}`;
+        const mailEndpoint = `http://127.0.0.1:5000/api/users/${userId}/mail`;
+      
+        try {
+          // Fetch data from dataEndpoint
+          const dataResponse = await fetch(dataEndpoint);
+          
+          if (!dataResponse.ok) {
+            throw new Error(`Failed to fetch data! Status: ${dataResponse.status}`);
+          }
+          
+          const data = await dataResponse.json();
+          console.log('Fetched data:', data);
+      
+          // Send data to mailEndpoint
+          const mailResponse = await fetch(mailEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data), // Use fetched data as the body
+          });
+      
+          if (!mailResponse.ok) {
+            throw new Error(`Failed to send mail! Status: ${mailResponse.status}`);
+          }
+      
+          const mailResponseData = await mailResponse.json();
+          console.log('Mail sent successfully:', mailResponseData);
+      
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
     function redirectToWebuy(searchString) {
         // Encode the search string to make it URL-safe
         const encodedSearchString = encodeURIComponent(searchString);
@@ -62,6 +101,12 @@ function OrderModal(props) {
                             <button onClick={() => {
                                 redirectToWebuy(props.orderItem.device_name)
                             }} className="btn btn-outline">3rd Party Listing
+                            </button>
+                        </div>
+                        <div className="card-actions justify-end">
+                            <button onClick={() => {
+                                fetchDataAndSendMail(props.orderItem.data_detail_id, userID)
+                            }} className="btn btn-outline">Get Data Link
                             </button>
                         </div>
                     </div>

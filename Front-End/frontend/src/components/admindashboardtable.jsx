@@ -123,7 +123,7 @@ const AdminDashboardTable = ({ orders, changed }) => {
                 <td>
                   <div className="avatar">
                     <div className="w-24 rounded-full">
-                      <img src={order['photos'].length > 0 ? order['photos'][0] : "https://placehold.co/600x400"} alt=""></img>
+                      {/* <img src={order['photos'].length > 0 ? order['photos'][0] : "https://placehold.co/600x400"} alt=""></img> */}
                     </div>
                   </div>
                 </td>

@@ -15,33 +15,6 @@ def client():
         yield client
 
 
-def test_qr_code(client):
-    # Make a GET request to retrieve the QR code details
-    response = client.get(f'/api/qr_code')
-
-    # Check if the response status code is 200 OK
-    assert response.status_code == 200
-
-
-def test_get_qr_code_details(client):
-    """Test the GET /qr_code/<qr_id> endpoint."""
-    # Assume there is a QR code with qr_id '123' in the database
-    qr_id = 'qrid123'
-    expected_response = {'_id': "6626b62d2bdcea6b32aa65dc",
-                         'qr_id': qr_id,
-                         'qr_link': 'http://example.com/qr/1'}  # Change this
-    # accordingly
-
-    # Make a GET request to retrieve the QR code details
-    response = client.get(f'/api/qr_code/{qr_id}')
-
-    # Check if the response status code is 200 OK
-    assert response.status_code == 200
-
-    # Check if the response data matches the expected response
-    assert json.loads(response.data) == expected_response
-
-
 def test_create_qr_code(client):
     """Test the POST /qr_code/new endpoint."""
     # Prepare data for creating a new QR code
@@ -56,6 +29,31 @@ def test_create_qr_code(client):
     # Check if the response data contains the newly created QR code details
     assert 'qr_id' in json.loads(response.data)
     assert 'qr_link' in json.loads(response.data)
+
+
+def test_qr_code(client):
+    # Make a GET request to retrieve the QR code details
+    response = client.get(f'/api/qr_code')
+
+    # Check if the response status code is 200 OK
+    assert response.status_code == 200
+
+
+def test_get_qr_code_details(client):
+    """Test the GET /qr_code/<qr_id> endpoint."""
+    # Assume there is a QR code with qr_id '123' in the database
+    qr_id = 'pytest'
+
+    response = client.get(f'/api/qr_code/{qr_id}')
+
+    # Check if the response status code is 200 OK
+    assert response.status_code == 200
+
+    # Check if the response data contains the expected service details
+    data = json.loads(response.data)
+    assert 'qr_id' in data
+    assert 'qr_link' in data
+    assert data['qr_id'] == 'pytest'
 
 
 def test_edit_qr_code(client):

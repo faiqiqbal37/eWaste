@@ -21,8 +21,16 @@ const Login = () => {
         updateLoggedUser(data);
         setLoginRole(data.role);
       }
-
   };
+
+  const handleLoginGoogle = async (e) => {
+    let url = "http://127.0.0.1:5000/api/session/thirdlogin";
+    let response = await axios.get(url);
+    let data = response.data;
+    
+    
+    window.open(data['url'])
+  }
 
   if (loginRole === "customer") {
     return <Navigate to="/customer/customerdashboard"></Navigate>;
@@ -78,9 +86,12 @@ const Login = () => {
                   </a>
                 </label>
               </div>
-              <div className="form-control mt-6">
-                <button onClick={handleLogin} className="btn btn-primary">
+              <div className="form-control mt-1">
+                <button onClick={handleLogin} className="btn mb-1  btn-primary">
                   Login
+                </button>
+                <button onClick={handleLoginGoogle} className="btn mt-3 mb-2 btn-primary">
+                  Login With Google
                 </button>
                 <p>
                   Don't have an account?{" "}

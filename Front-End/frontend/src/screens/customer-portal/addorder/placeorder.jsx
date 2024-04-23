@@ -3,17 +3,23 @@ import CustomerNavbar from "../../../components/customerNavbar";
 import axios from "axios";
 import { useStoreLogin } from "../../../stores/store-login";
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 
 const PlaceOrder = () => {
     const [brand, setBrand] = useState('');
     const [deviceType, setDeviceType] = useState('');
     const [category, setCategory] = useState('');
-    const [price, setPrice] = useState('');
+    const [price, setPrice] = useState(0);
     const [images, setImages] = useState([]);
     const [selectService, setSelectService] = useState('');
     const [typeOfService, setTypeOfService] = useState('');
     const [dataRetrieval, setDataRetrieval] = useState('');
     const [dataWiping, setDataWiping] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
+
 
     const {loggedUser, updateLoggedUser} = useStoreLogin();
 
@@ -38,6 +44,12 @@ const PlaceOrder = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        // if (!brand || !deviceType || !category || !price || !images.length || !selectService || !typeOfService) {
+        //     toast.error("Please fill in all the required fields.");
+        //     return;
+        // }
+
         let orderId = generateRandomId()
         let deviceId = generateRandomId()
         let paymentId = generateRandomId()
@@ -59,6 +71,8 @@ const PlaceOrder = () => {
                 dataWiping: dataWiping
             };
 
+            setIsLoading(true); // Set isLoading to true before making async requests
+
 
             const requestOne =
                 await axios.post(`${baseUrl}/orders/new`, {
@@ -66,8 +80,8 @@ const PlaceOrder = () => {
                     user_id: loggedUser.user_id,
                     device_id: deviceId,
                     date: date,
-                    paymentId: paymentId,
-                    qrId: qrId,
+                    payment_id: paymentId,
+                    qr_id: qrId,
                     visibility: true,
                     status: "Pending",
                     data_detail_id: datadetailId,
@@ -93,7 +107,7 @@ const PlaceOrder = () => {
                 })
             const requestFour = await axios.post(`${baseUrl}/data_detail/new`, {
                     data_detail_id: datadetailId,
-                    data_link: "link"
+                    device_name: brand
 
                 })
             const requestFive = await axios.post(`${baseUrl}/service/new`, {
@@ -101,6 +115,8 @@ const PlaceOrder = () => {
                 service_name: typeOfService
 
             })
+
+
                 // Add more requests as needed
 
             // Optionally, clear form data after successful submission
@@ -119,6 +135,11 @@ const PlaceOrder = () => {
 
         } catch (error) {
             console.error('Error sending data to the backend:', error);
+        }
+        finally {
+            setIsLoading(false); // Set isLoading to false after async requests are completed
+            navigate('/customer/customerdashboard');
+
         }
     };
 
@@ -173,7 +194,11 @@ const PlaceOrder = () => {
             <CustomerNavbar/>
             <div className="max-w-md mx-auto p-8 border rounded-md">
                 <h2 className="text-2xl font-bold mb-4">Place Order</h2>
-                <form onSubmit={handleSubmit}>
+                {isLoading ? (
+                <div className="flex justify-center items-center h-32">
+                    <p className="text-gray-600">Submitting...</p>
+                </div>
+            ) : <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="brand" className="block mb-1">Name:</label>
                         <input type="text" id="brand" value={brand} onChange={(e) => {
@@ -204,7 +229,7 @@ const PlaceOrder = () => {
                     </div>
                     <div className="mb-4">
                         <label htmlFor="price" className="block mb-1">Price:</label>
-                        <input type="number" id="price" value={price} onChange={(e) => setPrice(e.target.value)}
+                        <input type="number" id="price" value={price} onChange={(e) => setPrice(parseInt(e.target.value))}
                                className="form-input w-full border border-gray-300 rounded-md"/>
                     </div>
                     <div className="mb-4">
@@ -231,7 +256,7 @@ const PlaceOrder = () => {
                             <select id="typeOfService" value={typeOfService} onChange={(e) => setTypeOfService(e.target.value)} className="form-select w-full border border-gray-300 rounded-md">
                                 <option value="">Select</option>
                                 <option value="Data Retrieval">Data Retrieval</option>
-                                <option value="DataWiping">Data Wiping</option>
+                                <option value="Data Wiping">Data Wiping</option>
                                 <option value="Data Wiping & Data Retrieval">Both</option>
                             </select>
                         </div>
@@ -276,7 +301,7 @@ const PlaceOrder = () => {
                     <button type="submit"
                             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit
                     </button>
-                </form>
+                </form>}
             </div>
         </div>
     );

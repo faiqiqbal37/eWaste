@@ -198,6 +198,7 @@ def callback():
 
     third_party_email = id_info['email']
     third_party_name = id_info['given_name']
+    third_party_contact = id_info['exp']
 
     user_dict = {"email": third_party_email}
     res = mongo.db.user_collection.find_one(user_dict)
@@ -205,7 +206,7 @@ def callback():
     # if the third party account is not in the db, create a new one
     if res is None:
 
-        account_dict = {'contact': ' ',
+        account_dict = {'contact': str(third_party_contact),
                         'email': third_party_email,
                         'name': third_party_name,
                         'password': generate_password_hash('pytest123456'),

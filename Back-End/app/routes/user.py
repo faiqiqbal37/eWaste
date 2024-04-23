@@ -22,6 +22,8 @@ def users():
         data = [convert_document(document) for document in cursor]
         if data:
             return jsonify(data)
+        else:
+            return jsonify([]), 404
     except Exception as e:
         return f'Error fetching data: {e}'
     

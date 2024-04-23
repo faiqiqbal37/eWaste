@@ -106,7 +106,7 @@ const AdminOrderTable = ({ orders }) => {
                     <div className="w-24 rounded-full">
                       <img
                         src={
-                          order["photos"].length > 0
+                          order["photos"] && order["photos"].length > 0
                             ? order["photos"][0]
                             : "https://placehold.co/600x400"
                         }

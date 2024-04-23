@@ -7,13 +7,15 @@ from ..routes import order_bp
 app = Flask(__name__)
 app.register_blueprint(order_bp, url_prefix='/api')
 
+
 @pytest.fixture
 def client():
     """Create a test client for the Flask app."""
     with app.test_client() as client:
         yield client
 
-def test_get_order(client):
+
+def test_get_orders(client):
     """Test the GET /orders endpoint"""
 
     # Make a GET request to retrieve all orders
@@ -50,7 +52,7 @@ def test_create_order(client):
     # Check if response status code is 200 OK
     assert response.status_code == 200
 
-    # Check if response data contains newly created order tails
+    # Check if response data contains newly created order details
     data = json.loads(response.data)
     assert 'order_id' in data
     assert 'user_id' in data

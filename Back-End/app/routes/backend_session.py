@@ -204,12 +204,13 @@ def callback():
 
     # if the third party account is not in the db, create a new one
     if res is None:
+
         account_dict = {'contact': ' ',
                         'email': third_party_email,
                         'name': third_party_name,
                         'password': generate_password_hash('pytest123456'),
                         'role': 'customer',
-                        'userid': third_party_email}
+                        'user_id': third_party_email}
 
         res = mongo.db.user_collection.insert_one(account_dict)
         res = mongo.db.user_collection.find_one(account_dict)

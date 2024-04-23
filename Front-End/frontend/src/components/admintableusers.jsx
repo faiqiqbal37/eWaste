@@ -151,6 +151,7 @@ const AdminTableUsers = () => {
                         <AdminUserStatistics
                           currentUser={user}
                         />
+
                         <div className="modal-action">
                           <form method="dialog"></form>
                         </div>

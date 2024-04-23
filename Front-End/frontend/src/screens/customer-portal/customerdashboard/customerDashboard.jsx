@@ -38,7 +38,7 @@ export const CustomerDashboard = () => {
     }
 
     useEffect(() => {
-        // This code will be executed once when the component mounts
+        //This code will be executed once when the component mounts
 
         async function fetchStats(userID) {
             try {

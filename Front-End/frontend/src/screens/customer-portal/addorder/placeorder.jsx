@@ -3,18 +3,22 @@ import CustomerNavbar from "../../../components/customerNavbar";
 import axios from "axios";
 import { useStoreLogin } from "../../../stores/store-login";
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 
 const PlaceOrder = () => {
     const [brand, setBrand] = useState('');
     const [deviceType, setDeviceType] = useState('');
     const [category, setCategory] = useState('');
-    const [price, setPrice] = useState('');
+    const [price, setPrice] = useState(0);
     const [images, setImages] = useState([]);
     const [selectService, setSelectService] = useState('');
     const [typeOfService, setTypeOfService] = useState('');
     const [dataRetrieval, setDataRetrieval] = useState('');
     const [dataWiping, setDataWiping] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
 
 
     const {loggedUser, updateLoggedUser} = useStoreLogin();
@@ -76,8 +80,8 @@ const PlaceOrder = () => {
                     user_id: loggedUser.user_id,
                     device_id: deviceId,
                     date: date,
-                    paymentId: paymentId,
-                    qrId: qrId,
+                    payment_id: paymentId,
+                    qr_id: qrId,
                     visibility: true,
                     status: "Pending",
                     data_detail_id: datadetailId,
@@ -134,6 +138,8 @@ const PlaceOrder = () => {
         }
         finally {
             setIsLoading(false); // Set isLoading to false after async requests are completed
+            navigate('/customer/customerdashboard');
+
         }
     };
 
@@ -223,7 +229,7 @@ const PlaceOrder = () => {
                     </div>
                     <div className="mb-4">
                         <label htmlFor="price" className="block mb-1">Price:</label>
-                        <input type="number" id="price" value={price} onChange={(e) => setPrice(e.target.value)}
+                        <input type="number" id="price" value={price} onChange={(e) => setPrice(parseInt(e.target.value))}
                                className="form-input w-full border border-gray-300 rounded-md"/>
                     </div>
                     <div className="mb-4">

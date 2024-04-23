@@ -26,7 +26,13 @@ const AdminDashboardTable = ({ orders, changed }) => {
       delete temp._id;
       
       try {
-        await axios.put(`http://127.0.0.1:5000/api/orders/${updatedList[index].order_id}/edit`, temp);
+
+        let orderReq = await axios.get(`http://127.0.0.1:5000/api/orders/${updatedList[index].order_id}`)
+        let orderData = orderReq.data
+        delete orderData._id
+        orderData.status = "Approved"
+
+        await axios.put(`http://127.0.0.1:5000/api/orders/${updatedList[index].order_id}/edit`, orderData);
         
         setOrderLists(updatedList);
         

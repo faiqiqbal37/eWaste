@@ -217,9 +217,11 @@ def callback():
         res = mongo.db.user_collection.find_one(account_dict)
         res = convert_document(res)
         session['current_user'] = res
-        return jsonify(res), 200
 
     else:
         res = convert_document(res)
         session['current_user'] = res
-        return jsonify(res), 200
+
+    return redirect(f"http://localhost:3000/googlesuccess/{res['email']}")
+
+    

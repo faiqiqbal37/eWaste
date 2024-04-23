@@ -86,6 +86,7 @@ const AdminDashboardOrdersGraph = () => {
 
   return(
     <div className="m-auto p-5">
+      {console.log(ordersByDate)}
       <AdminBarChart statData={returnDataDaysAndMonths()} />
     </div>
   )

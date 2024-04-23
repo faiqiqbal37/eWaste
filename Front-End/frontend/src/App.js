@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useParams, redirect} from 'react-router-dom';
 import Login from "./screens/login/login";
 import Registration from "./screens/registration/registration";
 import LandingPage from "./screens/landingpage/landingpage";
@@ -20,12 +20,14 @@ import AdminStaffDrawer from './screens/adminstaffpage/adminstaffdrawer';
 import AdminOrderDrawer from './screens/adminorderpage/adminorderdrawer';
 import AdminUsersDrawer from './screens/adminuserspage/adminusersdrawer';
 import FAQComponent from "./screens/landingpage/faq";
+import OrderSuccess from './components/stripeordersuccess';
 
 function App() {
     return (
         <BrowserRouter>
             <div>
                 <Routes>
+                    <Route path="/ordersuccess/:orderId/" Component={OrderSuccess}/>
                     <Route path="/sdashboard" element={<Sdashboard/>} />
                     <Route path="/sdashboard/staffinfo" element={<StaffInfo />} />
                     <Route path="/sdashboard/userinfo" element={<UserInfo/>} />
@@ -38,8 +40,7 @@ function App() {
                     <Route path="/customer/editorder" element={<EditOrder/>} />
                     <Route path="/admin/staff" element={<AdminStaffDrawer/>} />
                     <Route path="/admin/orders" element={<AdminOrderDrawer/>} />
-
-                   <Route path="/admin/dashboard" element={<AdminDashboardDrawer />} />
+                    <Route path="/admin/dashboard" element={<AdminDashboardDrawer />} />
                     <Route path="/admin/users" element={<AdminUsersDrawer />} />
                     <Route path="customer/orders" element={<Orders/>}/>
                     <Route path="/faq" element={<FAQComponent/>}/>
@@ -48,6 +49,9 @@ function App() {
             </div>
         </BrowserRouter>
     );
+
+
 }
+
 
 export default App;

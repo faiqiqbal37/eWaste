@@ -58,7 +58,7 @@ def test_get_service_details(client):
     # Check if the response data contains the expected service details
     data = json.loads(response.data)
     assert 'service_id' in data
-    assert 'name' in data
+    assert 'service_name' in data
     assert data['service_id'] == 'pytest'
 
 
@@ -70,7 +70,7 @@ def test_edit_service(client):
     # Prepare data for editing the service link
     edited_service_link = {'service_id': 'pytest', 'service_name': 'Edit Service', "data_link": ["Edit link"]}
 
-    # Make a PUT request to edit the QR code
+    # Make a PUT request to edit the service link
     response = client.put(f'api/service/{service_id}/edit', json=edited_service_link)
 
     # Check if the response status code is 200 OK
@@ -88,5 +88,5 @@ def test_delete_service(client):
     # Check if the response data contains the deleted service details
     data = json.loads(response.data)
     assert 'service_id' in data
-    assert 'name' in data
+    assert 'service_name' in data
     assert data['service_id'] == 'pytest'

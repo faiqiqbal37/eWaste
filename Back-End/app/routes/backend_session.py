@@ -1,4 +1,11 @@
-from flask import jsonify, request, url_for, session
+import os.path
+import pathlib
+
+import cachecontrol
+import google.auth.transport.requests
+from flask import jsonify, request, url_for, session, redirect, abort
+from google.oauth2 import id_token
+
 from . import backend_session_bp
 from .. import mongo
 from flask_pymongo import ObjectId
@@ -6,6 +13,25 @@ from bson import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 import uuid
+from google_auth_oauthlib.flow import Flow
+
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+current_file_path = os.path.abspath(__file__)
+current_directory_path = os.path.dirname(current_file_path)
+parent_directory_path = os.path.dirname(current_directory_path)
+
+specific_path = "client_secrets.json"
+new_path = os.path.join(parent_directory_path, specific_path)
+
+GOOGLE_CLIENT_ID = "268743994967-kpge79llg0la51nqpv3490i89hm8i356.apps.googleusercontent.com"
+
+flow = Flow.from_client_secrets_file(
+    client_secrets_file=new_path,
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email",
+            "openid", ],
+    redirect_uri="http://127.0.0.1:5000/api/session/login/callback"
+)
 
 
 @backend_session_bp.route('/session/current', methods=['GET'])
@@ -35,7 +61,7 @@ def login():
 
         if not res:
             return jsonify({}), 200
-        
+
         else:
             new_usr = {}
             for k, v in res.items():
@@ -45,6 +71,7 @@ def login():
                 # Store user data in session
                 new_usr.pop("_id")
                 session['current_user'] = new_usr
+                print(new_usr)
                 return jsonify(new_usr), 200
             else:
                 return jsonify({}), 200
@@ -75,11 +102,10 @@ def register():
         baseUrl = "http://127.0.0.1:5000"
         url = url_for("user.find_user_from_unique_attribute")
 
-
         validation_dict = {'email': user_dict['email'],
                            'contact': user_dict['contact']}
 
-        response = requests.post(baseUrl+url, json=validation_dict)
+        response = requests.post(baseUrl + url, json=validation_dict)
 
         res = response.json()
 
@@ -115,11 +141,10 @@ def register_admin():
         baseUrl = "http://127.0.0.1:5000"
         url = url_for("user.find_user_from_unique_attribute")
 
-
         validation_dict = {'email': user_dict['email'],
                            'contact': user_dict['contact']}
 
-        response = requests.post(baseUrl+url, json=validation_dict)
+        response = requests.post(baseUrl + url, json=validation_dict)
 
         res = response.json()
 
@@ -138,3 +163,63 @@ def register_admin():
 
     except Exception as e:
         return f"Error: {e}"
+
+
+def convert_document(document):
+    """Convert ObjectId to string for JSON serialization."""
+    for key, value in document.items():
+        if isinstance(value, ObjectId):
+            document[key] = str(value)
+    return document
+
+
+@backend_session_bp.route('/session/thirdlogin', methods=['GET'])
+def third_login():
+    authorization_url, state = flow.authorization_url()
+    session["state"] = state
+    print(authorization_url)
+    return jsonify({"url": authorization_url}), 200
+
+
+@backend_session_bp.route('/session/login/callback')
+def callback():
+    flow.fetch_token(authorization_response=request.url)
+
+    credentials = flow.credentials
+    request_session = requests.session()
+    cached_session = cachecontrol.CacheControl(request_session)
+    token_request = google.auth.transport.requests.Request(session=cached_session)
+
+    id_info = id_token.verify_oauth2_token(
+        id_token=credentials._id_token,
+        request=token_request,
+        audience=GOOGLE_CLIENT_ID
+    )
+
+    third_party_email = id_info['email']
+    third_party_name = id_info['given_name']
+    third_party_contact = id_info['exp']
+
+    user_dict = {"email": third_party_email}
+    res = mongo.db.user_collection.find_one(user_dict)
+
+    # if the third party account is not in the db, create a new one
+    if res is None:
+
+        account_dict = {'contact': str(third_party_contact),
+                        'email': third_party_email,
+                        'name': third_party_name,
+                        'password': generate_password_hash('pytest123456'),
+                        'role': 'customer',
+                        'user_id': third_party_email}
+
+        res = mongo.db.user_collection.insert_one(account_dict)
+        res = mongo.db.user_collection.find_one(account_dict)
+        res = convert_document(res)
+        session['current_user'] = res
+        return jsonify(res), 200
+
+    else:
+        res = convert_document(res)
+        session['current_user'] = res
+        return jsonify(res), 200

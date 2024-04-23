@@ -79,6 +79,7 @@ const AdminDashBoardDeviceType = () => {
   return (
     <div>
       <h1>Device Type Count</h1>
+      {console.log(parseData())}
       <AdminPieChart data={parseData()} />
     </div>
   );

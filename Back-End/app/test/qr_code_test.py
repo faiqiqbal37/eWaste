@@ -26,22 +26,10 @@ def test_qr_code(client):
 def test_get_qr_code_details(client):
     """Test the GET /qr_code/<qr_id> endpoint."""
     # Assume there is a QR code with qr_id '123' in the database
-    qr_id = 'qrid1'
-    expected_response = {'_id': "6611cd06dc818ca307f298fd",
+    qr_id = 'qrid123'
+    expected_response = {'_id': "6626b62d2bdcea6b32aa65dc",
                          'qr_id': qr_id,
-                         'qr_link': 'iVBORw0KGgoAAAANSUhEUgAAAUoAAAFKAQAAAABTUiuoAAAB8ElEQVR4nO2bQYrjMBBFX40CWcowB8hR7JuFuZl1lD5Ag70MyP'
-                                    'xZyEqcnk0ScFpDlxYhVt7ig6nvXyXHxIMr/XqUBEcdddRRRx3dE7V1HSCZGakDG'
-                                    '+a6PewuwNFn0F6SNAG9MnaeAAiSJN2j+whw9B'
-                                    'l0riWU7IDG+YBGoNTbOwQ4+gJq5wnMuqX637sFOPocGkQ/hX/7sBa1/jC0'
-                                    '+lwUMINSFyCdMmKG7T37dq2Oss0R17JaP+p2L0njt2t'
-                                    '1tNTWrYSUTheDeLG13vYW4OgLtRUljVCSYLm8/SCvrbbQ2Qyiria4GKlbDFi8O24GvXZTIVv'
-                                    '/YUDMkLpPDI6C2futdtA7J9zUVpA0h'
-                                    'bLnTtgKijardlnlWz+Bxpg9EzaG2jAfsCFmpAlsYFkfY9QZVDNafzK6OuHG'
-                                    '+ghlvquRoPIY89pqDI0ZG2IuFzZQPXH0lNEQWu/F/Du'
-                                    'TLGSIn6Z0yhgsBoRsewpw9NWUUdJhZg2GxSIr4k7YCro5OwbKVLe2WkE27C7A0WfQ29lxGe1+mK198im'
-                                    '/RYCjD62aCaEGw9pl3SPuh'
-                                    'K2idr72yWPM2PBuAY4+jAbpjx0ogyjmo79F0wz69ezYiBdTr8VYh7zTvgIcfR5NZmbWwXpiPB9Lll'
-                                    '+HTvsLcPSRZf6vBUcdddRRR/8j9C+hyzvxrmH8ywAAAABJRU5ErkJggg=='}  # Change this
+                         'qr_link': 'http://example.com/qr/1'}  # Change this
     # accordingly
 
     # Make a GET request to retrieve the QR code details

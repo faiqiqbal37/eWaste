@@ -12,23 +12,21 @@ const AdminOrderTable = ({ orders }) => {
     setOrderLists(newOrderLists);
   };
 
+  const curriedApproveOrder = (index) => {
+    const approveOrder = () => {
+      let currList = [...orderLists];
+      currList[index]["status"] = "Approved";
+      let temp = currList[index];
+      delete temp._id;
+      axios.put(
+        `http://127.0.0.1:5000/api/orders/${currList[index]["order_id"]}/edit`,
+        temp
+      );
+      setOrderLists(currList);
+    };
 
-  const curriedApproveOrder = (index) =>{
-    
-    const approveOrder = ()=>{
-      let currList = [...orderLists]
-      currList[index]['status'] = "Approved"
-      let temp = currList[index]
-      delete temp._id
-      axios.put(`http://127.0.0.1:5000/api/orders/${currList[index]['order_id']}/edit`, temp)
-      setOrderLists(currList)
-        
-    }
-
-    return approveOrder
-  }
-
-
+    return approveOrder;
+  };
 
   useEffect(() => {
     const fetchDataUrl = async (url) => {
@@ -44,8 +42,8 @@ const AdminOrderTable = ({ orders }) => {
     const fetchOrderData = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:5000/api/orders");
-        const result =  response.data; // Return the response data
-        const mappedResult =  result.map((item) => {
+        const result = response.data; // Return the response data
+        const mappedResult = result.map((item) => {
           const { _id, ...rest } = item;
           return rest;
         });
@@ -55,20 +53,17 @@ const AdminOrderTable = ({ orders }) => {
           let user_data = await fetchDataUrl(url);
           url = `http://127.0.0.1:5000/api/devices/${item.device_id}`;
           let device_data = await fetchDataUrl(url);
-          const { user_id, device_id, ...rest } =  item;
+          const { user_id, device_id, ...rest } = item;
 
-          let user_name =  user_data["name"];
+          let user_name = user_data["name"];
 
-
-          let finalThing = { Name: user_name, ...device_data , ...rest };
+          let finalThing = { Name: user_name, ...device_data, ...rest };
           return finalThing;
         });
 
         const finalResult = await Promise.all(finalRes);
 
-
         setOrderLists(finalResult);
-
 
         /*const fetchDataInterval = setInterval(() => {
         Promise.all(finalRes).then(res => {
@@ -79,8 +74,6 @@ const AdminOrderTable = ({ orders }) => {
           }, 1000);
       
           return () => clearInterval(fetchDataInterval);*/
-
-
       } catch (error) {
         return []; // Throw the error for handling in the component
       }
@@ -88,7 +81,6 @@ const AdminOrderTable = ({ orders }) => {
 
     fetchOrderData();
   }, []);
-
 
   return (
     <div className="overflow-x-auto w-full ">
@@ -112,12 +104,19 @@ const AdminOrderTable = ({ orders }) => {
                 <td>
                   <div className="avatar">
                     <div className="w-24 rounded-full">
-                      {/* <img src={order['photos'].length > 0 ? order['photos'][0] : "https://placehold.co/600x400"} alt=""></img> */}
+                      <img
+                        src={
+                          order["photos"] && order["photos"].length > 0
+                            ? order["photos"][0]
+                            : "https://placehold.co/600x400"
+                        }
+                        alt=""
+                      ></img>
                     </div>
                   </div>
                 </td>
                 <td>{order["Name"]}</td>
-                <td>{order['device_name']}</td>
+                <td>{order["device_name"]}</td>
                 <td>{order["date"]}</td>
                 <td>{order["order_id"]}</td>
                 <td>{order["status"]}</td>
@@ -128,31 +127,39 @@ const AdminOrderTable = ({ orders }) => {
                       <button
                         className="btn"
                         onClick={() =>
-                          document.getElementById("my_modal_"+index).showModal()
+                          document
+                            .getElementById("my_modal_" + index)
+                            .showModal()
                         }
                       >
                         Edit
                       </button>
-                      <button className="m-5" onClick={curriedApproveOrder(index)}>
+                      <button
+                        className="m-5"
+                        onClick={curriedApproveOrder(index)}
+                      >
                         Approve
-                      </button>     
-                      <dialog id={"my_modal_"+index} className="modal">
+                      </button>
+                      <dialog id={"my_modal_" + index} className="modal">
                         <div className="modal-box">
                           <h3 className="font-bold text-lg">Details</h3>
                           <p className="py-4"></p>
                           <div className="modal-action">
                             <AdminPlaceOrder
-                              orderState = {orderLists}
-                              handleState = {updateOrderLists}
+                              orderState={orderLists}
+                              handleState={updateOrderLists}
                               orderList={order}
-                              index = {index}
+                              index={index}
                             ></AdminPlaceOrder>
                           </div>
                         </div>
                       </dialog>
-
                     </div>
-                    
+                  )}
+                  {order["status"] === "Approved" && (
+                    <form action={`http://127.0.0.1:5000/api/stripe/service/${order["device_name"]}/${order["order_id"]}/create-checkout-session`} method="POST">
+                      <button type="submit" className="btn">Checkout</button>
+                    </form>
                   )}
                 </td>
               </tr>

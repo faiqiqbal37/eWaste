@@ -19,6 +19,8 @@ def devices():
         data = [convert_document(document) for document in cursor]
         if data:
             return jsonify(data)
+        else:
+            return [], 404
     except Exception as e:
         return f'Error fetching data: {e}'
 

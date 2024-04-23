@@ -76,7 +76,7 @@ const AdminDashboardTable = ({ orders, changed }) => {
 
         const finalResult = await Promise.all(finalRes);
 
-        let lastFive = finalResult.slice(finalResult.length-5, finalResult.length)
+        let lastFive = (finalResult.length-5) <= 0 ? finalResult: finalResult.slice(finalResult.length-5, finalResult.length)
 
         setOrderLists(lastFive);
 

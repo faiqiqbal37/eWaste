@@ -21,9 +21,9 @@ def forgotPassword():
     if res:
         # change this user's secret
         res = mongo.db.user_collection.update_one({"email": email},
-                                                   {"$set": {"password": generate_password_hash(random_new_secret)}})
+                                                  {"$set": {"password": generate_password_hash(random_new_secret)}})
         res = mongo.db.user_collection.find_one(user_dict)
-        print(random_new_secret)
+
         # Send user's secret to this email
         msg = Message("This is your new password (E-waste).", sender='your_email@example.com', recipients=[email])
         msg.body = random_new_secret
@@ -34,4 +34,24 @@ def forgotPassword():
 
     else:
         # Invalid credentials, return an error response
-        return jsonify({'status': 'error', 'message': 'This email has not benn registered'}), 401
+        return jsonify({'status': 'error', 'message': 'This email has not been registered'}), 401
+
+
+@auth_bp.route('/resetPassword', methods=['POST'])
+def resetPassword():
+    # Assume the frontend submits the email address and new password
+    data = request.json
+    email = data.get('email')
+    new_password = data.get('newPassword')
+
+    user_dict = {"email": email}
+    res = mongo.db.user_collection.find_one(user_dict)
+    if res:
+        # change this user's password
+        res = mongo.db.user_collection.update_one({"email": email},
+                                                  {"$set": {"password": generate_password_hash(new_password)}})
+
+        return jsonify({'status': 'successful', 'message': 'Password has benn reset.'})
+    else:
+        # Invalid credentials, return an error response
+        return jsonify({'status': 'error', 'message': 'This email has not been registered'}), 401

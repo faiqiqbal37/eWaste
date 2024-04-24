@@ -171,24 +171,40 @@ def get_user_device_visibility(data):
 
 
 def get_order_dates_for_customer(data):
-     numOrdersDateDict = {}
-     
-     for order in data:
-        datetimeStr = order['date']
-        datetimeObj = datetime.datetime.strptime(datetimeStr, "%Y-%m-%d").date()
-        if datetimeObj in numOrdersDateDict:
-            numOrdersDateDict[datetimeObj] += 1
-        else:
-            numOrdersDateDict[datetimeObj] = 1
-
+    try:
+        if len(data)==0:
+            return jsonify({"day": -1,
+                        "month": -1,
+                        "year": -1,
+                        "count": -1}), 200
+        
+        numOrdersDateDict = {}
+        
+        for order in data:
+            datetimeStr = order['date']
+            datetimeObj = datetime.datetime.strptime(datetimeStr, "%Y-%m-%d").date()
+            if datetimeObj in numOrdersDateDict:
+                numOrdersDateDict[datetimeObj] += 1
+            else:
+                numOrdersDateDict[datetimeObj] = 1
+    
         uniqueEl = [{"day": date.day,
-                 "month": date.month,
-                 "year": date.year,
-                 "count": count} for date, count in numOrdersDateDict.items()]
-        
+                    "month": date.month,
+                    "year": date.year,
+                    "count": count} for date, count in numOrdersDateDict.items()]
+            
         uniqueEl.sort(key=lambda x: (x['year'], x['month'], x['day']))
-        
+            
         return uniqueEl
+        
+
+
+    except Exception as e:
+        return jsonify({"day": -1,
+                        "month": -1,
+                        "year": -1,
+                        "count": -1})
+
 
 @statistics_bp.route('/statistics/total_orders_count', methods=['GET'])
 def get_total_orders_count():
@@ -209,39 +225,29 @@ def get_total_orders_by_date():
 
 
         if len(orderList)==0:
-            return jsonify([]), 200
-
-        numOrdersDateList = []
-
-        for order in orderList:
-            datetimeStr = order['date'].split('T')[0]
-            datetimeObj = datetime.datetime.strptime(datetimeStr, "%Y-%m-%d")
-            numOrdersDateList.append(datetimeObj)
-
-        numOrdersDateList.sort()
-
-        uniqueEl = []
-        currEl = numOrdersDateList[0]
-        count = 0
-
-        for orderDate in numOrdersDateList:
-            if currEl == orderDate:
-                count = count + 1
-            else:
-                uniqueEl.append({"day": orderDate.day,
-                                 "month": orderDate.month,
-                                 "year": orderDate.year,
-                                 "count": count})
-                currEl = orderDate
-                count = 1
-
-        uniqueEl.append({"day": numOrdersDateList[-1].day,
-                         "month": numOrdersDateList[-1].month,
-                         "year": numOrdersDateList[-1].year,
-                         "count": count})
+            return jsonify({"day": -1,
+                        "month": -1,
+                        "year": -1,
+                        "count": -1}), 200
         
-
-        return jsonify(uniqueEl), 200
+        numOrdersDateDict = {}
+        
+        for order in orderList:
+            datetimeStr = order['date']
+            datetimeObj = datetime.datetime.strptime(datetimeStr, "%Y-%m-%d").date()
+            if datetimeObj in numOrdersDateDict:
+                numOrdersDateDict[datetimeObj] += 1
+            else:
+                numOrdersDateDict[datetimeObj] = 1
+    
+        uniqueEl = [{"day": date.day,
+                    "month": date.month,
+                    "year": date.year,
+                    "count": count} for date, count in numOrdersDateDict.items()]
+            
+        uniqueEl.sort(key=lambda x: (x['year'], x['month'], x['day']))
+            
+        return uniqueEl
         
 
 

@@ -324,7 +324,7 @@ def get_total_num_staff():
 
 @statistics_bp.route('/statistics/total_num_admin', methods=['GET'])
 def get_total_num_admin_route():
-    return jsonify(get_total_num_admin), 200
+    return jsonify(get_total_num_admin()), 200
 
 
 def get_total_num_admin():

@@ -71,13 +71,13 @@ const Login = () => {
                   required
                 />
               </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Password</span>
-                </label>
-                <input
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Password</span>
+              </label>
+              <input
                   onChange={(e) =>
-                    setUser({ ...user, password: e.target.value })
+                      setUser({...user, password: e.target.value})
                   }
                   id="password"
                   type="password"
@@ -85,17 +85,17 @@ const Login = () => {
                   className="input input-bordered"
                   value={user.password}
                   required
-                />
-                {loginRole === "incorrect" && <p className="text-red-500">The Email or Password is incorrect!</p>}
-                {/*<label className="label">*/}
-                {/*  <a href="#" className="label-text-alt link link-hover">*/}
-                {/*    Forgot password?*/}
-                {/*  </a>*/}
-                {/*</label>*/}
-              </div>
-              <div className="form-control mt-1">
-                <button onClick={handleLogin} className="btn mb-1  btn-primary">
-                  Login
+              />
+              {loginRole === "incorrect" && <p className="text-red-500">The Email or Password is incorrect!</p>}
+              <label className="label">
+                <Link to="/forgotpassword" className="label-text-alt link link-hover">
+                  Forgot password?
+                </Link>
+              </label>
+            </div>
+            <div className="form-control mt-1">
+              <button onClick={handleLogin} className="btn mb-1  btn-primary">
+              Login
                 </button>
                 <button onClick={handleLoginGoogle} className="btn mt-3 mb-2 btn-primary">
                   Login With Google

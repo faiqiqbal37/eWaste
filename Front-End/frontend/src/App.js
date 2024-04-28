@@ -22,6 +22,7 @@ import AdminUsersDrawer from './screens/adminuserspage/adminusersdrawer';
 import FAQComponent from "./screens/landingpage/faq";
 import OrderSuccess from './components/stripeordersuccess';
 import GoogleLoginSuccess from './components/googleloginsuccess';
+import Forgotpassword from "./screens/forgotpassword/forgotpassword";
 
 function App() {
     return (
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/sdashboard/staffinfo" element={<StaffInfo />} />
                     <Route path="/sdashboard/userinfo" element={<UserInfo/>} />
                     <Route path="/registration" element={<Registration />} />
+                    <Route path="/forgotpassword" element={<Forgotpassword />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/customer/customerdashboard" element={<CustomerDashboard />} />

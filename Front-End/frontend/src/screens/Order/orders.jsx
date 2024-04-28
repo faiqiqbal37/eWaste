@@ -62,10 +62,17 @@ export const Orders = () => {
                 }
                 const devices = await devicesResponse.json();
 
+                const qrResponse = await fetch(`${baseUrl}/qr_code`);
+                if (!qrResponse.ok) {
+                    throw new Error('Failed to fetch orders');
+                }
+                const qr_code = await qrResponse.json()
+
                 // Map all devices to their orders based on the device_id
                 const filteredOrders = orders.map(order => {
                     const device = devices.find(device => device.device_id === order.device_id);
                     const service = services.find(service => service.service_id === order.service_id)
+                    const qr = qr_code.find(qr => qr.qr_id === order.qr_id)
                     return {
                         device_name: device.device_name,
                         device_type: device.device_type,
@@ -76,7 +83,8 @@ export const Orders = () => {
                         price: device.price,
                         photos: device.photos,
                         service_name: service.service_name,
-                        data_detail_id: order.data_detail_id
+                        data_detail_id: order.data_detail_id,
+                        qr_code: qr.qr_link
                     };
                 });
                 console.log(orders)

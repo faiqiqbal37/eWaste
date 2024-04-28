@@ -20,6 +20,8 @@ const Login = () => {
       if (Object.keys(data).length > 0) {
         updateLoggedUser(data);
         setLoginRole(data.role);
+      }else {
+        setLoginRole("No role");
       }
   };
 
@@ -80,6 +82,7 @@ const Login = () => {
                   value={user.password}
                   required
                 />
+                {loginRole === "incorrect" && <p className="text-red-500">The Email or Password is incorrect!</p>}
                 {/*<label className="label">*/}
                 {/*  <a href="#" className="label-text-alt link link-hover">*/}
                 {/*    Forgot password?*/}

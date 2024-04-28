@@ -74,7 +74,7 @@ def login():
                 print(new_usr)
                 return jsonify(new_usr), 200
             else:
-                return jsonify({}), 200
+                return jsonify({"role": "incorrect"}), 200
 
     except Exception as e:
         return f'Error fetching data: {e}'
@@ -223,5 +223,3 @@ def callback():
         session['current_user'] = res
 
     return redirect(f"http://localhost:3000/googlesuccess/{res['email']}")
-
-    

@@ -27,9 +27,6 @@ export const CustomerDrawer = () => {
                         </button>
                     </li>
                     <li>
-                        <button className="btn btn-ghost">Devices</button>
-                    </li>
-                    <li>
                         <button className="btn btn-ghost" onClick={() => {navigate("/customer/profile")}}>Profile</button>
                     </li>
 

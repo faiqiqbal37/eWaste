@@ -58,6 +58,8 @@ const PlaceOrder = () => {
         let date = getCurrentDateAsString()
         let typeOfServiceId = generateRandomId()
 
+        const priceInString = price.toString()
+
         try {
             const formData = {
                 brand: brand,
@@ -113,6 +115,19 @@ const PlaceOrder = () => {
             const requestFive = await axios.post(`${baseUrl}/service/new`, {
                 service_id: typeOfServiceId,
                 service_name: typeOfService
+
+            })
+            const requestSix = await axios.post(`${baseUrl}/qr_code/new`, {
+                qr_id: qrId,
+                order_id: orderId,
+                device_name: brand,
+                device_type: deviceType,
+                classification: category,
+                date: date,
+                price: priceInString,
+
+
+
 
             })
 

@@ -103,11 +103,23 @@ function OrderModal(props) {
                             }} className="btn btn-outline">3rd Party Listing
                             </button>
                         </div>
+                        {props.orderItem.status === "Processed"
+                            ? <div className="card-actions justify-end">
+                                <button onClick={() => {
+                                    fetchDataAndSendMail(props.orderItem.data_detail_id, userID)
+                                }} className="btn btn-outline">Get Data Link
+                                </button>
+                            </div>
+                            : null}
                         <div className="card-actions justify-end">
-                            <button onClick={() => {
-                                fetchDataAndSendMail(props.orderItem.data_detail_id, userID)
-                            }} className="btn btn-outline">Get Data Link
-                            </button>
+                            {props.orderItem.qr_code && props.orderItem.status === "Processed"
+                                ? <button className="btn btn-outline" onClick={() => {
+                                    const formattedBase64Image = `data:image/png;base64,${props.orderItem.qr_code}`;
+                                    window.open().document.write(`<img src="${formattedBase64Image}" alt="QR Code" style="width:20%; height:auto;"/>`)
+                                }}>Show QR</button>
+                                : <div></div>
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -127,8 +139,9 @@ function TableItem(props) {
             <div className="flex items-center gap-3">
                 <div className="avatar">
                     <div className="w-24 rounded-full">
-                        <img src={props.order['photos'].length > 0 ? props.order['photos'][0] : "https://placehold.co/600x400"}
-                             alt=""></img>
+                        <img
+                            src={props.order['photos'].length > 0 ? props.order['photos'][0] : "https://placehold.co/600x400"}
+                            alt=""></img>
                     </div>
                 </div>
                 <div>
@@ -147,7 +160,18 @@ function TableItem(props) {
         {props.order.status === "Pending"
             ? <td className="badge badge-warning badge-outline">{props.order.status}</td>
             : <td className="badge badge-success badge-outline">{props.order.status}</td>}
-        <OrderModal orderItem = {props.order} onClick={props.onClick} onClick1={props.onClick1}/>
+
+        <OrderModal orderItem={props.order} onClick={props.onClick} onClick1={props.onClick1}/>
+        <td>
+            {props.order.status === "Approved" && (
+                <form
+                    action={`http://127.0.0.1:5000/api/stripe/service/${props.order.device_name}/${props.order.order_id}/create-checkout-session`}
+                    method="POST">
+                    <button type="submit" className="btn">Checkout</button>
+                </form>
+            )}
+            
+        </td>
     </tr>;
 }
 

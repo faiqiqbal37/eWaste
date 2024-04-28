@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Link, Navigate } from "react-router-dom"; // Import Link from react-router-dom
 import "./login.css";
 import Navbar from "../../components/navbar"; // Import CSS file for component styling
@@ -11,6 +11,10 @@ const Login = () => {
   const { loggedUser, updateLoggedUser } = useStoreLogin();
 
   const [loginRole, setLoginRole] = useState(loggedUser.role);
+
+  useEffect(() => {
+    setLoginRole("No role");
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();

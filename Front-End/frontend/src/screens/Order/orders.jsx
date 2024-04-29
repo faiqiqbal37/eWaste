@@ -14,6 +14,10 @@ export const Orders = () => {
 
 
     const [orders, setOrders] = useState([]);
+    const [sortCriteria, setSortCriteria] = useState('');
+    const [deviceTypeFilter, setDeviceTypeFilter] = useState('');
+    const [categoryFilter, setCategoryFilter] = useState('');
+
 
 
     const {loggedUser, updateLoggedUser} = useStoreLogin();
@@ -33,6 +37,33 @@ export const Orders = () => {
         });
         return pendingCount
     }
+
+    const filterOrders = (orders) => {
+        return orders
+            .filter((order) => {
+                // Filter by device type if filter is set
+                return deviceTypeFilter ? order.device_type === deviceTypeFilter : true;
+            })
+            .filter((order) => {
+                // Filter by category if filter is set
+                return categoryFilter ? order.classification === categoryFilter : true;
+            });
+    };
+
+    // Implement the sorting function
+    const sortOrders = (filteredOrders) => {
+        switch (sortCriteria) {
+            case 'Date Added':
+                // Assuming 'date' is in a format that can be compared directly
+                return filteredOrders.sort((a, b) => new Date(a.date) - new Date(b.date));
+            case 'Price (Ascending)':
+                return filteredOrders.sort((a, b) => a.price - b.price);
+            case 'Price (Descending)':
+                return filteredOrders.sort((a, b) => b.price - a.price);
+            default:
+                return filteredOrders; // No sorting applied
+        }
+    };
 
     useEffect(() => {
         // This code will be executed once when the component mounts
@@ -98,9 +129,25 @@ export const Orders = () => {
 
         fetchFilteredOrders(userID).then(r => () => {console.log("done")})
         // Place your one-time initialization logic or any other code here
+
         console.log('Component mounted');
 
     }, []);
+
+    const filteredAndSortedOrders = sortOrders(filterOrders(orders));
+
+    // Event handlers for select elements
+    const handleSortChange = (event) => {
+        setSortCriteria(event.target.value);
+    };
+
+    const handleDeviceTypeChange = (event) => {
+        setDeviceTypeFilter(event.target.value);
+    };
+
+    const handleCategoryChange = (event) => {
+        setCategoryFilter(event.target.value);
+    };
 
 
 
@@ -123,7 +170,7 @@ export const Orders = () => {
                 {/* Container to center align the div */}
                 <div className="p-4 flex flex-row items-center justify-between">
                     <div id="sort" className="mr-2 pr-10 justify-start">
-                        <select className="select select-bordered max-w-xs">
+                        <select className="select select-bordered max-w-xs" onChange={handleSortChange}>
                             <option disabled selected>Sort By</option>
                             <option>Date Added</option>
                             <option>Price (Ascending)</option>
@@ -131,21 +178,21 @@ export const Orders = () => {
                         </select>
                     </div>
                     <div id="type" className="mr-2 pr-10 ">
-                        <select className="select select-bordered max-w-xs basis-1/3">
+                        <select className="select select-bordered max-w-xs basis-1/3" onChange={handleDeviceTypeChange}>
                             <option disabled selected>Device Type</option>
                             <option>Tablet</option>
                             <option>Laptop</option>
-                            <option>Smartphone</option>
+                            <option>Mobile</option>
                             <option>Smartwatch</option>
                         </select>
                     </div>
                     <div id="category" className="mr-60 pr-100">
-                        <select className="select select-bordered max-w-xs basis-1/3">
+                        <select className="select select-bordered max-w-xs basis-1/3" onChange={handleCategoryChange}>
                             <option disabled selected>Category</option>
-                            <option>Current</option>
-                            <option>Rare</option>
-                            <option>Recyclable</option>
-                            <option>Unknown</option>
+                            <option>current</option>
+                            <option>rare</option>
+                            <option>recyclable</option>
+                            <option>unknown</option>
                         </select>
                     </div>
                     <div id="button">
@@ -160,7 +207,7 @@ export const Orders = () => {
             <div className="divider"></div>
             <div>
                 <div>
-                    <OrderTable tableData={orders}
+                    <OrderTable tableData={filteredAndSortedOrders}
                                 onClick={() => document.getElementById('my_modal_3').showModal()}
                                 onClick1={() => {
                                     navigate("/customer/editorder")

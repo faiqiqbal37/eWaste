@@ -252,7 +252,7 @@
   .main__content h1 {
     font-size: 4rem;
     background-color: #65b24b;
-    background-image: ( #72b954 );
+   // background-image: ( #72b954 );
     background-size: 100%;
     -webkit-background-clip: text;
     -moz-background-clip: text;

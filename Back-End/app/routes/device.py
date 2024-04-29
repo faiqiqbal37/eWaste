@@ -61,12 +61,13 @@ def edit_device(device_id):
         for k, v in data.items():
             device_dict[k] = v
 
+        device_dict['price'] = int(device_dict['price'])
 
         
         search_criteria = {'device_id': data.get('device_id')}
 
 
-        res = mongo.db.device_collection.update_one(search_criteria, {'$set': data})
+        res = mongo.db.device_collection.update_one(search_criteria, {'$set': device_dict})
         
         if res.matched_count:
             return jsonify(device_dict), 200

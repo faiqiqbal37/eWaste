@@ -168,11 +168,11 @@ const AdminOrderTable = ({ orders }) => {
                       </dialog>
                     </div>
                   )}
-                  {order["status"] === "Approved" && (
-                    <form action={`http://127.0.0.1:5000/api/stripe/service/${order["device_name"]}/${order["order_id"]}/create-checkout-session`} method="POST">
-                      <button type="submit" className="btn">Checkout</button>
-                    </form>
-                  )}
+                  {/*{order["status"] === "Approved" && (*/}
+                  {/*  <form action={`http://127.0.0.1:5000/api/stripe/service/${order["device_name"]}/${order["order_id"]}/create-checkout-session`} method="POST">*/}
+                  {/*    <button type="submit" className="btn">Checkout</button>*/}
+                  {/*  </form>*/}
+                  {/*)}*/}
                 </td>
               </tr>
             );

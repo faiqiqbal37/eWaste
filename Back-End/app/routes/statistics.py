@@ -123,7 +123,7 @@ def get_counts_of_device_attributes_for_customer(data):
         return [numCountClassification, numCountDeviceType, numCountFlagged, numAvgPrice]
     
     except Exception as e:
-        return [{"total_device_classification_count": -1}, {"total_device_type_count": -1}, {"total_flagged_count": -1}, {"avg_price": f"{e}"}]
+        return [{"total_device_classification_count": -1}, {"total_device_type_count": -1}, {"total_flagged_count": -1}, {"avg_price": -1}]
 
     
 

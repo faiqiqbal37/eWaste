@@ -22,6 +22,7 @@ import AdminUsersDrawer from './screens/adminuserspage/adminusersdrawer';
 import FAQComponent from "./screens/landingpage/faq";
 import OrderSuccess from './components/stripeordersuccess';
 import GoogleLoginSuccess from './components/googleloginsuccess';
+import AdminFinanceDrawer from './screens/adminfinancespage/adminfinancedrawer';
 
 function App() {
     return (
@@ -44,6 +45,7 @@ function App() {
                     <Route path="/admin/orders" element={<AdminOrderDrawer/>} />
                     <Route path="/admin/dashboard" element={<AdminDashboardDrawer />} />
                     <Route path="/admin/users" element={<AdminUsersDrawer />} />
+                    <Route path="/admin/finance" element={<AdminFinanceDrawer />} />
                     <Route path="customer/orders" element={<Orders/>}/>
                     <Route path="/faq" element={<FAQComponent/>}/>
 

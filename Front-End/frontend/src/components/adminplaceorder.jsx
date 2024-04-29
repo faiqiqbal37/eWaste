@@ -164,7 +164,6 @@ const AdminPlaceOrder = ({ orderList, index, orderState, handleState }) => {
         >
           Save
         </button>
-        <button className="mr-3 w-20 btn btn-primary text-white">Store</button>
         <button
           className="w-20 btn btn-error text-white"
           onClick={discardChange}

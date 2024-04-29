@@ -14,8 +14,15 @@ from flask import jsonify, request, redirect
 domain = "http://127.0.0.1:5000"
 
 
-def calculate_order_amount():
 
+@stripe_bp.route('/service_cost')
+def get_order_amount():
+    return jsonify(calculate_order_amount()), 200
+
+
+
+
+def calculate_order_amount():
     return int(1400.0)
 
 

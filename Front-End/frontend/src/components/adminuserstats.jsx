@@ -48,6 +48,24 @@ const AdminUserStatistics = ({ currentUser }) => {
 
   return (
     <form method="dialog">
+      <div className="stats stats-vertical lg:stats-horizontal shadow p-5 flex">
+        <div className="stat">
+          <div className="stat-title">Total Number of Orders</div>
+          <div className="stat-value">
+            {userStats["Total Number of Orders"] === undefined ? 0 : userStats["Total Number of Orders"]}
+          </div>
+        </div>
+        <div className="stat">
+          {userStats["User Device Status Count"] && Object.keys(userStats["User Device Status Count"]).map((key) => {
+            return (
+              <div className="m-2">
+                <div className="stat-title">{key + " Devices"}</div>
+                <div className="stat-value">{userStats["User Device Status Count"][key]}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
       {userStats && userStats["Total Orders by Date"] && (
         <AdminUserOrderBarChart orders={userStats["Total Orders by Date"]} />
       )}

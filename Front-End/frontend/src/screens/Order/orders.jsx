@@ -17,12 +17,25 @@ export const Orders = () => {
     const [sortCriteria, setSortCriteria] = useState('');
     const [deviceTypeFilter, setDeviceTypeFilter] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
+    const [loading, setLoading] = useState(false); // Loading state
 
 
 
     const {loggedUser, updateLoggedUser} = useStoreLogin();
 
     let userID = loggedUser.user_id
+
+
+    //css
+
+    const spinnerStyle = {
+        border: "5px solid #f3f3f3",
+        borderTop: "5px solid #3498db",
+        borderRadius: "50%",
+        width: "50px",
+        height: "50px",
+        animation: "spin 2s linear infinite"
+    };
 
     function countPendingOrders(){
         let pendingCount = 0;
@@ -69,6 +82,7 @@ export const Orders = () => {
         // This code will be executed once when the component mounts
 
         async function fetchFilteredOrders(userID) {
+            setLoading(true); // Start loading
             try {
                 // Fetch orders data based on user_id from the backend API
                 const ordersResponse = await fetch(`${baseUrl}/orders/user/${userID}`);
@@ -120,11 +134,14 @@ export const Orders = () => {
                 });
                 console.log(orders)
                 setOrders(filteredOrders)
+                setLoading(false);
+
                 return filteredOrders;
             } catch (error) {
                 console.error('Error fetching filtered orders:', error);
                 return []; // Return an empty array or handle error as needed
             }
+
         }
 
         fetchFilteredOrders(userID).then(r => () => {console.log("done")})
@@ -160,6 +177,13 @@ export const Orders = () => {
         <div>
             <div>
                 <CustomerNavbar/>
+                {
+                    loading
+                    ? <div className="flex justify-center items-center h-screen">
+                            <div style={spinnerStyle}>
+                        </div>
+                    </div>
+                    : <div></div>}
             </div>
             <h1 className="text-2xl font-bold mb-4 p-4" style={{textAlign: "center"}}>Order Details</h1>
             <div className="divider"></div>

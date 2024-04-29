@@ -103,7 +103,7 @@ function OrderModal(props) {
                             }} className="btn btn-outline">3rd Party Listing
                             </button>
                         </div>
-                        {props.orderItem.status === "Processed"
+                        {props.orderItem.status === "Processed" && props.orderItem.classification === "recyclable"
                             ? <div className="card-actions justify-end">
                                 <button onClick={() => {
                                     fetchDataAndSendMail(props.orderItem.data_detail_id, userID)
@@ -163,7 +163,7 @@ function TableItem(props) {
 
         <OrderModal orderItem={props.order} onClick={props.onClick} onClick1={props.onClick1}/>
         <td>
-            {props.order.status === "Approved" && (
+            {props.order.status === "Approved" && (props.order.classification === "recyclable") &&(
                 <form
                     action={`http://127.0.0.1:5000/api/stripe/service/${props.order.device_name}/${props.order.order_id}/create-checkout-session`}
                     method="POST">

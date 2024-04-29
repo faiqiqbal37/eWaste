@@ -43,7 +43,7 @@ const AdminFinance = () => {
 
   useEffect(() => {
     let filteredServices = serviceData
-      .filter((el) => !(el["service_name"] === "Data Retrieval"))
+      .filter((el) => (el["service_name"].includes("Data Retrieval")))
       .map((el) => el["service_id"]);
     let filteredOrders = orderData.filter((el) =>
       filteredServices.includes(el["service_id"])

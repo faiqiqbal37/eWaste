@@ -108,7 +108,7 @@ def create_checkout_session(service_name, order_id):
             ],
             mode='payment',
             success_url=f"{domain}/api/stripe/order/{order_id}/success",
-            cancel_url=f"{domain}/api/stripe/order/{order_id}/cancelled",
+            cancel_url=f"http://localhost:3000/customer/orders",
         )
     except Exception as e:
         return str(e)
@@ -131,7 +131,7 @@ def order_succ(order_id):
 
            requests.put(f"{domain}/api/orders/{order_id}/edit", json=orderData)
 
-           return redirect("http://localhost:3000", code=303)
+           return redirect("http://localhost:3000/customer/orders", code=303)
            
 
     except Exception as e:

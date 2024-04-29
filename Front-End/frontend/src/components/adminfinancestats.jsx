@@ -22,11 +22,11 @@ const AdminFinanceStats = ({data, amount}) => {
           </div>
           <div className="stat">
             <div className="stat-title">Number of Laptops</div>
-            <div className="stat-value">{[...new Set(data.map(el=>el['user_id']))].length}</div>
+            <div className="stat-value">{[...new Set(data.filter(el=>el['device_type']==="Laptop"))].length}</div>
           </div>
           <div className="stat mx-auto"> {/* Apply mx-auto class here */}
             <div className="stat-title">Number of Smartphones</div>
-            <div className="stat-value">{[...new Set(data.map(el=>el['user_id']))].length}</div>
+            <div className="stat-value">{[...new Set(data.filter(el=>el['device_type']==="Mobile"))].length}</div>
           </div>
         </div>
       );

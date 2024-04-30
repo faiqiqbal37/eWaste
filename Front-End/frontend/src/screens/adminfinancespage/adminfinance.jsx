@@ -68,10 +68,10 @@ const AdminFinance = () => {
       filteredOrders.map(async (el) => {
         let filteredMergedOrders = el;
         await fetchUrl(urlReq[0] + el["user_id"]).then((el) => {
-          filteredMergedOrders = { ...filteredMergedOrders, ...el };
+          filteredMergedOrders = { ...el, ...filteredMergedOrders };
         });
         await fetchUrl(urlReq[1] + el["device_id"]).then((el) => {
-          filteredMergedOrders = { ...filteredMergedOrders, ...el };
+          filteredMergedOrders = {  ...el, ...filteredMergedOrders };
         });
         return filteredMergedOrders;
       })

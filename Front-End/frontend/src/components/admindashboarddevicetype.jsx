@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AdminPieChart from "./adminpiechart";
 
-const AdminDashBoardDeviceType = () => {
+const AdminDashBoardDeviceType = ({changed}) => {
   const [deviceTypeCount, setDeviceTypeCount] = useState({});
 
   const fetchUrl = async () => {
@@ -22,7 +22,7 @@ const AdminDashBoardDeviceType = () => {
       fetchUrl().then((data) => {
         setDeviceTypeCount(data);
       });
-  }, []);
+  }, [changed]);
 
   const parseData = () => {
     if (Object.keys(deviceTypeCount).length === 0) {

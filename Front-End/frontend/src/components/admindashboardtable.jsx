@@ -20,7 +20,9 @@ const AdminDashboardTable = ({ orders, changed }) => {
     const approveOrder = async () => {
       const updatedList = [...orderLists];
       
-      updatedList[index].status = "Approved";
+      
+      let stat = orderLists[index].service_name === "Data Wiping" ? "Processed" : "Approved"
+      updatedList[index].status = stat;
       
       const temp = { ...updatedList[index] };
       delete temp._id;
@@ -30,13 +32,12 @@ const AdminDashboardTable = ({ orders, changed }) => {
         let orderReq = await axios.get(`http://127.0.0.1:5000/api/orders/${updatedList[index].order_id}`)
         let orderData = orderReq.data
         delete orderData._id
-        orderData.status = "Approved"
+        orderData.status = stat
 
         await axios.put(`http://127.0.0.1:5000/api/orders/${updatedList[index].order_id}/edit`, orderData);
         
-        setOrderLists(updatedList);
+        updateOrderLists(updatedList);
         
-        changed(prev => !prev);
       } catch (error) {
         console.error("Error approving order:", error);
       }
@@ -66,17 +67,22 @@ const AdminDashboardTable = ({ orders, changed }) => {
           return rest;
         });
 
+
         const finalRes = mappedResult.map(async (item) => {
           let url = `http://127.0.0.1:5000/api/users/${item.user_id}`;
           let user_data = await fetchDataUrl(url);
           url = `http://127.0.0.1:5000/api/devices/${item.device_id}`;
           let device_data = await fetchDataUrl(url);
-          const { user_id, device_id, ...rest } =  item;
 
-          let user_name =  user_data["name"];
+          url = `http://127.0.0.1:5000/api/service/${item.service_id}`;
+          let service_data = await fetchDataUrl(url)
 
+          const { user_id, device_id, ...rest } = item;
+          
 
-          let finalThing = { Name: user_name, ...device_data , ...rest };
+          let user_name = user_data["name"];
+
+          let finalThing = { Name: user_name, ...device_data, ...service_data, ...rest };
           return finalThing;
         });
 
@@ -111,6 +117,7 @@ const AdminDashboardTable = ({ orders, changed }) => {
     <div className="overflow-x-auto w-full ">
       <table className="table">
         <thead>
+
           <tr>
             <th></th>
             <th>Name</th>

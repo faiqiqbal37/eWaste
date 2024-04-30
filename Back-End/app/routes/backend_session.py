@@ -60,7 +60,7 @@ def login():
         res = response.json()
 
         if not res:
-            return jsonify({}), 200
+            return jsonify({"role": "incorrect"}), 200
 
         else:
             new_usr = {}

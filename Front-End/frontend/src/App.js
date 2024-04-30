@@ -24,7 +24,9 @@ import OrderSuccess from './components/stripeordersuccess';
 import GoogleLoginSuccess from './components/googleloginsuccess';
 import Forgotpassword from "./screens/forgotpassword/forgotpassword";
 import AdminFinanceDrawer from './screens/adminfinancespage/adminfinancedrawer';
-
+import StaffOrderCopyDrawer from './screens/staffsimulacrum/adminorderpage/staffordercopydrawer'
+import StaffDasboardDrawerCopy from './screens/staffsimulacrum/admindashboard/staffdashboardcopydrawer';
+import StaffUsersCopyDrawer from './screens/staffsimulacrum/adminuserspage/adminusersdrawer';
 
 function App() {
     return (
@@ -50,8 +52,10 @@ function App() {
                     <Route path="/admin/users" element={<AdminUsersDrawer />} />
                     <Route path="/admin/finance" element={<AdminFinanceDrawer />} />
                     <Route path="customer/orders" element={<Orders/>}/>
-                    <Route path="/faq" element={<FAQComponent/>}/>
-
+                    <Route path="/faq" element={<FAQComponent/>}/>  
+                    <Route path="/staff/orders" element={<StaffOrderCopyDrawer/>} />
+                    <Route path="/staff/dashboard" element={<StaffDasboardDrawerCopy />} />
+                    <Route path="/staff/users" element={<StaffUsersCopyDrawer />} />
                 </Routes>
             </div>
         </BrowserRouter>

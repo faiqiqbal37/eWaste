@@ -105,8 +105,8 @@ const LandingPage = () => {
                 <div className="max-w-7xl mx-auto">
                     <h2 className="text-3xl font-semibold text-center mb-6">Available Devices</h2>
                     <div className="flex items-center justify-center h-full p-4">
-                        <div className="products flex flex-wrap justify-center gap-4 overflow-y-auto">
-                            {orders.map((order) => (
+                        <div className="products flex flex-wrap justify-center gap-4 overflow-x-auto">
+                            {orders.slice(0,4).map((order) => (
                                 <div className="card card-compact w-80 bg-base-100 shadow-xl"
                                      key={order.id}> {/* Assuming orders have an 'id' property */}
                                     <figure>
@@ -118,9 +118,8 @@ const LandingPage = () => {
                                         <h2 className="card-title">{order.device_name}</h2>
                                         <p>Device Type: {order.device_type}</p>
                                         <p>Category: {order.classification.toString().toUpperCase()}</p>
-                                        <p>Date of Order: {order.date}</p>
+
                                         <p>Price: {order.price}</p>
-                                        <p>Order By: {order.name}</p>
                                         {/*<div className="card-actions justify-end">*/}
                                         {/*    <button className="btn btn-primary">Buy Now</button>*/}
                                         {/*</div>*/}

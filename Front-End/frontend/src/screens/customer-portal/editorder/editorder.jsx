@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import CustomerNavbar from "../../../components/customerNavbar";
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const EditOrder = () => {
     const [brand, setBrand] = useState('');
@@ -14,6 +16,9 @@ const EditOrder = () => {
     const [dataWiping, setDataWiping] = useState('');
     const location = useLocation();
     const [orderItem, setOrderItem] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
 
 
     useEffect(() => {
@@ -47,6 +52,8 @@ const EditOrder = () => {
                 },
                 body: JSON.stringify(payload)
             });
+            setIsLoading(true); // Set isLoading to true before making async requests
+
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -58,6 +65,11 @@ const EditOrder = () => {
             // such as redirecting the user or displaying a success message.
         } catch (error) {
             console.error("Error updating order:", error);
+        }
+        finally {
+            setIsLoading(false); // Set isLoading to false after async requests are completed
+            navigate('/customer/orders');
+
         }
     };
 
@@ -72,7 +84,12 @@ const EditOrder = () => {
             <CustomerNavbar/>
             <div className="max-w-md mx-auto p-8 border rounded-md">
                 <h2 className="text-2xl font-bold mb-4">Edit Order</h2>
-                <form onSubmit={handleSubmit}>
+                {isLoading ? (
+                        <div className="flex justify-center items-center h-32">
+                            <p className="text-gray-600">Submitting...</p>
+                        </div>
+                    ) :
+                    <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="brand" className="block mb-1">Name:</label>
                         <input placeholder={orderItem?.device_name} type="text" id="brand" value={brand}
@@ -137,6 +154,7 @@ const EditOrder = () => {
                             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit
                     </button>
                 </form>
+                }
             </div>
         </div>
     );

@@ -12,21 +12,25 @@ const AdminOrderTable = ({ orders }) => {
     setOrderLists(newOrderLists);
   };
 
+
   const curriedApproveOrder = (index) => {
     const approveOrder = async () => {
       const updatedList = [...orderLists];
       
-      updatedList[index].status = "Approved";
+      
+      let stat = orderLists[index].service_name === "Data Wiping" ? "Processed" : "Approved"
+      updatedList[index].status = stat;
       
       const temp = { ...updatedList[index] };
       delete temp._id;
       
+
       try {
 
         let orderReq = await axios.get(`http://127.0.0.1:5000/api/orders/${updatedList[index].order_id}`)
         let orderData = orderReq.data
         delete orderData._id
-        orderData.status = "Approved"
+        orderData.status = stat
 
         await axios.put(`http://127.0.0.1:5000/api/orders/${updatedList[index].order_id}/edit`, orderData);
         
@@ -65,11 +69,16 @@ const AdminOrderTable = ({ orders }) => {
           let user_data = await fetchDataUrl(url);
           url = `http://127.0.0.1:5000/api/devices/${item.device_id}`;
           let device_data = await fetchDataUrl(url);
+
+          url = `http://127.0.0.1:5000/api/service/${item.service_id}`;
+          let service_data = await fetchDataUrl(url)
+
           const { user_id, device_id, ...rest } = item;
+          
 
           let user_name = user_data["name"];
 
-          let finalThing = { Name: user_name, ...device_data, ...rest };
+          let finalThing = { Name: user_name, ...device_data, ...service_data, ...rest };
           return finalThing;
         });
 
@@ -98,6 +107,7 @@ const AdminOrderTable = ({ orders }) => {
     <div className="overflow-x-auto w-full ">
       <table className="table">
         <thead>
+          {console.log(orderLists)}
           <tr>
             <th></th>
             <th>Name</th>

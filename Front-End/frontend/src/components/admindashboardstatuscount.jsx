@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import AdminPieChart from "./adminpiechart";
 
-const AdminDashboardStatusCount = () => {
+const AdminDashboardStatusCount = ({changed}) => {
   const [deviceTypeCount, setDeviceTypeCount] = useState({});
 
   const fetchUrl = async () => {
@@ -26,7 +26,7 @@ const AdminDashboardStatusCount = () => {
     } catch (error) {
       return []
     }
-  }, []);
+  }, [changed]);
 
   const parseData = () => {
     if (Object.keys(deviceTypeCount).length === 0) {

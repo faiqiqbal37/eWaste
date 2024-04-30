@@ -88,9 +88,9 @@ const Login = () => {
               />
               {loginRole === "incorrect" && <p className="text-red-500">The Email or Password is incorrect!</p>}
               <label className="label">
-                <Link to="/forgotpassword" className="label-text-alt link link-hover">
-                  Forgot password?
-                </Link>
+                {/*<Link to="/forgotpassword" className="label-text-alt link link-hover">*/}
+                {/*  Forgot password?*/}
+                {/*</Link>*/}
               </label>
             </div>
             <div className="form-control mt-1">

@@ -19,6 +19,10 @@ export const CustomerDashboard = () => {
     const [orders, setOrders] = useState([]);
     const [orderStats, setOrderStats] = useState([]);
 
+    const [sortCriteria, setSortCriteria] = useState('');
+    const [deviceTypeFilter, setDeviceTypeFilter] = useState('');
+    const [categoryFilter, setCategoryFilter] = useState('');
+
     const {loggedUser, updateLoggedUser} = useStoreLogin();
 
     let userID = loggedUser.user_id
@@ -36,6 +40,32 @@ export const CustomerDashboard = () => {
         });
         return pendingCount
     }
+
+    const sortOrders = (filteredOrders) => {
+        switch (sortCriteria) {
+            case 'Date Added':
+                // Assuming 'date' is in a format that can be compared directly
+                return filteredOrders.sort((a, b) => new Date(a.date) - new Date(b.date));
+            case 'Price (Ascending)':
+                return filteredOrders.sort((a, b) => a.price - b.price);
+            case 'Price (Descending)':
+                return filteredOrders.sort((a, b) => b.price - a.price);
+            default:
+                return filteredOrders; // No sorting applied
+        }
+    };
+
+    const filterOrders = (orders) => {
+        return orders
+            .filter((order) => {
+                // Filter by device type if filter is set
+                return deviceTypeFilter ? order.device_type === deviceTypeFilter : true;
+            })
+            .filter((order) => {
+                // Filter by category if filter is set
+                return categoryFilter ? order.classification === categoryFilter : true;
+            });
+    };
 
     useEffect(() => {
         //This code will be executed once when the component mounts
@@ -139,6 +169,23 @@ export const CustomerDashboard = () => {
 
     }, []);
 
+    const filteredAndSortedOrders = sortOrders(filterOrders(orders));
+
+    const handleSortChange = (event) => {
+        setSortCriteria(event.target.value);
+    };
+
+    const handleDeviceTypeChange = (event) => {
+        setDeviceTypeFilter(event.target.value);
+    };
+
+    const handleCategoryChange = (event) => {
+        setCategoryFilter(event.target.value);
+    };
+
+
+
+
 
 
     return (
@@ -179,7 +226,7 @@ export const CustomerDashboard = () => {
                 {/* Container to center align the div */}
                 <div className="p-4 flex flex-row items-center justify-between">
                     <div id="sort" className="mr-2 pr-10 justify-start">
-                        <select className="select select-bordered max-w-xs">
+                        <select className="select select-bordered max-w-xs" onChange={handleSortChange}>
                             <option disabled selected>Sort By</option>
                             <option>Date Added</option>
                             <option>Price (Ascending)</option>
@@ -187,21 +234,21 @@ export const CustomerDashboard = () => {
                         </select>
                     </div>
                     <div id="type" className="mr-2 pr-10 ">
-                        <select className="select select-bordered max-w-xs basis-1/3">
+                        <select className="select select-bordered max-w-xs basis-1/3" onChange={handleDeviceTypeChange}>
                             <option disabled selected>Device Type</option>
                             <option>Tablet</option>
                             <option>Laptop</option>
-                            <option>Smartphone</option>
+                            <option>Mobile</option>
                             <option>Smartwatch</option>
                         </select>
                     </div>
                     <div id="category" className="mr-60 pr-100">
-                        <select className="select select-bordered max-w-xs basis-1/3">
+                        <select className="select select-bordered max-w-xs basis-1/3" onChange={handleCategoryChange}>
                             <option disabled selected>Category</option>
-                            <option>Current</option>
-                            <option>Rare</option>
-                            <option>Recyclable</option>
-                            <option>Unknown</option>
+                            <option>current</option>
+                            <option>rare</option>
+                            <option>recyclable</option>
+                            <option>unknown</option>
                         </select>
                     </div>
                     <div id="button">
@@ -219,7 +266,7 @@ export const CustomerDashboard = () => {
                 {/* Container to center align the cards */}
                 <div className="products flex flex-wrap justify-center gap-4 overflow-y-auto">
                     {/* Vertically scrollable cards with 4 cards in a row */}
-                    {orders.map((order) => (
+                    {filteredAndSortedOrders.map((order) => (
                         <div className="card card-compact w-80 bg-base-100 shadow-xl">
                             <figure>
                                 <img

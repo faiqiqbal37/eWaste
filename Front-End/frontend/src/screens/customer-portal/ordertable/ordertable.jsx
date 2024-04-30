@@ -90,13 +90,16 @@ function OrderModal(props) {
                         <p>Price: {props.orderItem.price}</p>
                         <p>Additional Service: {props.orderItem.service_name}</p>
 
-                        <div className="card-actions justify-end">
-                            <button onClick={() => {
+                        {props.orderItem.status!=="Processed"
+                            ? <div className="card-actions justify-end">
+                                <button onClick={() => {
 
-                                navigate('/customer/editorder', { state: { orderItem: props.orderItem } });                            }} className="btn btn-outline">Edit Device
-                                Details
-                            </button>
-                        </div>
+                                    navigate('/customer/editorder', {state: {orderItem: props.orderItem}});
+                                }} className="btn btn-outline">Edit Device
+                                    Details
+                                </button>
+                            </div>
+                            : <div></div>}
                         <div className="card-actions justify-end">
                             <button onClick={() => {
                                 redirectToWebuy(props.orderItem.device_name)

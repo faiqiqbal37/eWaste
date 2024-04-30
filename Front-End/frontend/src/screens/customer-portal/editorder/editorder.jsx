@@ -28,11 +28,10 @@ const EditOrder = () => {
         // Construct the payload from the state
         const payload = {
             device_id: orderItem.device_id,
-            brand: brand,
-            deviceType: deviceType,
-            category: category,
-            price: price,
-            images: orderItem.images,  // You might need to handle image uploads separately depending on your backend
+            device_name: brand,
+            device_type: deviceType,
+            classification: category,
+            price: price,  // You might need to handle image uploads separately depending on your backend
             service: typeOfService,
             // Include other necessary fields
         };

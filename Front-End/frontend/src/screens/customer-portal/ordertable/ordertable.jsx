@@ -115,7 +115,7 @@ function OrderModal(props) {
                             </div>
                             : null}
                         <div className="card-actions justify-end">
-                            {props.orderItem.qr_code && props.orderItem.status === "Processed"
+                            {props.orderItem.qr_code && props.orderItem.status === "Processed" && props.orderItem.classification !== "recyclable"
                                 ? <button className="btn btn-outline" onClick={() => {
                                     const formattedBase64Image = `data:image/png;base64,${props.orderItem.qr_code}`;
                                     window.open().document.write(`<img src="${formattedBase64Image}" alt="QR Code" style="width:20%; height:auto;"/>`)

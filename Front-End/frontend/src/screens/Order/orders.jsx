@@ -119,6 +119,7 @@ export const Orders = () => {
                     const service = services.find(service => service.service_id === order.service_id)
                     const qr = qr_code.find(qr => qr.qr_id === order.qr_id)
                     return {
+                        device_id: device.device_id,
                         device_name: device.device_name,
                         device_type: device.device_type,
                         classification: device.classification,

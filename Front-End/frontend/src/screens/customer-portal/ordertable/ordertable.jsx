@@ -92,8 +92,8 @@ function OrderModal(props) {
 
                         <div className="card-actions justify-end">
                             <button onClick={() => {
-                                navigate('/customer/editorder', {state: props.orderItem});
-                            }} className="btn btn-outline">Edit Device
+
+                                navigate('/customer/editorder', { state: { orderItem: props.orderItem } });                            }} className="btn btn-outline">Edit Device
                                 Details
                             </button>
                         </div>

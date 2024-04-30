@@ -43,7 +43,7 @@ const Login = () => {
   } else if (loginRole === "admin") {
     return <Navigate to="/admin/dashboard"></Navigate>;
   } else if(loginRole === "staff"){
-    return <Navigate to="/sdashboard"></Navigate>;
+    return <Navigate to="/staff/dashboard"></Navigate>;
   }
 
   return (

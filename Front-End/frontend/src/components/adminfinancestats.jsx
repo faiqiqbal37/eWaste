@@ -14,11 +14,11 @@ const AdminFinanceStats = ({data, amount}) => {
           </div>
           <div className="stat">
             <div className="stat-title">Total Data Wiping Services</div>
-            <div className="stat-value">{data.filter((el)=>el['service']['service_name'].includes('Data Wiping')).length}</div>
+            <div className="stat-value">{data.filter((el)=>el['service']['service_name'] && el['service']['service_name'].includes('Data Wiping')).length}</div>
           </div>
           <div className="stat">
             <div className="stat-title">Total Data Retrieval Services</div>
-            <div className="stat-value">{data.filter((el)=>el['service']['service_name'].includes('Data Retrieval')).length}</div>
+            <div className="stat-value">{data.filter((el)=>el['service']['service_name'] && el['service']['service_name'].includes('Data Retrieval')).length}</div>
           </div>
           <div className="stat">
             <div className="stat-title">Number of Laptops</div>

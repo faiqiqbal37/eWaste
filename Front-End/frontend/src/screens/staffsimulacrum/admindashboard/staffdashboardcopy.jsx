@@ -97,7 +97,7 @@ const StaffDashboardCopy = () => {
           numberOfUsers={numUsers}
           numberOfProcessedOrders={numberOfProcessedOrders}
         ></AdminDashboardStats>
-        <AdminDashboardOrdersGraph />
+        {/*<AdminDashboardOrdersGraph />*/}
         <div className="divider"></div>
         <div className="flex w-full">
           <div className="grid flex-grow  bg-base-300 rounded-box place-items-center">

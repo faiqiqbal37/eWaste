@@ -43,10 +43,10 @@ const AdminFinance = () => {
 
   useEffect(() => {
     let filteredServices = serviceData
-      .filter((el) => (el["service_name"].includes("Data Retrieval")))
+      .filter((el) => (el["service_name"] && el["service_name"].includes("Data Retrieval")))
       .map((el) => el["service_id"]);
     let filteredOrders = orderData.filter((el) =>
-      filteredServices.includes(el["service_id"])
+      el["service_id"] && filteredServices.includes(el["service_id"])
     );
 
     let mergedData = filteredOrders.map((order) => {

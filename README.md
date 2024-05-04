@@ -23,5 +23,31 @@ To run the application locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://git.shefcompsci.org.uk/com6103-2023-24/team11/project.git”
    cd <repository-directory>
+
+2. Setup the Frontend server
+
+   ```bash
+   cd Front-End/frontend
+   npm install
+
+3. Setup the Backend server
+
+   ```bash
+   cd Back-end
+   pip install -r requirements.txt
+
+4. Running the Backend server
+
+   ```bash
+   cd Back-end
+   python app.py
+
+5. Running the Frontend server
+
+   ```bash
+   cd Front-End/frontend
+   npm start
+
+6. Open the browser the visit the "http://localhost:3000/"

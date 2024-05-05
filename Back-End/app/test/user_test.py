@@ -54,6 +54,20 @@ def test_get_user_details(client):
     assert response.status_code == 200 or response.status_code == 404
 
 
+def test_get_user_details_from_email(client):
+    """Test the GET /users/email/<email> endpoint."""
+
+    # Set up data
+    email = 'pytest@mail.com'
+
+    # Make get request
+    response = client.get(f'/api/users/email/{email}')
+
+    # Assert the response code is 200 OK
+    assert response.status_code == 200
+
+
+
 def test_edit_user(client):
     """Test the PUT /users/<user_id>/edit endpoint."""
     user_id = '123'
@@ -99,7 +113,7 @@ def test_find_user_from_unique_attribute(client):
 
 def test_send_mail_to_user(client):
     """Test the POST /users/<user_id>/mail endpoint."""
-    user_id = '123'
+    user_id = 'pytest'
     mail_data = {'subject': 'Test Email', 'body': 'This is a test email.'}
     response = client.post(f'/api/users/{user_id}/mail', json=mail_data)
     assert response.status_code == 200 or response.status_code == 404

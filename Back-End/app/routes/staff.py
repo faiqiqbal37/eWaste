@@ -73,6 +73,7 @@ def all_information():
     }
 
     return jsonify(return_information)
+
 @staff_bp.route('/editvisibility', methods=['POST', 'GET'])
 def edit_device_visibility():
     # Get variables passed from the frontend
@@ -101,11 +102,11 @@ def edit_device_visibility():
     update_data = {'$set': {'visibility': True}}
 
     # Update a single document
-    result = order_collection.update(query, update_data)
+    result = order_collection.update_one(query, update_data)
 
     # Check if the update was successful
     if result:
         return jsonify({'status': 'success', 'message': 'Update successful!'}), 200
     else:
         return jsonify({'status': 'error', 'message': 'No documents were modified; the update may not have been '
-                                                      'successful.'}), 401
+                                                      'successful.'}), 404

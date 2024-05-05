@@ -80,8 +80,6 @@ def delete_payment(payment_id):
 
             if res.deleted_count > 0:
                 return jsonify(convert_document(payment_to_delete)), 200
-            else:
-                return jsonify({'error': 'Payment not found or no changes made'}), 404
         else:
             return jsonify({'error': 'Payment not found or no changes made'}), 404
     except Exception as e:

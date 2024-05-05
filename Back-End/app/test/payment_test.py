@@ -53,6 +53,15 @@ def test_get_payment_details(client):
     assert 'amount' in data
     assert data['payment_id'] == 'pytest'
 
+def test_get_payment_details_not_found(client):
+    """Test the GET /payments/<payment_id> endpoint
+    for the case where the payment with the specified id cannot be found"""
+    payment_id = 'none'
+
+    response = client.get(f'api/payments/{payment_id}')
+
+    assert response.status_code == 404
+
 
 def test_edit_payment(client):
     """Test the PUT /payments/<payment_id>/edit endpoint."""
@@ -62,6 +71,17 @@ def test_edit_payment(client):
     response = client.put(f'api/payments/{payment_id}/edit', json=edited_payment_data)
 
     assert response.status_code == 200
+
+
+def test_edit_payment_not_found(client):
+    """Test the PUT /payments/<payment_id>/edit endpoint for
+    the case where the payment to be edited cannot be found"""
+    payment_id = 'none'
+    edited_payment_data = {'payment_id': 'none', 'amount': 150, "currency": "EUR"}
+
+    response = client.put(f'api/payments/{payment_id}/edit', json=edited_payment_data)
+
+    assert response.status_code == 404
 
 
 def test_delete_payment(client):
@@ -76,3 +96,13 @@ def test_delete_payment(client):
     assert 'payment_id' in data
     assert 'amount' in data
     assert data['payment_id'] == 'pytest'
+
+
+def test_delete_payment_not_found(client):
+    """Test the DELETE /payments/<payment_id>/delete endpoint
+    for the case where the payment to be deleted cannot be found"""
+    payment_id = 'none'
+
+    response = client.delete(f'api/payments/{payment_id}/delete')
+
+    assert response.status_code == 404

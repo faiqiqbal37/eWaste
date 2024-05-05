@@ -83,8 +83,6 @@ def delete_service(service_id):
 
             if res.deleted_count > 0:
                 return jsonify(convert_document(service_to_delete)), 200
-            else:
-                return jsonify({'error': 'Service not found or no changes made'}), 404
         else:
             return jsonify({'error': 'Service not found or no changes made'}), 404
     except Exception as e:

@@ -49,6 +49,7 @@ def test_create_service(client):
 
 def test_get_service_details(client):
     """Test the GET /service/<service_id> endpoint."""
+
     # Make a GET request to retrieve details of a specific service
     response = client.get('api/service/pytest')
 
@@ -60,6 +61,17 @@ def test_get_service_details(client):
     assert 'service_id' in data
     assert 'service_name' in data
     assert data['service_id'] == 'pytest'
+
+
+def test_get_service_details_not_found(client):
+    """Test the GET /service/<service_id> endpoint 
+    for the case where the service with the specified id cannot be found"""
+
+    # Make a GET request to retrieve details of a specific service
+    response = client.get('api/service/none')
+
+    # Check if the response status code is 404 NOT FOUND
+    assert response.status_code == 404
 
 
 def test_edit_service(client):
@@ -77,6 +89,22 @@ def test_edit_service(client):
     assert response.status_code == 200
 
 
+def test_edit_service_not_found(client):
+    """Test the PUT /service/<service_id>/edit endpoint for
+    the case where the service to be edited cannot be found"""
+    # Prepare data for editing a service
+    service_id = 'none'
+
+    # Prepare data for editing the service link
+    edited_service_link = {'service_id': 'none', 'service_name': 'Edit Service', "data_link": ["Edit link"]}
+
+    # Make a PUT request to edit the service link
+    response = client.put(f'api/service/{service_id}/edit', json=edited_service_link)
+
+    # Check if the response status code is 404 NOT FOUND
+    assert response.status_code == 404
+
+
 def test_delete_service(client):
     """Test the DELETE /service/<service_id>/delete endpoint."""
     # Make a DELETE request to delete a service
@@ -90,3 +118,15 @@ def test_delete_service(client):
     assert 'service_id' in data
     assert 'service_name' in data
     assert data['service_id'] == 'pytest'
+
+
+
+def test_delete_service_not_found(client):
+    """Test the DELETE /service/<service_id>/delete endpoint 
+    for the case where the service to be deleted cannot be found"""
+
+    # Make a DELETE request to delete a service
+    response = client.delete('api/service/none/delete')
+
+    # Check if the response status code is 404 NOT FOUND
+    assert response.status_code == 404

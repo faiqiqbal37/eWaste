@@ -88,7 +88,7 @@ def test_edit_device(client):
     edited_device = {
         'device_id': 'pytest',
         'classification': 'edited_test_classification',
-        'device_name': 'edited_test_name'
+        'device_name': 'edited_test_name',
     }
 
     # Make a PUT request to edit the device

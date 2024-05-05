@@ -8,15 +8,6 @@ import requests
 import datetime
 
 
-
-def convert_document(document):
-    """Convert ObjectId to string for JSON serialization."""
-    for key, value in document.items():
-        if isinstance(value, ObjectId):
-            document[key] = str(value)
-    return document
-
-
 @statistics_bp.route('/statistics/get_total_device_type', methods=['GET'])
 def get_total_device_type():
     try:

@@ -97,8 +97,6 @@ def delete_data_detail(data_id):
 
             if res.deleted_count > 0:
                 return jsonify(convert_document(data_detail_to_delete)), 200
-            else:
-                return jsonify({'error': 'Data link not found or no changes made'}), 404
         else:
             return jsonify({'error': 'Data link not found or no changes made'}), 404
     except Exception as e:

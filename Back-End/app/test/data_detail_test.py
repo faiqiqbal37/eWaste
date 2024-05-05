@@ -66,6 +66,17 @@ def test_get_data_detail(client):
     assert data['data_detail_id'] == 'pytest'
 
 
+def test_get_data_detail_not_found(client):
+    """Test the GET /data_detail/<data_id> endpoint 
+    for the case where the data with the specified id cannot be found"""
+
+    # Make a GET request to retrieve details of a specific data detail entry
+    response = client.get('api/data_detail/none')
+
+    # Check if the response status code is 404 NOT FOUND
+    assert response.status_code == 404
+
+
 def test_edit_data_detail(client):
     """Test the PUT /data_detail/<data_id>/edit endpoint."""
 
@@ -85,6 +96,26 @@ def test_edit_data_detail(client):
     assert response.status_code == 200
 
 
+def test_edit_data_detail_not_found(client):
+    """Test the PUT /data_detail/<data_id>/edit endpoint for 
+    the case where  the data to be edited cannot be found"""
+
+    # Prepare data for editing a data detail entry
+    data_detail_id = 'none'
+
+    # Prepare data for editing the data detail entry
+    edited_data_detail = {
+          'data_detail_id' : 'none',
+          'data_link': 'edited_test_link'
+    }
+
+    # Make a PUT request to edit the data detail entry
+    response = client.put(f'api/data_detail/{data_detail_id}/edit', json=edited_data_detail)
+
+    # Check if the response status code is 404 NOT FOUND
+    assert response.status_code == 404
+
+
 def test_delete_data_detail(client):
     """Test the DELETE /data_detail/<data_id>/delete endpoint."""
 
@@ -99,3 +130,14 @@ def test_delete_data_detail(client):
     assert 'data_detail_id' in data
     assert 'data_link' in data
     assert data['data_detail_id'] == 'pytest'
+
+
+def test_delete_data_detail_not_found(client):
+    """Test the DELETE /data_detail/<data_id>/delete endpoint
+    for the case where the data to be deleted cannot be found"""
+
+    # Make a DELETE request to delete a data detail entry
+    response = client.delete('api/data_detail/none/delete')
+
+    # Check if the response status code is 404 NOT FOUND
+    assert response.status_code == 404

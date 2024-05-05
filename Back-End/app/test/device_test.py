@@ -80,6 +80,17 @@ def test_get_device_details(client):
     assert data['device_id'] == 'pytest'
 
 
+def test_get_device_details_not_found(client):
+    """Test the GET /devices/<device_id> endpoint
+    for the case where no device with the given id can be found"""
+
+    # Make a GET request to retrieve the details of a specific device
+    response = client.get('api/devices/none')
+
+    # Check if the response status code is 404 NOT FOUND
+    assert response.status_code == 404
+
+
 def test_edit_device(client):
     """Test the PUT /devices/<device_id>/edit"""
 
@@ -117,3 +128,13 @@ def test_delete_device(client):
     assert 'classification' in data
     assert 'flag' in data
     assert data['device_id'] == 'pytest'
+
+def test_delete_device_not_found(client):
+    """Test the GET /devices/<device_id>/delete endpoint
+    for the case where device to be deleted cannot be found"""
+
+    # Make a DELETE request to delete a device
+    response = client.get('api/devices/none/delete')
+
+    # Check if the response status code is 404 NOT FOUND
+    assert response.status_code == 404

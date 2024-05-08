@@ -41,3 +41,11 @@ To run the application locally, follow these steps:
    npm start
 
 6. Open the browser the visit the "http://localhost:3000/"
+
+
+7. Use these accounts or register a new user account to login the website. 
+
+   ```bash
+   Admin email:      admin@admin.com         Password:123456
+   Staff email:      staff@staff.com         Password:123456
+   Customer email:   faiqiqbal36@gmail.com   Password:123456
